@@ -1,0 +1,11 @@
+<div *ngIf="isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div class="bg-white p-6 rounded-2xl shadow-xl flex flex-col items-center gap-4">
+        <div class="relative w-12 h-12">
+            <!-- Outer Ring -->
+            <div class="absolute inset-0 rounded-full border-[3px] border-[#FDE8E0]"></div>
+            <!-- Inner Spinning Ring -->
+            <div class="absolute inset-0 rounded-full border-[3px] border-t-[#E8584A] animate-spin"></div>
+        </div>
+        <span class="text-[#444] font-semibold text-sm">Loading...</span>
+    </div>
+</div>

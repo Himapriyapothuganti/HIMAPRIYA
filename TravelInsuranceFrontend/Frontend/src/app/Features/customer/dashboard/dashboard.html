@@ -1,0 +1,414 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<app-toast *ngIf="error" [message]="error" type="error" (closeToast)="closeToast()"></app-toast>
+
+<div class="space-y-10 pb-20 relative overflow-hidden" *ngIf="!isLoading">
+
+    <!-- Background decorators matching landing page -->
+    <div class="absolute top-[-80px] right-[-80px] w-[380px] h-[380px] rounded-full pointer-events-none blur-3xl z-0"
+        style="background: rgba(232,88,74,0.05);"></div>
+    <div class="absolute bottom-[10%] left-[-100px] w-[280px] h-[280px] rounded-full pointer-events-none blur-2xl z-0"
+        style="background: rgba(232,88,74,0.03);"></div>
+
+    <!-- ─── HERO WELCOME BANNER ─────────────────────────────────────── -->
+    <div class="relative z-10 rounded-2xl overflow-hidden p-8 md:p-10"
+        style="background: linear-gradient(135deg, #111 0%, #1e1e1e 60%, #2a1412 100%); box-shadow: 0 24px 60px rgba(0,0,0,0.15);">
+
+        <!-- Decorative rings -->
+        <div
+            class="absolute top-[-40px] right-[-40px] w-[220px] h-[220px] rounded-full border border-white/5 pointer-events-none">
+        </div>
+        <div
+            class="absolute top-[-20px] right-[-20px] w-[160px] h-[160px] rounded-full border border-white/5 pointer-events-none">
+        </div>
+        <div class="absolute bottom-[-60px] left-[10%] w-[180px] h-[180px] rounded-full pointer-events-none"
+            style="background: radial-gradient(circle, rgba(232,88,74,0.12), transparent 70%);"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-5"
+                    style="background: rgba(232,88,74,0.15); border: 1px solid rgba(232,88,74,0.2);">
+                    <span class="w-1.5 h-1.5 rounded-full animate-pulse" style="background: #E8584A;"></span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider" style="color: #E8584A;">Your
+                        Dashboard</span>
+                </div>
+
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-2"
+                    style="font-family: 'Poppins', sans-serif;">
+                    Welcome back,<br>
+                    <span style="color: #E8584A;">{{ userName }}</span> ✈️
+                </h1>
+                <p class="text-sm" style="color: rgba(255,255,255,0.45); max-width: 420px;">
+                    Here's a complete snapshot of your travel coverage. Stay protected on every journey.
+                </p>
+            </div>
+
+            <!-- Quick CTA -->
+            <div class="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                <a routerLink="/customer/browse-plans"
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-[14px] tracking-wide transition-all duration-300 text-white hover:-translate-y-0.5"
+                    style="background: linear-gradient(135deg, #E8584A, #D04336); box-shadow: 0 10px 28px rgba(232,88,74,0.35);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Browse Plans
+                </a>
+                <a routerLink="/customer/my-policies"
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-[14px] tracking-wide transition-all duration-300 hover:-translate-y-0.5"
+                    style="background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.12);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    My Policies
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── POLICY STATS ──────────────────────────────────────────────── -->
+    <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-6 rounded-full" style="background: #E8584A;"></div>
+            <h2 class="text-[22px] font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">Policy
+                Overview
+            </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            <!-- Total Policies -->
+            <div
+                class="relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+                <div class="absolute top-0 right-0 w-28 h-28 rounded-bl-[90px] pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-top-right"
+                    style="background: #F8F7F5;"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                    style="background: rgba(17,17,17,0.05);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-widest mb-1 relative z-10"
+                    style="color: #999;">Total Policies</div>
+                <div class="text-3xl font-extrabold leading-none relative z-10" style="color: #111;">{{ totalPolicies }}
+                </div>
+                <div class="mt-3 text-[12px] font-semibold relative z-10" style="color: #999;">All-time plans</div>
+            </div>
+
+            <!-- Active Coverage -->
+            <div
+                class="relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_8px_30px_rgba(34,197,94,0.08)] transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+                <div class="absolute top-0 right-0 w-28 h-28 rounded-bl-[90px] pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-top-right"
+                    style="background: #f0fdf4;"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                    style="background: rgba(34,197,94,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-widest mb-1 relative z-10"
+                    style="color: #16a34a;">Active Coverage</div>
+                <div class="text-3xl font-extrabold leading-none relative z-10" style="color: #16a34a;">{{
+                    activePolicies }}</div>
+                <div class="mt-3 text-[12px] font-semibold relative z-10" style="color: #86efac;">Currently protected
+                </div>
+            </div>
+
+            <!-- Pending Payment -->
+            <div
+                class="relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_8px_30px_rgba(234,179,8,0.08)] transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+                <div class="absolute top-0 right-0 w-28 h-28 rounded-bl-[90px] pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-top-right"
+                    style="background: #fefce8;"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                    style="background: rgba(234,179,8,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-widest mb-1 relative z-10"
+                    style="color: #ca8a04;">Pending Payment</div>
+                <div class="text-3xl font-extrabold leading-none relative z-10" style="color: #ca8a04;">{{
+                    pendingPaymentPolicies }}</div>
+                <div class="mt-3 text-[12px] font-semibold relative z-10" style="color: #fde047;">Awaiting payment</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── CLAIMS STATS ─────────────────────────────────────────────── -->
+    <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-6 rounded-full" style="background: #E8584A;"></div>
+            <h2 class="text-[22px] font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">Claims
+                Overview
+            </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            <!-- Total Claims -->
+            <div
+                class="relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+                <div class="absolute top-0 right-0 w-28 h-28 rounded-bl-[90px] pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-top-right"
+                    style="background: #F8F7F5;"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                    style="background: rgba(17,17,17,0.05);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-widest mb-1 relative z-10"
+                    style="color: #999;">Total Claims</div>
+                <div class="text-3xl font-extrabold leading-none relative z-10" style="color: #111;">{{ totalClaims }}
+                </div>
+                <div class="mt-3 text-[12px] font-semibold relative z-10" style="color: #999;">All submitted claims
+                </div>
+            </div>
+
+            <!-- Under Review -->
+            <div
+                class="relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_8px_30px_rgba(59,130,246,0.08)] transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+                <div class="absolute top-0 right-0 w-28 h-28 rounded-bl-[90px] pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-top-right"
+                    style="background: #eff6ff;"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                    style="background: rgba(59,130,246,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-widest mb-1 relative z-10"
+                    style="color: #2563eb;">Under Review</div>
+                <div class="text-3xl font-extrabold leading-none relative z-10" style="color: #2563eb;">{{
+                    underReviewClaims }}</div>
+                <div class="mt-3 text-[12px] font-semibold relative z-10" style="color: #93c5fd;">Being processed</div>
+            </div>
+
+            <!-- Approved -->
+            <div
+                class="relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_8px_30px_rgba(34,197,94,0.08)] transition-all duration-500 hover:-translate-y-1 group cursor-pointer">
+                <div class="absolute top-0 right-0 w-28 h-28 rounded-bl-[90px] pointer-events-none transition-transform duration-500 group-hover:scale-110 origin-top-right"
+                    style="background: #f0fdf4;"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                    style="background: rgba(34,197,94,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-widest mb-1 relative z-10"
+                    style="color: #16a34a;">Approved</div>
+                <div class="text-3xl font-extrabold leading-none relative z-10" style="color: #16a34a;">{{
+                    approvedClaims }}</div>
+                <div class="mt-3 text-[12px] font-semibold relative z-10" style="color: #86efac;">Claims settled</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── RECENT TABLES ────────────────────────────────────────────── -->
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-7">
+
+        <!-- Recent Policies -->
+        <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 p-7 flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background: #FDF4F0;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E8584A" stroke-width="2.5">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>
+                    </div>
+                    <h3 class="font-extrabold text-[18px] text-[#111]" style="font-family: 'Poppins', sans-serif;">
+                        Recent
+                        Policies</h3>
+                </div>
+                <a routerLink="/customer/my-policies"
+                    class="text-[12px] font-bold px-4 py-2 rounded-full transition-all duration-300 hover:-translate-y-0.5"
+                    style="background: #FDF4F0; color: #E8584A;">
+                    View All →
+                </a>
+            </div>
+
+            <div class="overflow-x-auto flex-1">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b text-[11px] font-extrabold uppercase tracking-widest"
+                            style="border-color: #f3f3f3; color: #bbb;">
+                            <th class="py-3 pr-3">Policy</th>
+                            <th class="py-3 px-3">Status</th>
+                            <th class="py-3 pl-3 text-right">Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y" style="divide-color: #f9f9f9;">
+                        <tr *ngFor="let p of recentPolicies" class="group">
+                            <td class="py-4 pr-3">
+                                <div class="font-bold text-[14px] transition-colors group-hover:text-[#E8584A]"
+                                    style="color: #111;">{{ p.policyName }}</div>
+                                <div class="text-[11px] mt-0.5" style="color: #bbb;">#{{ p.policyNumber }}</div>
+                            </td>
+                            <td class="py-4 px-3">
+                                <span
+                                    class="px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider"
+                                    [ngClass]="{
+                                    'bg-green-100 text-green-700': p.status === 'Active',
+                                    'bg-yellow-100 text-yellow-700': p.status === 'PendingPayment',
+                                    'bg-red-100 text-red-700': p.status === 'Cancelled',
+                                    'bg-gray-100 text-gray-600': p.status === 'Expired'
+                                  }">{{ p.status }}</span>
+                            </td>
+                            <td class="py-4 pl-3 font-bold text-[14px] text-right" style="color: #111;">₹{{
+                                p.premiumAmount | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr *ngIf="recentPolicies.length === 0">
+                            <td colspan="3" class="py-12 text-center">
+                                <div class="text-[13px]" style="color: #bbb;">No policies yet.</div>
+                                <a routerLink="/customer/browse-plans"
+                                    class="inline-flex items-center gap-1.5 mt-3 px-5 py-2.5 rounded-full font-bold text-[13px] text-white transition-all duration-300 hover:-translate-y-0.5"
+                                    style="background: #111;">
+                                    Browse Plans
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <polyline points="9 18 15 12 9 6" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Claims -->
+        <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 p-7 flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background: #FDF4F0;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E8584A" stroke-width="2.5">
+                            <polyline points="9 11 12 14 22 4" />
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                        </svg>
+                    </div>
+                    <h3 class="font-extrabold text-[18px] text-[#111]" style="font-family: 'Poppins', sans-serif;">
+                        Recent
+                        Claims</h3>
+                </div>
+                <a routerLink="/customer/my-claims"
+                    class="text-[12px] font-bold px-4 py-2 rounded-full transition-all duration-300 hover:-translate-y-0.5"
+                    style="background: #FDF4F0; color: #E8584A;">
+                    View All →
+                </a>
+            </div>
+
+            <div class="overflow-x-auto flex-1">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b text-[11px] font-extrabold uppercase tracking-widest"
+                            style="border-color: #f3f3f3; color: #bbb;">
+                            <th class="py-3 pr-3">Claim</th>
+                            <th class="py-3 px-3">Status</th>
+                            <th class="py-3 pl-3 text-right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y" style="divide-color: #f9f9f9;">
+                        <tr *ngFor="let c of recentClaims" class="group">
+                            <td class="py-4 pr-3">
+                                <div class="font-bold text-[14px] transition-colors group-hover:text-[#E8584A]"
+                                    style="color: #111;">{{ c.claimType }}</div>
+                                <div class="text-[11px] mt-0.5" style="color: #bbb;">ID: {{ c.claimId }}</div>
+                            </td>
+                            <td class="py-4 px-3">
+                                <span
+                                    class="px-3 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider"
+                                    [ngClass]="{
+                                    'bg-blue-100 text-blue-700': c.status === 'UnderReview',
+                                    'bg-yellow-100 text-yellow-700': c.status === 'PendingDocuments',
+                                    'bg-green-100 text-green-700': c.status === 'Approved',
+                                    'bg-red-100 text-red-700': c.status === 'Rejected',
+                                    'bg-purple-100 text-purple-700': c.status === 'PaymentProcessed',
+                                    'bg-gray-100 text-gray-600': c.status === 'Closed'
+                                  }">{{ c.status }}</span>
+                            </td>
+                            <td class="py-4 pl-3 font-bold text-[14px] text-right" style="color: #111;">₹{{
+                                c.claimedAmount | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr *ngIf="recentClaims.length === 0">
+                            <td colspan="3" class="py-12 text-center">
+                                <div class="text-[13px]" style="color: #bbb;">No claims submitted yet.</div>
+                                <a routerLink="/customer/my-claims"
+                                    class="inline-block mt-3 px-5 py-2.5 rounded-full font-bold text-[13px] transition-all duration-300 hover:-translate-y-0.5"
+                                    style="background: #FDF4F0; color: #E8584A;">
+                                    File a Claim
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── QUICK ACTIONS ────────────────────────────────────────────── -->
+    <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-6 rounded-full" style="background: #E8584A;"></div>
+            <h2 class="text-[22px] font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">Quick Actions
+            </h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <a routerLink="/customer/browse-plans"
+                class="group flex items-center gap-4 p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                    style="background: rgba(232,88,74,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8584A" stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-bold text-[15px] text-[#111] mb-0.5">Get Covered</div>
+                    <div class="text-[12px]" style="color: #999;">Browse available plans</div>
+                </div>
+            </a>
+
+            <a routerLink="/customer/my-policies"
+                class="group flex items-center gap-4 p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                    style="background: rgba(22,163,74,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-bold text-[15px] text-[#111] mb-0.5">View Policies</div>
+                    <div class="text-[12px]" style="color: #999;">Manage your coverage</div>
+                </div>
+            </a>
+
+            <a routerLink="/customer/my-claims"
+                class="group flex items-center gap-4 p-6 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                    style="background: rgba(59,130,246,0.1);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5">
+                        <polyline points="9 11 12 14 22 4" />
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="font-bold text-[15px] text-[#111] mb-0.5">File a Claim</div>
+                    <div class="text-[12px]" style="color: #999;">Submit a new claim</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>

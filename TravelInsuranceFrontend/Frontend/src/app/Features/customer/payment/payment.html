@@ -1,0 +1,239 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<app-toast *ngIf="error" [message]="error" type="error" (closeToast)="closeToast()"></app-toast>
+
+<!-- Success Modal -->
+<div *ngIf="success" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-[#111] mb-2" style="font-family: 'Poppins', sans-serif;">
+            Payment Successful!
+        </h2>
+        <p class="text-gray-600 mb-6 whitespace-pre-line">{{ success }}</p>
+        <p class="text-sm text-gray-400 font-medium">Redirecting to your policies...</p>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto space-y-6" *ngIf="!isLoading && policy">
+
+    <!-- Header -->
+    <div class="mb-10 text-center">
+        <div
+            class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#FDF4F0] text-[#E8584A] mb-4 shadow-[0_8px_20px_rgba(232,88,74,0.12)]">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+        </div>
+        <h2 class="text-[clamp(32px,4vw,42px)] font-extrabold text-[#111] tracking-tight leading-tight mb-3"
+            style="font-family: 'Poppins', sans-serif;">Secure Checkout</h2>
+        <p class="text-gray-500 text-[16px] max-w-lg mx-auto leading-relaxed">
+            Review your policy details and choose a secure method to finalize your payment and activate coverage
+            instantly.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- LEFT COLUMN: Policy Summary ✅ fixed white bg -->
+        <div
+            class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden flex flex-col h-full xl:mr-4">
+
+            <!-- Decorative elements -->
+            <div
+                class="absolute -top-16 -right-16 w-48 h-48 bg-gradient-to-bl from-[#E8584A]/10 to-transparent rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div
+                class="absolute -bottom-20 -left-20 w-48 h-48 bg-gradient-to-tr from-[#E8584A]/5 to-transparent rounded-full blur-3xl pointer-events-none">
+            </div>
+
+            <!-- Heading -->
+            <h3 class="text-2xl font-extrabold text-[#111] mb-8 border-b border-gray-100 pb-5 relative z-10 flex items-center gap-3"
+                style="font-family: 'Poppins', sans-serif;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-[#E8584A]" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                </svg>
+                Policy Reference
+            </h3>
+
+            <div class="space-y-6 flex-1 relative z-10">
+
+                <!-- Policy Number -->
+                <div class="bg-[#FDF4F0] rounded-2xl p-4 border border-[#E8584A]/10">
+                    <div class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1">Policy Number</div>
+                    <div class="font-bold text-[#111] text-xl tracking-tight font-mono">{{ policy.policyNumber }}</div>
+                </div>
+
+                <!-- Plan & Tier -->
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <div class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Plan</div>
+                        <div class="font-bold text-[#111] text-[15px]">{{ policy.policyName }}</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Tier</div>
+                        <div
+                            class="inline-flex px-3 py-1 rounded-full bg-[#FDE8E0] text-[#E8584A] text-[12px] font-bold border border-[#E8584A]/20">
+                            {{ policy.planTier }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traveller -->
+                <div>
+                    <div class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Traveller</div>
+                    <div class="font-bold text-[#111] text-[15px]">
+                        {{ policy.travellerName }}
+                        <span class="text-gray-400 font-medium">(Age: {{ policy.travellerAge }})</span>
+                    </div>
+                </div>
+
+                <!-- Travel Dates & Destination -->
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <div class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Travel Dates
+                        </div>
+                        <div class="font-bold text-[#111] text-[15px]">
+                            {{ policy.startDate | date:'dd MMM yyyy' }}
+                            <br />
+                            <span class="text-gray-400 font-medium text-xs">to</span>
+                            {{ policy.endDate | date:'dd MMM yyyy' }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1.5">Destination
+                        </div>
+                        <div class="font-bold text-[#111] text-[15px]">{{ policy.destination }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Total -->
+            <div class="mt-8 pt-6 border-t border-gray-100 relative z-10">
+                <div class="flex justify-between items-baseline mb-2">
+                    <span class="text-gray-500 font-medium text-[15px]">Total Premium due</span>
+                    <span class="text-4xl font-extrabold text-[#E8584A] tracking-tight">
+                        ₹{{ policy.premiumAmount | number:'1.0-0' }}
+                    </span>
+                </div>
+                <p class="text-[11px] text-gray-400 text-right font-medium mt-1 uppercase tracking-wider">
+                    Includes all applicable taxes
+                </p>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Payment Form -->
+        <div
+            class="bg-white rounded-2xl p-8 md:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-between">
+            <div>
+                <h3 class="text-2xl font-extrabold text-[#111] mb-8 flex items-center gap-3"
+                    style="font-family: 'Poppins', sans-serif;">
+                    <span class="w-10 h-10 rounded-full bg-[#FDF4F0] text-[#E8584A] flex items-center justify-center">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                            <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>
+                    </span>
+                    Payment Method
+                </h3>
+
+                <div class="space-y-4 mb-10">
+                    <label *ngFor="let opt of paymentOptions"
+                        class="flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group"
+                        [ngClass]="paymentMethod === opt
+                            ? 'bg-[#FDF4F0]/50 border-[#E8584A] shadow-[0_4px_12px_rgba(232,88,74,0.1)]'
+                            : 'bg-white border-gray-100 hover:border-gray-300 hover:bg-gray-50'">
+
+                        <!-- Active left border accent -->
+                        <div *ngIf="paymentMethod === opt" class="absolute left-0 top-0 bottom-0 w-1.5 bg-[#E8584A]">
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="relative flex items-center justify-center">
+                                <input type="radio" name="paymentMethod" [value]="opt" [(ngModel)]="paymentMethod"
+                                    class="peer w-5 h-5 opacity-0 absolute cursor-pointer">
+                                <div
+                                    class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center transition-colors peer-checked:border-[#E8584A] peer-checked:bg-[#E8584A]">
+                                    <div
+                                        class="w-2.5 h-2.5 rounded-full bg-white scale-0 transition-transform peer-checked:scale-100">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="font-bold text-gray-800 text-[16px]"
+                                [ngClass]="paymentMethod === opt ? 'text-[#111]' : ''">
+                                {{ opt }}
+                            </span>
+                        </div>
+
+                        <!-- Payment Icons -->
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 text-xl group-hover:scale-110 transition-transform"
+                            [ngClass]="paymentMethod === opt ? 'shadow-md border-[#E8584A]/20' : ''">
+                            <span *ngIf="opt === 'Credit Card' || opt === 'Debit Card'">💳</span>
+                            <span *ngIf="opt === 'Net Banking'">🏦</span>
+                            <span *ngIf="opt === 'UPI'">📱</span>
+                            <span *ngIf="opt === 'Wallet'">👛</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Pay Button -->
+            <div>
+                <button (click)="processPayment()" [disabled]="isProcessing"
+                    class="w-full bg-[#E8584A] hover:bg-[#C94035] text-white py-5 rounded-2xl font-bold text-[17px] shadow-[0_12px_24px_rgba(232,88,74,0.3)] hover:shadow-none hover:translate-y-1 transition-all duration-300 disabled:opacity-70 disabled:hover:translate-y-0 disabled:shadow-none flex justify-center items-center group relative overflow-hidden">
+                    <div
+                        class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    </div>
+                    <span *ngIf="!isProcessing" class="relative z-10 flex items-center gap-2">
+                        Pay ₹{{ policy.premiumAmount | number:'1.0-0' }} Securely
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            class="group-hover:translate-x-1 transition-transform" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </span>
+                    <span *ngIf="isProcessing" class="flex items-center gap-3 relative z-10">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Processing Securely...
+                    </span>
+                </button>
+
+                <p
+                    class="text-center text-xs text-gray-400 mt-5 flex items-center justify-center gap-1.5 font-bold uppercase tracking-wider">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    End-to-end encrypted secure transaction
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Policy Not Found -->
+<div *ngIf="!isLoading && !policy && !error" class="py-12 text-center">
+    <h3 class="text-xl font-bold text-[#111] mb-2">Policy Not Found</h3>
+    <a routerLink="/customer/dashboard" class="text-[#E8584A] font-bold hover:underline">
+        Return to Dashboard
+    </a>
+</div>

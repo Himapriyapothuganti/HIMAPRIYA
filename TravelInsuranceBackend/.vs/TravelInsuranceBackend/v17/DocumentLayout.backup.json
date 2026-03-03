@@ -1,0 +1,1264 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\services\\agentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\agentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\policyresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\policyresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\createuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\createpolicydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\createpolicydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\createclaimdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\createclaimdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\claimsummarydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\claimsummarydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\claimresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\claimresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\repositories\\claimrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\claimrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\repositories\\iclaimrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\repositories\\iclaimrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\controllers\\agentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\controllers\\agentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\controllers\\claimcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\controllers\\claimcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\repositories\\claimdocumentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\claimdocumentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\repositories\\iclaimdocumentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\repositories\\iclaimdocumentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\services\\claimservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\claimservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\entities\\claimdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\claimdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\services\\policyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\policyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\entities\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\phima\\AppData\\Local\\Temp\\2opuoelw..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.PolicyProducts.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\services\\adminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\adminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\iagentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iagentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\agentdashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\agentdashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\controllers\\claimsofficercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\controllers\\claimsofficercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\services\\claimsofficerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\claimsofficerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\iclaimsofficerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iclaimsofficerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\officerdashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\officerdashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\admindashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\admindashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\assignagentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\assignagentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\iclaimservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iclaimservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\requestdocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\requestdocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\reviewclaimdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\reviewclaimdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\controllers\\policycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\controllers\\policycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\ipolicyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\ipolicyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\paymentresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\paymentresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\policypaymentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\policypaymentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\dtos\\policyproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\dtos\\policyproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\enums\\claimstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\enums\\claimstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\enums\\userrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\enums\\userrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\enums\\policystatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\enums\\policystatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\enums\\policyproductstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\enums\\policyproductstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\entities\\policyproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\policyproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\repositories\\policyproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\policyproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\repositories\\policyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\policyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\repositories\\ipolicyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\repositories\\ipolicyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\repositories\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\repositories\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\repositories\\ipolicyproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\repositories\\ipolicyproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.AspNetUsers.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.Claims.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.AspNetRoles.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226103951_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\entities\\claim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\claim.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\application\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\domain\\entities\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35DA3A6D-C3CE-48D4-8B3B-44AF0943604E}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Application\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Infrastructure\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Domain\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\migrations\\20260226104138_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\migrations\\20260226104138_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\migrations\\20260227053914_second.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\migrations\\20260227053914_second.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\migrations\\20260227090812_claimsupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\migrations\\20260227090812_claimsupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\migrations\\20260301120037_addkycandclaimdocuments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\migrations\\20260301120037_addkycandclaimdocuments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|c:\\users\\phima\\onedrive\\desktop\\aspdotnet assignments\\capstone\\travelinsurancebackend\\infrastructure\\migrations\\20260228170547_dbupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\migrations\\20260228170547_dbupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 587,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\LoginDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\LoginDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\LoginDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\LoginDTO.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:37:31.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AgentService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\AgentService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\AgentService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\AgentService.cs",
+              "RelativeToolTip": "Application\\Services\\AgentService.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAA7wF4AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T14:03:01.912Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CreatePolicyDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\CreatePolicyDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\CreatePolicyDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\CreatePolicyDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\CreatePolicyDTO.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAwwCMAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:38:54.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CreateUserDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\CreateUserDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\CreateUserDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\CreateUserDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\CreateUserDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T17:07:41.208Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PolicyResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PolicyResponseDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\PolicyResponseDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PolicyResponseDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\PolicyResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:40:04.849Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CreateClaimDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\CreateClaimDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\CreateClaimDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\CreateClaimDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\CreateClaimDTO.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:52:40.855Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ClaimSummaryDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\ClaimSummaryDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\ClaimSummaryDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\ClaimSummaryDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\ClaimSummaryDTO.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwA4AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-02T04:35:03.029Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ClaimResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\ClaimResponseDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\ClaimResponseDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\ClaimResponseDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\ClaimResponseDTO.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAmwCMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:53:42.174Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Program.cs",
+              "RelativeDocumentMoniker": "API\\Program.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Program.cs",
+              "RelativeToolTip": "API\\Program.cs",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAgwIQAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T10:20:55.71Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ClaimRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\ClaimRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\ClaimRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\ClaimRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\ClaimRepository.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAwE0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:56:29.689Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IClaimRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IClaimRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\Repositories\\IClaimRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IClaimRepository.cs",
+              "RelativeToolTip": "Application\\Interfaces\\Repositories\\IClaimRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:54:24.523Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AgentController.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\AgentController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AgentController.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\AgentController.cs",
+              "RelativeToolTip": "API\\Controllers\\AgentController.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAYwDgAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T14:04:41.529Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Dbseeder.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Data\\Dbseeder.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\Dbseeder.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Data\\Dbseeder.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\Dbseeder.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAApwB8AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T10:18:15.094Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ClaimController.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\ClaimController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ClaimController.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\ClaimController.cs",
+              "RelativeToolTip": "API\\Controllers\\ClaimController.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAkwLEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T07:08:21.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ClaimDocumentRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\ClaimDocumentRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\ClaimDocumentRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\ClaimDocumentRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\ClaimDocumentRepository.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAA1wCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-01T11:53:30.885Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 76,
+              "Title": "20260301120037_AddKycAndClaimDocuments.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260301120037_AddKycAndClaimDocuments.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20260301120037_AddKycAndClaimDocuments.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260301120037_AddKycAndClaimDocuments.cs",
+              "RelativeToolTip": "Infrastructure\\Migrations\\20260301120037_AddKycAndClaimDocuments.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-01T12:00:38.095Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IClaimDocumentRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IClaimDocumentRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\Repositories\\IClaimDocumentRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IClaimDocumentRepository.cs",
+              "RelativeToolTip": "Application\\Interfaces\\Repositories\\IClaimDocumentRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-01T11:52:29.403Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAswCgAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T10:04:17.859Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ClaimService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\ClaimService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
+              "RelativeToolTip": "Application\\Services\\ClaimService.cs",
+              "ViewState": "AgIAAB8BAAAAAAAAAAAkwCcBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T07:06:54.16Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ClaimDocument.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\ClaimDocument.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\ClaimDocument.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\ClaimDocument.cs",
+              "RelativeToolTip": "Domain\\Entities\\ClaimDocument.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAwwBMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-01T11:32:39.441Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "PolicyService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\PolicyService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\PolicyService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\PolicyService.cs",
+              "RelativeToolTip": "Application\\Services\\PolicyService.cs",
+              "ViewState": "AgIAANUAAAAAAAAAAAAAANUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:45:23.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Policy.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\Policy.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Policy.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\Policy.cs",
+              "RelativeToolTip": "Domain\\Entities\\Policy.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAQwCIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T04:04:28.186Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 77,
+              "Title": "20260228170547_dbupdate.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260228170547_dbupdate.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20260228170547_dbupdate.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260228170547_dbupdate.cs",
+              "RelativeToolTip": "Infrastructure\\Migrations\\20260228170547_dbupdate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T17:05:48.126Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "2opuoelw..sql",
+              "DocumentMoniker": "C:\\Users\\phima\\AppData\\Local\\Temp\\2opuoelw..sql",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\2opuoelw..sql",
+              "ToolTip": "C:\\Users\\phima\\AppData\\Local\\Temp\\2opuoelw..sql",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\AppData\\Local\\Temp\\2opuoelw..sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-02-28T18:30:11.152Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "dbo.PolicyProducts.sql",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.PolicyProducts.sql",
+              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.PolicyProducts.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-02-28T18:21:58.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "AdminService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\AdminService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\AdminService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\AdminService.cs",
+              "RelativeToolTip": "Application\\Services\\AdminService.cs",
+              "ViewState": "AgIAAMEAAAAAAAAAAAAqwF0AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T17:12:52.904Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\appsettings.json",
+              "RelativeDocumentMoniker": "API\\appsettings.json",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\appsettings.json",
+              "RelativeToolTip": "API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-26T10:20:11.158Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "IAgentService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IAgentService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IAgentService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IAgentService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IAgentService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T14:02:18.35Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "IAdminService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IAdminService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IAdminService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IAdminService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IAdminService.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAgwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T17:10:47.768Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AgentDashboardDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AgentDashboardDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\AgentDashboardDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AgentDashboardDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\AgentDashboardDTO.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAgwBcAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T14:01:01.615Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "ClaimsOfficerController.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\ClaimsOfficerController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ClaimsOfficerController.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\ClaimsOfficerController.cs",
+              "RelativeToolTip": "API\\Controllers\\ClaimsOfficerController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T09:55:48.495Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "API\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAcwJIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:38:59.152Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ClaimsOfficerService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\ClaimsOfficerService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
+              "RelativeToolTip": "Application\\Services\\ClaimsOfficerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T09:53:42.997Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "IClaimsOfficerService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IClaimsOfficerService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IClaimsOfficerService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IClaimsOfficerService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IClaimsOfficerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T09:52:03.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "OfficerDashboardDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\OfficerDashboardDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\OfficerDashboardDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\OfficerDashboardDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\OfficerDashboardDTO.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBgAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T09:51:00.322Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "AdminDashboardDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AdminDashboardDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\AdminDashboardDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AdminDashboardDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\AdminDashboardDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T09:49:36.729Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Services\\AuthService.cs",
+              "RelativeToolTip": "Application\\Services\\AuthService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwCYAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:45:37.994Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "RegisterDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\RegisterDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\RegisterDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\RegisterDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\RegisterDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAUwBcAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:36:15.928Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AuthResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AuthResponseDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\AuthResponseDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AuthResponseDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\AuthResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:39:02.905Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 75,
+              "Title": "20260227090812_claimsUpdate.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260227090812_claimsUpdate.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20260227090812_claimsUpdate.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260227090812_claimsUpdate.cs",
+              "RelativeToolTip": "Infrastructure\\Migrations\\20260227090812_claimsUpdate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T09:08:13.114Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "AssignAgentDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AssignAgentDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\AssignAgentDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\AssignAgentDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\AssignAgentDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T07:39:35.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "IClaimService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IClaimService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IClaimService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IClaimService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IClaimService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T07:02:50.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\appsettings.json",
+              "RelativeDocumentMoniker": "Application\\appsettings.json",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\appsettings.json",
+              "RelativeToolTip": "Application\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-27T07:04:53.612Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "RequestDocumentDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\RequestDocumentDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\RequestDocumentDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\RequestDocumentDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\RequestDocumentDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T07:01:39.814Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "ReviewClaimDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\ReviewClaimDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\ReviewClaimDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\ReviewClaimDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\ReviewClaimDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T07:00:50.133Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "PolicyController.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\PolicyController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\PolicyController.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\PolicyController.cs",
+              "RelativeToolTip": "API\\Controllers\\PolicyController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwGwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:47:35.839Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "IPolicyService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IPolicyService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IPolicyService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IPolicyService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IPolicyService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:44:27.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "PaymentResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PaymentResponseDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\PaymentResponseDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PaymentResponseDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\PaymentResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:41:37.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "PolicyPaymentDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PolicyPaymentDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\PolicyPaymentDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PolicyPaymentDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\PolicyPaymentDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T06:40:47.822Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "PolicyProductDTO.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PolicyProductDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\PolicyProductDTO.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\DTOs\\PolicyProductDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\PolicyProductDTO.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAA/wCkAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T16:31:07.115Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 74,
+              "Title": "20260227053914_second.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260227053914_second.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20260227053914_second.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260227053914_second.cs",
+              "RelativeToolTip": "Infrastructure\\Migrations\\20260227053914_second.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T05:39:15.081Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "ClaimStatus.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\ClaimStatus.cs",
+              "RelativeDocumentMoniker": "Domain\\Enums\\ClaimStatus.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\ClaimStatus.cs",
+              "RelativeToolTip": "Domain\\Enums\\ClaimStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T04:04:29.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "UserRole.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\UserRole.cs",
+              "RelativeDocumentMoniker": "Domain\\Enums\\UserRole.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\UserRole.cs",
+              "RelativeToolTip": "Domain\\Enums\\UserRole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:34:22.773Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "PolicyStatus.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\PolicyStatus.cs",
+              "RelativeDocumentMoniker": "Domain\\Enums\\PolicyStatus.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\PolicyStatus.cs",
+              "RelativeToolTip": "Domain\\Enums\\PolicyStatus.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T04:04:29.443Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "PolicyProductStatus.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\PolicyProductStatus.cs",
+              "RelativeDocumentMoniker": "Domain\\Enums\\PolicyProductStatus.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Enums\\PolicyProductStatus.cs",
+              "RelativeToolTip": "Domain\\Enums\\PolicyProductStatus.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T16:29:10.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "PolicyProduct.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\PolicyProduct.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\PolicyProduct.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\PolicyProduct.cs",
+              "RelativeToolTip": "Domain\\Entities\\PolicyProduct.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAiwAUAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T12:24:13.285Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "PolicyProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\PolicyProductRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\PolicyProductRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\PolicyProductRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\PolicyProductRepository.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAA9wDoAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:55:49.446Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAqwAwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:56:44.311Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "PolicyRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\PolicyRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\PolicyRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Repositories\\PolicyRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\PolicyRepository.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAAwAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:56:08.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "IPolicyRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IPolicyRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\Repositories\\IPolicyRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IPolicyRepository.cs",
+              "RelativeToolTip": "Application\\Interfaces\\Repositories\\IPolicyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:53:50.151Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "IUserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IUserRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\Repositories\\IUserRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IUserRepository.cs",
+              "RelativeToolTip": "Application\\Interfaces\\Repositories\\IUserRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:54:43.027Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "IPolicyProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IPolicyProductRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\Repositories\\IPolicyProductRepository.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\Repositories\\IPolicyProductRepository.cs",
+              "RelativeToolTip": "Application\\Interfaces\\Repositories\\IPolicyProductRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABAAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T04:53:06.386Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "Infrastructure.csproj",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
+              "RelativeDocumentMoniker": "Infrastructure\\Infrastructure.csproj",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
+              "RelativeToolTip": "Infrastructure\\Infrastructure.csproj",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-24T12:31:27.586Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "Domain.csproj",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj",
+              "RelativeDocumentMoniker": "Domain\\Domain.csproj",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj",
+              "RelativeToolTip": "Domain\\Domain.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-27T04:16:50.569Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "Application.csproj",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj",
+              "RelativeDocumentMoniker": "Application\\Application.csproj",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj",
+              "RelativeToolTip": "Application\\Application.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-26T04:04:29.496Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "API.csproj",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\API.csproj",
+              "RelativeDocumentMoniker": "API\\API.csproj",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\API.csproj",
+              "RelativeToolTip": "API\\API.csproj",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-26T04:04:29.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "dbo.AspNetUsers.sql",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.AspNetUsers.sql",
+              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.AspNetUsers.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-02-26T11:56:05.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "dbo.Claims.sql",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.Claims.sql",
+              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.Claims.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-02-26T11:55:59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "dbo.AspNetRoles.sql",
+              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.AspNetRoles.sql",
+              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/TravelInsuranceDb/True/SqlTable/dbo.AspNetRoles.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-02-26T11:55:48.894Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T10:43:27.099Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 73,
+              "Title": "20260226104138_initial.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226104138_initial.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20260226104138_initial.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226104138_initial.cs",
+              "RelativeToolTip": "Infrastructure\\Migrations\\20260226104138_initial.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T10:41:38.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "20260226103951_initial.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226103951_initial.cs",
+              "RelativeDocumentMoniker": "..\\..\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226103951_initial.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226103951_initial.cs",
+              "RelativeToolTip": "..\\..\\TravelInsuranceBackend\\Infrastructure\\Migrations\\20260226103951_initial.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T10:39:51.801Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "Claim.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\Claim.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Claim.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\Claim.cs",
+              "RelativeToolTip": "Domain\\Entities\\Claim.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAUwBkAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T04:04:29.548Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Interfaces\\IAuthService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:39:51.878Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\ApplicationUser.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Entities\\ApplicationUser.cs",
+              "RelativeToolTip": "Domain\\Entities\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-26T09:32:10.825Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Application\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\..\\TravelInsuranceBackend\\Application\\Class1.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Application\\Class1.cs",
+              "RelativeToolTip": "..\\..\\TravelInsuranceBackend\\Application\\Class1.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-24T12:27:54.219Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Infrastructure\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\..\\TravelInsuranceBackend\\Infrastructure\\Class1.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Infrastructure\\Class1.cs",
+              "RelativeToolTip": "..\\..\\TravelInsuranceBackend\\Infrastructure\\Class1.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-24T12:27:27.551Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Domain\\Class1.cs",
+              "RelativeDocumentMoniker": "..\\..\\TravelInsuranceBackend\\Domain\\Class1.cs",
+              "ToolTip": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\TravelInsuranceBackend\\Domain\\Class1.cs",
+              "RelativeToolTip": "..\\..\\TravelInsuranceBackend\\Domain\\Class1.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-24T12:25:57.075Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<app-toast *ngIf="toastMsg" [message]="toastMsg" [type]="toastType" (closeToast)="toastMsg = ''"></app-toast>
+
+<div class="space-y-6">
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-3xl font-bold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">All
+                Policies</h2>
+            <p class="text-[#666] mt-1 text-sm">View all customer policies and assign agents to handle them.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></span>
+                <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()"
+                    placeholder="Search policies..."
+                    class="pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all w-64">
+            </div>
+        </div>
+    </div>
+
+    <!-- Policies Table -->
+    <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                        <th class="p-4 font-semibold">Policy Details</th>
+                        <th class="p-4 font-semibold">Customer</th>
+                        <th class="p-4 font-semibold">Status</th>
+                        <th class="p-4 font-semibold">Assigned Agent</th>
+                        <th class="p-4 font-semibold">Dates</th>
+                        <th class="p-4 font-semibold text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr *ngFor="let policy of filteredPolicies" class="hover:bg-gray-50 transition-colors">
+                        <td class="p-4">
+                            <div class="font-bold text-gray-900 mb-0.5">{{ policy.policyName || 'Unknown Product' }}
+                            </div>
+                            <div class="text-xs text-gray-500">Number: #{{ policy.policyNumber }}</div>
+                            <div class="text-xs text-gray-500 mt-0.5">Premium: ₹{{ policy.premiumAmount | number:'1.0-0'
+                                }}</div>
+                        </td>
+                        <td class="p-4 font-medium text-gray-800">{{ policy.customerName || 'N/A' }}</td>
+                        <td class="p-4">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold" [ngClass]="{
+                  'bg-green-100 text-green-700': policy.status === 'Active',
+                  'bg-gray-100 text-gray-700': policy.status === 'Inactive' || policy.status === 'Expired',
+                  'bg-yellow-100 text-yellow-700': policy.status === 'Pending'
+                }">
+                                {{ policy.status || 'Active' }}
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div *ngIf="policy.agentName" class="flex items-center gap-2">
+                                <div
+                                    class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">
+                                    {{ policy.agentName.charAt(0) }}
+                                </div>
+                                <span class="text-sm font-medium text-gray-700">{{ policy.agentName }}</span>
+                            </div>
+                            <span *ngIf="!policy.agentName" class="text-sm text-gray-400 italic">Unassigned</span>
+                        </td>
+                        <td class="p-4">
+                            <div class="text-xs text-gray-500 mb-0.5"><span
+                                    class="font-medium text-gray-700">Start:</span> {{ policy.startDate |
+                                date:'mediumDate' }}</div>
+                            <div class="text-xs text-gray-500"><span class="font-medium text-gray-700">End:</span> {{
+                                policy.endDate | date:'mediumDate' }}</div>
+                        </td>
+                        <td class="p-4 text-right">
+                            <button (click)="openAssignModal(policy)"
+                                class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-blue-200 text-blue-600 hover:bg-blue-50 transition-colors">
+                                {{ policy.agentId ? 'Reassign Agent' : 'Assign Agent' }}
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="filteredPolicies.length === 0">
+                        <td colspan="6" class="p-8 text-center text-gray-500 italic">
+                            No policies found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Assign Agent Modal -->
+<div *ngIf="showAssignModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 pt-10 overflow-y-auto">
+    <!-- Modal Content -->
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md mb-auto mt-10">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-[#111]" style="font-family: 'Poppins', sans-serif;">Assign Agent</h3>
+            <button (click)="closeAssignModal()" class="text-gray-400 hover:text-gray-800 transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <form [formGroup]="assignForm" (ngSubmit)="onAssignSubmit()" class="p-6">
+            <div class="space-y-4">
+                <!-- Agent Selection -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Select
+                        Agent</label>
+                    <select formControlName="agentId"
+                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all appearance-none bg-white">
+                        <option value="" disabled selected>-- Choose an Agent --</option>
+                        <option *ngFor="let agent of agents" [value]="agent.id">
+                            {{ agent.fullName }} ({{ agent.email }})
+                        </option>
+                    </select>
+                    <div *ngIf="agents.length === 0" class="text-orange-500 text-xs mt-2 italic">
+                        No active agents found in the system. Go to User Management to create one.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex gap-3">
+                <button type="button" (click)="closeAssignModal()"
+                    class="flex-1 py-3 px-4 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors text-sm">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="assignForm.invalid || isSubmitting"
+                    class="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-[#E8584A] hover:bg-[#C94035] transition-all disabled:opacity-50 text-sm shadow-md hover:shadow-lg disabled:shadow-none hover:-translate-y-0.5 disabled:translate-y-0">
+                    {{ isSubmitting ? 'Assigning...' : 'Assign Data' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

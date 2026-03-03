@@ -1,0 +1,26 @@
+<div class="flex h-screen bg-[#FDF4F0]">
+    <!-- Sidebar Container -->
+    <div class="w-64 flex-shrink-0 bg-[#0E0E0E] text-white shadow-xl z-20">
+        <app-sidebar></app-sidebar>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Header / Topbar Area -->
+        <header class="bg-white shadow-sm z-10 py-5 px-8 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight text-[#111]" style="font-family: 'Poppins', sans-serif;">Admin
+                Portal</h1>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#E8584A] flex items-center justify-center text-white font-bold">
+                    A
+                </div>
+                <div class="text-sm font-semibold text-[#444]">{{ adminName }}</div>
+            </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#FDF4F0] p-8">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

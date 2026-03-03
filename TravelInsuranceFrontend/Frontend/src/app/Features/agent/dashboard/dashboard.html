@@ -1,0 +1,257 @@
+<!-- Loading Spinner -->
+<app-spinner [isLoading]="isLoading()"></app-spinner>
+<app-toast *ngIf="error()" [message]="error()" type="error" (closeToast)="closeToast()"></app-toast>
+
+<div class="space-y-8" *ngIf="!isLoading()">
+
+    <!-- ROW 1: 4 STAT CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Total Policies -->
+        <div
+            class="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+            <div
+                class="absolute right-0 top-0 w-24 h-24 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform">
+            </div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-[13px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Total</p>
+                    <div class="text-3xl font-extrabold text-[#111] font-['Poppins']">
+                        {{ dashboardData().totalPoliciesAssigned }}
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Policies -->
+        <div
+            class="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+            <div
+                class="absolute right-0 top-0 w-24 h-24 bg-gradient-to-br from-green-50 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform">
+            </div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-[13px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Active</p>
+                    <div class="text-3xl font-extrabold text-[#111] font-['Poppins']">
+                        {{ dashboardData().activePolicies }}
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-500">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Payment -->
+        <div
+            class="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+            <div
+                class="absolute right-0 top-0 w-24 h-24 bg-gradient-to-br from-yellow-50 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform">
+            </div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-[13px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Pending</p>
+                    <div class="text-3xl font-extrabold text-[#111] font-['Poppins']">
+                        {{ dashboardData().pendingPaymentPolicies }}
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-yellow-50 flex items-center justify-center text-yellow-600">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expired -->
+        <div
+            class="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+            <div
+                class="absolute right-0 top-0 w-24 h-24 bg-gradient-to-br from-gray-100 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform">
+            </div>
+            <div class="flex items-start justify-between relative z-10">
+                <div>
+                    <p class="text-[13px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Expired</p>
+                    <div class="text-3xl font-extrabold text-[#111] font-['Poppins']">
+                        {{ dashboardData().expiredPolicies }}
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-500">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                        <path d="M9 16l2 2 4-4"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROW 2: EARNINGS & PREMIUM ✅ neutral borders, no coral glow -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Total Premium Collected ✅ -->
+        <div
+            class="bg-white rounded-2xl p-8 relative overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 group">
+            <div class="absolute -top-16 -right-16 w-48 h-48 bg-[#E8584A]/3 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div
+                class="absolute -bottom-20 -left-20 w-48 h-48 bg-[#E8584A]/3 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="relative z-10 flex flex-col h-full justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <p class="text-[13px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8584A" stroke-width="2.5">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        Premium Collected
+                    </p>
+                </div>
+                <div>
+                    <div
+                        class="text-[clamp(40px,5vw,56px)] font-extrabold text-[#E8584A] font-['Poppins'] leading-none tracking-tight">
+                        ₹{{ dashboardData().totalPremiumCollected | number:'1.0-0' }}
+                    </div>
+                    <p class="text-sm text-gray-400 font-medium mt-3">
+                        Total active premium collected from assigned policies.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commission Earned ✅ -->
+        <div
+            class="bg-white rounded-2xl p-8 relative overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 group">
+            <div class="absolute -top-16 -right-16 w-64 h-64 bg-[#E8584A]/3 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div
+                class="absolute -bottom-20 -left-20 w-48 h-48 bg-[#E8584A]/3 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="relative z-10 flex flex-col h-full justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <p class="text-[13px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-yellow-500"
+                            stroke="currentColor" stroke-width="2.5">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                        Commission Earned (5%)
+                    </p>
+                </div>
+                <div>
+                    <div
+                        class="text-[clamp(40px,5vw,56px)] font-extrabold text-[#E8584A] font-['Poppins'] leading-none tracking-tight">
+                        ₹{{ dashboardData().totalCommissionEarned | number:'1.0-0' }}
+                    </div>
+                    <p class="text-sm text-gray-400 font-medium mt-3">
+                        Calculated automatically from active policy premiums.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ROW 3: RECENT POLICIES TABLE -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden">
+        <div class="px-8 py-6 flex justify-between items-center border-b border-gray-100">
+            <h3 class="text-xl font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">Recent Assigned
+                Policies</h3>
+            <a routerLink="/agent/my-policies"
+                class="text-sm font-bold text-[#E8584A] hover:text-[#D04336] transition-colors flex items-center gap-1">
+                View All
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50/50">
+                        <th class="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            Policy No
+                        </th>
+                        <th class="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            Customer
+                        </th>
+                        <th class="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            Plan
+                        </th>
+                        <th class="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            Premium
+                        </th>
+                        <th class="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            Status
+                        </th>
+                        <th class="px-8 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr *ngFor="let pol of dashboardData().assignedPolicies"
+                        class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="px-8 py-4">
+                            <div class="font-bold text-[#111] font-mono text-[13px]">{{ pol.policyNumber }}</div>
+                            <div class="text-xs text-gray-400 mt-1 font-medium">{{ pol.destination }}</div>
+                        </td>
+                        <td class="px-8 py-4 text-[14px] font-bold text-gray-700">
+                            {{ pol.customerName }}
+                        </td>
+                        <td class="px-8 py-4">
+                            <div class="font-bold text-[#111] text-[14px]">{{ pol.policyName }}</div>
+                            <span
+                                class="inline-flex mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#FDF4F0] text-[#E8584A] border border-[#E8584A]/10">
+                                {{ pol.planTier }}
+                            </span>
+                        </td>
+                        <td class="px-8 py-4 text-[14px] font-bold text-gray-700">
+                            ₹{{ pol.premiumAmount | number:'1.0-0' }}
+                        </td>
+                        <td class="px-8 py-4">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border"
+                                [ngClass]="getStatusBadgeClass(pol.status)">
+                                {{ pol.status }}
+                            </span>
+                        </td>
+                        <td class="px-8 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a [routerLink]="['/agent/my-policies', pol.policyId]"
+                                    class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-[#E8584A] bg-gray-50 border border-gray-100 hover:border-[#E8584A] transition-all"
+                                    title="View Details">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="dashboardData().assignedPolicies.length === 0">
+                        <td colspan="6" class="px-8 py-12 text-center text-gray-500 font-medium">
+                            No policies have been assigned yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

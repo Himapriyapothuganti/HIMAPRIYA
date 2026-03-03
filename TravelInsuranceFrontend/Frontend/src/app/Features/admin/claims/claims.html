@@ -1,0 +1,94 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<app-toast *ngIf="toastMsg" [message]="toastMsg" [type]="toastType" (closeToast)="toastMsg = ''"></app-toast>
+
+<div class="space-y-6">
+    <!-- Header & Actions -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-3xl font-bold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">Claims
+                Log</h2>
+            <p class="text-[#666] mt-1 text-sm">Review all customer submitted claims and their current statuses.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <!-- Search -->
+            <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></span>
+                <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" placeholder="Search claims..."
+                    class="pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all w-48 lg:w-64">
+            </div>
+
+            <!-- Status Filter -->
+            <div class="relative">
+                <select [(ngModel)]="statusFilter" (ngModelChange)="onStatusChange()"
+                    class="pl-4 pr-10 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all appearance-none bg-white font-medium text-gray-700 min-w-[140px]">
+                    <option value="All">All Statuses</option>
+                    <option value="Submitted">Submitted</option>
+                    <option value="UnderReview">Under Review</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Claims Table -->
+    <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                        <th class="p-4 font-semibold">Claim Info</th>
+                        <th class="p-4 font-semibold">Customer & Policy</th>
+                        <th class="p-4 font-semibold">Claim Amount</th>
+                        <th class="p-4 font-semibold">Date Filed</th>
+                        <th class="p-4 font-semibold">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr *ngFor="let claim of filteredClaims" class="hover:bg-gray-50 transition-colors">
+                        <td class="p-4">
+                            <div class="font-bold text-gray-900 mb-0.5 max-w-xs truncate">{{ claim.claimType }}</div>
+                            <div class="text-xs text-gray-500">Claim ID: #{{ claim.claimId }}</div>
+                        </td>
+                        <td class="p-4">
+                            <div class="font-medium text-gray-800">{{ claim.customerName || 'Unknown Customer' }}</div>
+                            <div class="text-xs text-gray-500 mt-0.5">Policy: #{{ claim.policyNumber || 'Unknown' }}
+                            </div>
+                        </td>
+                        <td class="p-4 font-bold text-[#111]">₹{{ claim.claimedAmount | number:'1.0-0' }}</td>
+                        <td class="p-4 text-sm text-gray-600">{{ claim.submittedAt | date:'mediumDate' }}</td>
+                        <td class="p-4">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 w-max"
+                                [ngClass]="{
+                  'bg-gray-100 text-gray-700': claim.status === 'Submitted',
+                  'bg-blue-100 text-blue-700': claim.status === 'UnderReview',
+                  'bg-green-100 text-green-700': claim.status === 'Approved',
+                  'bg-red-100 text-red-700': claim.status === 'Rejected'
+                }">
+                                <span class="w-1.5 h-1.5 rounded-full" [ngClass]="{
+                    'bg-gray-500': claim.status === 'Submitted',
+                    'bg-blue-500': claim.status === 'UnderReview',
+                    'bg-green-500': claim.status === 'Approved',
+                    'bg-red-500': claim.status === 'Rejected'
+                  }"></span>
+                                {{ claim.status }}
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="filteredClaims.length === 0">
+                        <td colspan="5" class="p-8 text-center text-gray-500 italic">
+                            No claims found matching your filters.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

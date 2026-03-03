@@ -1,0 +1,328 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<app-toast *ngIf="error" [message]="error" type="error" (closeToast)="closeToast()"></app-toast>
+<app-toast *ngIf="success" [message]="success" type="success" (closeToast)="closeToast()"></app-toast>
+
+<div class="space-y-6" *ngIf="!isLoading">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-gray-100 pb-8">
+        <div>
+            <h2 class="text-[clamp(32px,4vw,42px)] font-extrabold text-[#111] tracking-tight leading-tight mb-2"
+                style="font-family: 'Poppins', sans-serif;">My Claims</h2>
+            <p class="text-gray-500 text-[16px]">Track issues and file requests for policy reinforcement.</p>
+        </div>
+
+        <button (click)="openModal()"
+            class="bg-[#E8584A] hover:bg-[#C94035] text-white px-6 py-3.5 rounded-2xl text-[15px] font-bold shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none hover:translate-y-1 transition-all flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Submit New Claim
+        </button>
+    </div>
+
+    <!-- Claims List Cards -->
+    <div class="grid grid-cols-1 gap-6 pt-6">
+
+        <div *ngFor="let claim of claims"
+            class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 md:flex md:items-center justify-between gap-8 hover:border-[#E8584A]/20 hover:shadow-[0_20px_50px_rgba(232,88,74,0.08)] transition-all duration-300 relative group overflow-hidden">
+
+            <div
+                class="absolute -left-12 -top-12 w-32 h-32 bg-gray-50 rounded-full blur-2xl group-hover:bg-[#E8584A]/5 transition-colors duration-500 -z-10">
+            </div>
+
+            <!-- Left details -->
+            <div class="space-y-4 flex-1">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-widest border border-gray-100 bg-gray-50 text-gray-500 shadow-sm">
+                        {{ claim.claimType }}
+                    </span>
+                    <span
+                        class="px-3.5 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-widest border shadow-sm"
+                        [ngClass]="getStatusClass(claim.status)">
+                        {{ claim.status }}
+                    </span>
+                    <span class="text-[13px] text-gray-400 font-bold ml-auto md:ml-0 flex items-center gap-1.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        {{ claim.submittedAt | date:'dd MMM yyyy' }}
+                    </span>
+                </div>
+
+                <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 mt-2">
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">
+                            Claim #{{ claim.claimId }}</h3>
+                        <p class="text-[13px] text-gray-400 font-bold tracking-wider uppercase mt-1">
+                            Against Policy: <span class="text-gray-800">{{ claim.policyNumber }}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <p
+                    class="text-[15px] text-gray-600 line-clamp-2 leading-relaxed bg-gray-50/50 p-4 rounded-xl border border-gray-100">
+                    {{ claim.description }}
+                </p>
+
+                <!-- Pending Documents Warning -->
+                <div *ngIf="claim.status === 'PendingDocuments'"
+                    class="bg-yellow-50 text-yellow-800 p-4 rounded-xl text-[14px] flex items-center gap-3 border border-yellow-200 shadow-sm mt-4">
+                    <span class="text-xl">⚠️</span>
+                    <div>
+                        <strong class="font-extrabold text-yellow-900 tracking-tight">Action Required:</strong>
+                        Additional documents are needed to process this claim.
+                    </div>
+                    <button
+                        class="ml-auto text-[13px] font-extrabold uppercase tracking-wider underline hover:text-yellow-600 transition-colors">
+                        Upload Now
+                    </button>
+                </div>
+
+                <!-- Rejection Reason -->
+                <div *ngIf="claim.status === 'Rejected' && claim.rejectionReason"
+                    class="bg-red-50 text-red-800 p-4 rounded-xl text-[14px] border border-red-200 shadow-sm mt-4">
+                    <strong class="font-extrabold text-red-900 tracking-tight">Reason for Rejection:</strong>
+                    <span class="font-medium bg-white/50 px-2 py-0.5 rounded">{{ claim.rejectionReason }}</span>
+                </div>
+            </div>
+
+            <!-- Right Amount Summary -->
+            <div
+                class="mt-6 md:mt-0 pt-6 md:pt-0 border-t md:border-t-0 md:border-l border-gray-100 md:pl-8 min-w-[220px] text-right md:text-left shrink-0 space-y-5">
+                <div>
+                    <div
+                        class="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1.5 flex items-center justify-end md:justify-start gap-1.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                        Claimed Amount
+                    </div>
+                    <div class="text-3xl font-extrabold text-[#111] tracking-tight">
+                        ₹{{ claim.claimedAmount | number:'1.0-0' }}
+                    </div>
+                </div>
+
+                <div *ngIf="claim.approvedAmount > 0">
+                    <div
+                        class="text-[11px] text-green-600 font-bold uppercase tracking-widest mb-1.5 flex items-center justify-end md:justify-start gap-1.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Approved Amount
+                    </div>
+                    <div class="text-3xl font-extrabold text-green-600 tracking-tight">
+                        ₹{{ claim.approvedAmount | number:'1.0-0' }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="claims.length === 0"
+        class="py-24 text-center bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-dashed border-gray-200 mt-8 relative overflow-hidden">
+        <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none">
+        </div>
+        <div
+            class="w-20 h-20 bg-gradient-to-br from-[#FDF4F0] to-white border border-[#E8584A]/10 text-[#E8584A] rounded-[24px] flex items-center justify-center mx-auto mb-6 text-3xl shadow-[0_8px_24px_rgba(232,88,74,0.12)] relative z-10 -rotate-3">
+            🩺
+        </div>
+        <h3 class="text-2xl font-extrabold text-[#111] mb-3 relative z-10 tracking-tight"
+            style="font-family: 'Poppins', sans-serif;">No Claims Submitted</h3>
+        <p class="text-gray-500 mb-8 max-w-sm mx-auto text-[15px] relative z-10">
+            You have no active or historical claims tied to your account. Need to file one?
+        </p>
+
+        <!-- ✅ Fixed coral button -->
+        <button (click)="openModal()"
+            class="bg-[#E8584A] hover:bg-[#C94035] text-white px-8 py-4 rounded-2xl font-bold text-[16px] shadow-[0_12px_24px_rgba(232,88,74,0.25)] hover:shadow-none hover:translate-y-1 transition-all relative z-10 inline-flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Submit New Claim
+        </button>
+    </div>
+
+</div>
+
+<!-- Submit Claim Modal -->
+<app-modal [isOpen]="isModalOpen" title="File a New Claim" (closeModal)="closeModal()">
+    <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 p-2 md:p-4">
+
+        <!-- Policy Select -->
+        <div>
+            <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">Select Protected
+                Policy</label>
+            <div class="relative">
+                <select formControlName="policyId"
+                    class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none appearance-none font-bold text-[15px] cursor-pointer">
+                    <option value="" disabled selected>Select a Policy</option>
+                    <option *ngFor="let p of activePolicies" [value]="p.policyId">
+                        {{ p.policyName }} (#{{ p.policyNumber }})
+                    </option>
+                </select>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                    stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+            <div *ngIf="f['policyId'].touched && f['policyId'].invalid"
+                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Please select the policy being claimed against.
+            </div>
+            <div *ngIf="activePolicies.length === 0"
+                class="text-yellow-600 text-xs mt-2 bg-yellow-50 p-3 rounded-lg border border-yellow-200 font-bold flex items-center gap-2">
+                <span>⚠️</span> You have no active policies eligible for claims.
+            </div>
+        </div>
+
+        <!-- Claim Type -->
+        <div>
+            <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">Claim Type</label>
+            <div class="relative">
+                <select formControlName="claimType"
+                    class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none appearance-none font-bold text-[15px] cursor-pointer">
+                    <option value="" disabled selected>Select Type</option>
+                    <option *ngFor="let type of claimTypes" [value]="type">{{ type }}</option>
+                </select>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                    stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+            <div *ngIf="f['claimType'].touched && f['claimType'].invalid"
+                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Claim type is required.
+            </div>
+        </div>
+
+        <!-- Claimed Amount -->
+        <div>
+            <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">
+                Total Amount Claimed (₹)
+            </label>
+            <input formControlName="claimedAmount" type="number" min="1"
+                class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-[15px] font-medium placeholder-gray-400"
+                placeholder="e.g. 5000">
+            <div *ngIf="f['claimedAmount'].touched && f['claimedAmount'].invalid"
+                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Provide a valid claim amount.
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">
+                Detailed Description
+            </label>
+            <textarea formControlName="description" rows="4"
+                class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none resize-none text-[15px] font-medium placeholder-gray-400 leading-relaxed"
+                placeholder="Describe the incident, location, and reason for claiming..."></textarea>
+            <div *ngIf="f['description'].touched && f['description'].errors?.['required']"
+                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Description is required.
+            </div>
+            <div *ngIf="f['description'].touched && f['description'].errors?.['minlength']"
+                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Please provide at least 20 characters of detail.
+            </div>
+        </div>
+
+        <!-- File Upload -->
+        <div class="border-t border-gray-100/60 pt-6">
+            <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-3">
+                Supporting Documents
+            </label>
+            <div
+                class="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center bg-gray-50 hover:bg-[#FDF4F0]/50 hover:border-[#E8584A]/30 transition-colors relative cursor-pointer group">
+                <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event)"
+                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                <div
+                    class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm border border-gray-100 group-hover:scale-110 transition-transform">
+                    📄
+                </div>
+                <div class="text-[17px] font-extrabold text-[#111] mb-1">Click to upload or drag and drop</div>
+                <div class="text-[13px] text-gray-400 font-bold uppercase tracking-wider">PDF, JPG, PNG up to 5MB each
+                </div>
+            </div>
+
+            <!-- File List -->
+            <ul class="mt-4 space-y-3" *ngIf="selectedFiles.length > 0">
+                <li *ngFor="let file of selectedFiles; let i = index"
+                    class="flex items-center justify-between text-sm bg-white border-2 border-gray-100 p-3.5 rounded-xl shadow-sm hover:border-gray-200 transition-colors">
+                    <div class="flex items-center gap-3 truncate">
+                        <span class="text-[#E8584A] text-lg">📎</span>
+                        <span class="font-bold text-gray-800 text-[15px] truncate max-w-[200px]">{{ file.name }}</span>
+                    </div>
+                    <button type="button" (click)="removeFile(i)"
+                        class="text-gray-400 hover:text-red-500 bg-gray-50 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                        ✖
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Modal Buttons -->
+        <div class="pt-6 border-t border-gray-100/60 flex justify-end gap-4 mt-2">
+            <button type="button" (click)="closeModal()"
+                class="px-6 py-3.5 rounded-2xl font-bold text-[15px] text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-colors outline-none">
+                Cancel Request
+            </button>
+
+            <!-- ✅ Fixed coral submit button -->
+            <button type="submit" [disabled]="isSubmitting || claimForm.invalid || activePolicies.length === 0"
+                class="bg-[#E8584A] hover:bg-[#C94035] text-white px-8 py-3.5 rounded-2xl font-bold text-[15px] shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none hover:translate-y-1 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:shadow-none flex items-center gap-2">
+                <span *ngIf="isSubmitting"
+                    class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                <span class="flex items-center gap-2 text-[15px]">
+                    Commit Claim
+                    <svg *ngIf="!isSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="3">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+    </form>
+</app-modal>

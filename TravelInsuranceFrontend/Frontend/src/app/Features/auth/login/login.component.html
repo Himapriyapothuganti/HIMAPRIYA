@@ -1,0 +1,54 @@
+<div class="min-h-screen flex items-center justify-center py-10 px-5"
+    style="background: linear-gradient(155deg, #FDF4F0 0%, #FAE5DA 45%, #F5CCBA 100%);">
+    <div class="bg-white rounded-[26px] p-10 shadow-[0_24px_60px_rgba(0,0,0,.13)] w-full max-w-[480px] text-center">
+        <!-- Icon -->
+        <div class="w-12 h-12 bg-[#E8584A] rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+            </svg>
+        </div>
+
+        <h2 class="text-4xl text-[#111] mb-2 tracking-tight" style="font-family: 'Poppins', sans-serif;">Welcome Back
+        </h2>
+        <p class="text-[#666] text-[15px] mb-[30px]">Sign in to manage your travel insurance policies.</p>
+
+        <div *ngIf="errorMessage" class="bg-[#FDE8E0] text-[#C94035] p-3 rounded-lg mb-5 text-sm font-semibold">
+            {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="text-left mb-5">
+                <label class="block text-[13px] font-semibold text-[#444] mb-2">Email Address</label>
+                <input type="email"
+                    class="w-full py-[14px] px-[18px] border border-[#E0E0E0] rounded-xl text-[15px] transition-all duration-300 focus:outline-none focus:border-[#E8584A] focus:ring-[3px] focus:ring-[#E8584A]/15"
+                    formControlName="email" placeholder="Enter your email">
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+                    class="text-[#C94035] text-[13px] mt-1.5">
+                    <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
+                    <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+                </div>
+            </div>
+
+            <div class="text-left mb-5">
+                <label class="block text-[13px] font-semibold text-[#444] mb-2">Password</label>
+                <input type="password"
+                    class="w-full py-[14px] px-[18px] border border-[#E0E0E0] rounded-xl text-[15px] transition-all duration-300 focus:outline-none focus:border-[#E8584A] focus:ring-[3px] focus:ring-[#E8584A]/15"
+                    formControlName="password" placeholder="Enter your password">
+                <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                    class="text-[#C94035] text-[13px] mt-1.5">
+                    Password is required.
+                </div>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-[#E8584A] text-white border-none rounded-full p-4 font-bold text-base cursor-pointer transition-all duration-250 mt-2.5 hover:-translate-y-0.5 hover:bg-[#C94035] hover:shadow-[0_8px_24px_rgba(232,88,74,.38)] disabled:bg-[#ccc] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                [disabled]="loginForm.invalid">Sign In</button>
+        </form>
+
+        <div class="mt-6 text-sm text-[#555]">
+            New user? <a routerLink="/register"
+                class="text-[#E8584A] font-semibold no-underline hover:underline">Register here</a>
+        </div>
+    </div>
+</div>
