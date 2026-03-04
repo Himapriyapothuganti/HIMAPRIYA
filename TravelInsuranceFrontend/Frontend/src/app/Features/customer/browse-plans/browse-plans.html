@@ -57,9 +57,40 @@
                 <div class="flex items-center justify-between flex-wrap gap-4">
                     <div class="flex items-center gap-4">
                         <!-- Icon circle -->
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0"
-                            style="background: #FDF4F0; box-shadow: 0 6px 18px rgba(232,88,74,0.12);">
-                            {{ getGroupIcon(group.type) }}
+                        <div [ngSwitch]="group.type"
+                            class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                            style="background: #FDF4F0; box-shadow: 0 6px 18px rgba(232,88,74,0.12); color: #E8584A;">
+                            <svg *ngSwitchCase="'Single Trip'" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <svg *ngSwitchCase="'Multi-Trip'" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                <polyline points="7 23 3 19 7 15"></polyline>
+                                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                            </svg>
+                            <svg *ngSwitchCase="'Family'" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <svg *ngSwitchCase="'Student'" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            </svg>
+                            <svg *ngSwitchDefault width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                                </path>
+                            </svg>
                         </div>
                         <div>
                             <h3 class="text-[26px] font-extrabold text-[#111] leading-tight"
@@ -97,9 +128,27 @@
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center gap-2">
                                 <span
-                                    class="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wide border"
-                                    [ngClass]="getTierBadgeClass(plan.planTier)">
-                                    {{ getTierEmoji(plan.planTier) }} {{ plan.planTier }}
+                                    class="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wide border">
+                                    <ng-container [ngSwitch]="plan.planTier">
+                                        <svg *ngSwitchCase="'Silver'" width="14" height="14" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <circle cx="12" cy="8" r="7"></circle>
+                                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                        </svg>
+                                        <svg *ngSwitchCase="'Gold'" width="14" height="14" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                            </polygon>
+                                        </svg>
+                                        <svg *ngSwitchCase="'Platinum'" width="14" height="14" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                            <polyline points="2 17 12 22 22 17"></polyline>
+                                            <polyline points="2 12 17 22 12"></polyline>
+                                        </svg>
+                                    </ng-container>
+                                    {{ plan.planTier }}
                                 </span>
                             </div>
                             <!-- Most Popular badge for Gold -->
@@ -210,7 +259,26 @@
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase border"
                             [ngClass]="getTierBadgeClass(selectedPlan.planTier)">
-                            {{ getTierEmoji(selectedPlan.planTier) }} {{ selectedPlan.planTier }}
+                            <ng-container [ngSwitch]="selectedPlan.planTier">
+                                <svg *ngSwitchCase="'Silver'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
+                                    <circle cx="12" cy="8" r="7"></circle>
+                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                </svg>
+                                <svg *ngSwitchCase="'Gold'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
+                                <svg *ngSwitchCase="'Platinum'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                    <polyline points="2 17 12 22 22 17"></polyline>
+                                    <polyline points="2 12 17 22 12"></polyline>
+                                </svg>
+                            </ng-container>
+                            {{ selectedPlan.planTier }}
                         </span>
                         <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase"
                             style="background: #FDE8E0; color: #E8584A;">{{ selectedPlan.policyType }}</span>

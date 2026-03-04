@@ -26,3 +26,18 @@ C:\Users\phima\OneDrive\Desktop\ASPDotnet Assignments\Capstone\TravelInsuranceBa
 C:\Users\phima\OneDrive\Desktop\ASPDotnet Assignments\Capstone\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.pdb
 C:\Users\phima\OneDrive\Desktop\ASPDotnet Assignments\Capstone\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.genruntimeconfig.cache
 C:\Users\phima\OneDrive\Desktop\ASPDotnet Assignments\Capstone\TravelInsuranceBackend\Domain\obj\Debug\net8.0\ref\Domain.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\bin\Debug\net8.0\Domain.runtimeconfig.json
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\bin\Debug\net8.0\Domain.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\bin\Debug\net8.0\Domain.pdb
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.pdb
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\Domain.genruntimeconfig.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Domain\obj\Debug\net8.0\ref\Domain.dll

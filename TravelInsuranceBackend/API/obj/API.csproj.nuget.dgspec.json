@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\API.csproj": {}
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\API.csproj": {
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\API.csproj",
+        "projectUniqueName": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\API.csproj",
+        "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\API.csproj",
         "packagesPath": "C:\\Users\\phima\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\API\\obj\\",
+        "outputPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,11 +32,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj"
+              "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj": {
+                "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj"
               },
-              "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj"
+              "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -66,6 +66,10 @@
               "version": "[8.0.24, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[8.0.24, )"
             },
@@ -107,14 +111,14 @@
         }
       }
     },
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj": {
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj",
+        "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\phima\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\obj\\",
+        "outputPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -135,8 +139,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj"
+              "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj"
               }
             }
           }
@@ -166,6 +170,10 @@
               "version": "[8.0.24, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[8.0.24, )"
             },
@@ -200,14 +208,14 @@
         }
       }
     },
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj",
+        "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\phima\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\obj\\",
+        "outputPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -258,6 +266,10 @@
               "target": "Package",
               "version": "[8.0.24, )"
             },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[8.0.24, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.24, )"
@@ -289,14 +301,14 @@
         }
       }
     },
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\phima\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\obj\\",
+        "outputPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -317,11 +329,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj"
+              "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj": {
+                "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj"
               },
-              "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj"
+              "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj"
               }
             }
           }

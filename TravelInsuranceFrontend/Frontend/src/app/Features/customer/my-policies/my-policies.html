@@ -87,9 +87,25 @@
                     <span
                         class="px-3 py-1 rounded-full text-[12px] border font-bold flex items-center gap-1.5 shadow-sm"
                         [ngClass]="getTierBadgeClass(policy.planTier)">
-                        <span *ngIf="policy.planTier === 'Silver'" class="text-sm">🥈</span>
-                        <span *ngIf="policy.planTier === 'Gold'" class="text-sm">🥇</span>
-                        <span *ngIf="policy.planTier === 'Platinum'" class="text-sm">💎</span>
+                        <ng-container [ngSwitch]="policy.planTier">
+                            <svg *ngSwitchCase="'Silver'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg>
+                            <svg *ngSwitchCase="'Gold'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <svg *ngSwitchCase="'Platinum'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </ng-container>
                         {{ policy.planTier }}
                     </span>
                     <span
@@ -113,7 +129,12 @@
                     class="col-span-2 bg-gradient-to-r from-gray-50 to-white rounded-2xl p-4 border border-gray-100 flex items-center gap-4 relative overflow-hidden">
                     <div
                         class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-50 shrink-0 relative z-10 text-lg">
-                        🗓️
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8584A" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
                     </div>
                     <div class="relative z-10">
                         <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Coverage Period
@@ -179,7 +200,10 @@
 
         <div
             class="w-20 h-20 bg-gradient-to-br from-[#FDF4F0] to-white border border-[#E8584A]/10 text-[#E8584A] rounded-[24px] flex items-center justify-center mx-auto mb-6 text-3xl shadow-[0_8px_24px_rgba(232,88,74,0.12)] relative z-10 rotate-3">
-            📋
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
         </div>
         <h3 class="text-2xl font-extrabold text-[#111] mb-3 relative z-10 tracking-tight"
             style="font-family: 'Poppins', sans-serif;">No Policies Found</h3>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj": {}
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
+    "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj",
+        "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\phima\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\obj\\",
+        "outputPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -59,6 +59,10 @@
               "version": "[8.0.24, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.24, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[8.0.24, )"
             },

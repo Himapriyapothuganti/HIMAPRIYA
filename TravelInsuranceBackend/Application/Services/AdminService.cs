@@ -177,7 +177,7 @@ namespace Application.Services
 
         // ── MAPPERS ───────────────────────────────────────
         private static UserResponseDTO MapToUserResponse(ApplicationUser user, string role) =>
-            new UserResponseDTO
+            new()
             {
                 Id = user.Id,
                 FullName = user.FullName ?? "Unknown User",
@@ -188,7 +188,7 @@ namespace Application.Services
             };
 
         private static PolicyProductResponseDTO MapToPolicyProductResponse(PolicyProduct p) =>
-            new PolicyProductResponseDTO
+            new()
             {
                 PolicyProductId = p.PolicyProductId,
                 PolicyName = p.PolicyName,

@@ -126,6 +126,8 @@ namespace API
             }
 
             // Configure the HTTP request pipeline.
+            app.UseMiddleware<API.Middlewares.ExceptionMiddleware>();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

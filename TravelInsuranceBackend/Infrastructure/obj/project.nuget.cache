@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UqALzJ1BsCQ=",
+  "dgSpecHash": "D5W0FEzwc/k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\phima\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\phima\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
@@ -23,6 +23,7 @@
     "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.24\\microsoft.entityframeworkcore.abstractions.8.0.24.nupkg.sha512",
     "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.24\\microsoft.entityframeworkcore.analyzers.8.0.24.nupkg.sha512",
     "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.24\\microsoft.entityframeworkcore.design.8.0.24.nupkg.sha512",
+    "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\8.0.24\\microsoft.entityframeworkcore.inmemory.8.0.24.nupkg.sha512",
     "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.24\\microsoft.entityframeworkcore.relational.8.0.24.nupkg.sha512",
     "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\8.0.24\\microsoft.entityframeworkcore.sqlserver.8.0.24.nupkg.sha512",
     "C:\\Users\\phima\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\8.0.24\\microsoft.entityframeworkcore.tools.8.0.24.nupkg.sha512",

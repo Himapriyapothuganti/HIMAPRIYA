@@ -510,6 +510,22 @@
           "build/net8.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/8.0.24": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.24"
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/8.0.24": {
         "type": "package",
         "dependencies": {
@@ -1543,6 +1559,7 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.24",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.24",
           "Microsoft.EntityFrameworkCore": "8.0.24",
+          "Microsoft.EntityFrameworkCore.InMemory": "8.0.24",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.24"
         },
         "compile": {
@@ -2268,6 +2285,21 @@
         "lib/net8.0/Microsoft.EntityFrameworkCore.Design.xml",
         "microsoft.entityframeworkcore.design.8.0.24.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/8.0.24": {
+      "sha512": "M6Sfe0v3WxtMGLpK+yX3AFfoV9nNlgIADf4sQPc+BmOaPAHFrRCX5/8yF8u7LHqX+3TXqTInjU6rBhMRF5lI4A==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/8.0.24",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.8.0.24.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Relational/8.0.24": {
@@ -3914,6 +3946,7 @@
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.24",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.24",
       "Microsoft.EntityFrameworkCore >= 8.0.24",
+      "Microsoft.EntityFrameworkCore.InMemory >= 8.0.24",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.24",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.24"
     ]
@@ -3925,11 +3958,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj",
+      "projectUniqueName": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\Application.csproj",
+      "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\phima\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Application\\obj\\",
+      "outputPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3950,8 +3983,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\phima\\OneDrive\\Desktop\\ASPDotnet Assignments\\Capstone\\TravelInsuranceBackend\\Domain\\Domain.csproj"
+            "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Domain\\Domain.csproj"
             }
           }
         }
@@ -3981,6 +4014,10 @@
             "version": "[8.0.24, )"
           },
           "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.24, )"
+          },
+          "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[8.0.24, )"
           },

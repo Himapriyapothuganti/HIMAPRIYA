@@ -24,14 +24,16 @@ namespace Infrastructure.Data
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(
+                        new IdentityRole(role));
             }
 
-            // ── Seed Admin User ────────────────────────────
+            // ── Seed Admin ─────────────────────────────────
             const string adminEmail = "admin@gmail.com";
             const string adminPassword = "Admin@123";
 
-            if (await userManager.FindByEmailAsync(adminEmail) == null)
+            if (await userManager.FindByEmailAsync(
+                adminEmail) == null)
             {
                 var admin = new ApplicationUser
                 {
@@ -42,17 +44,42 @@ namespace Infrastructure.Data
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow
                 };
-
-                var result = await userManager.CreateAsync(admin, adminPassword);
+                var result = await userManager
+                    .CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
-                    await userManager.AddToRoleAsync(admin, UserRole.Admin);
+                    await userManager.AddToRoleAsync(
+                        admin, UserRole.Admin);
             }
 
-            // ── Seed Test Customer ─────────────────────────
+            // ── Seed Agent ─────────────────────────────────
+            const string agentEmail = "agent@talktravel.com";
+            const string agentPassword = "Admin@123";
+
+            if (await userManager.FindByEmailAsync(
+                agentEmail) == null)
+            {
+                var agent = new ApplicationUser
+                {
+                    FullName = "Test Agent",
+                    Email = agentEmail,
+                    UserName = agentEmail,
+                    Role = UserRole.Agent,
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow
+                };
+                var result = await userManager
+                    .CreateAsync(agent, agentPassword);
+                if (result.Succeeded)
+                    await userManager.AddToRoleAsync(
+                        agent, UserRole.Agent);
+            }
+
+            // ── Seed Customer ──────────────────────────────
             const string customerEmail = "customer@talktravel.com";
             const string customerPassword = "Customer@123";
 
-            if (await userManager.FindByEmailAsync(customerEmail) == null)
+            if (await userManager.FindByEmailAsync(
+                customerEmail) == null)
             {
                 var customer = new ApplicationUser
                 {
@@ -63,12 +90,35 @@ namespace Infrastructure.Data
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow
                 };
-
-                var result = await userManager.CreateAsync(customer, customerPassword);
+                var result = await userManager
+                    .CreateAsync(customer, customerPassword);
                 if (result.Succeeded)
-                    await userManager.AddToRoleAsync(customer, UserRole.Customer);
+                    await userManager.AddToRoleAsync(
+                        customer, UserRole.Customer);
             }
 
+            // ── Seed Claims Officer ────────────────────────
+            const string officerEmail = "officer@talktravel.com";
+            const string officerPassword = "Admin@123";
+
+            if (await userManager.FindByEmailAsync(
+                officerEmail) == null)
+            {
+                var officer = new ApplicationUser
+                {
+                    FullName = "Claims Officer",
+                    Email = officerEmail,
+                    UserName = officerEmail,
+                    Role = UserRole.ClaimsOfficer,
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow
+                };
+                var result = await userManager
+                    .CreateAsync(officer, officerPassword);
+                if (result.Succeeded)
+                    await userManager.AddToRoleAsync(
+                        officer, UserRole.ClaimsOfficer);
+            }
 
             // ── Seed Policy Products ───────────────────────
             if (!await context.PolicyProducts.AnyAsync())
@@ -82,10 +132,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Single Trip",
                         PlanTier        = "Silver",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport",
-                        CoverageLimit   = 4150000,
+                        CoverageLimit   = 500000,
+                        ClaimLimit      = 250000,
                         BasePremium     = 299,
-                        Tenure          = 180,
-                        ClaimLimit      = 2075000,
+                        Tenure          = 30,
                         DestinationZone = "Asia",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -96,10 +146,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Single Trip",
                         PlanTier        = "Gold",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance",
-                        CoverageLimit   = 8300000,
+                        CoverageLimit   = 1000000,
+                        ClaimLimit      = 500000,
                         BasePremium     = 499,
-                        Tenure          = 180,
-                        ClaimLimit      = 4150000,
+                        Tenure          = 30,
                         DestinationZone = "Asia,Europe,Schengen",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -110,10 +160,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Single Trip",
                         PlanTier        = "Platinum",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage, Daily Hospital Cash Allowance, Emergency Hotel Extension",
-                        CoverageLimit   = 41500000,
+                        CoverageLimit   = 2500000,
+                        ClaimLimit      = 1250000,
                         BasePremium     = 999,
-                        Tenure          = 360,
-                        ClaimLimit      = 20750000,
+                        Tenure          = 30,
                         DestinationZone = "Worldwide",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -125,11 +175,11 @@ namespace Infrastructure.Data
                         PolicyName      = "Silver Multi Trip",
                         PolicyType      = "Multi-Trip",
                         PlanTier        = "Silver",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport",
-                        CoverageLimit   = 4150000,
-                        BasePremium     = 999,
-                        Tenure          = 30,
-                        ClaimLimit      = 2075000,
+                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport, Unlimited Trips Per Year",
+                        CoverageLimit   = 500000,
+                        ClaimLimit      = 250000,
+                        BasePremium     = 2999,
+                        Tenure          = 365,
                         DestinationZone = "Asia",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -139,11 +189,11 @@ namespace Infrastructure.Data
                         PolicyName      = "Gold Multi Trip",
                         PolicyType      = "Multi-Trip",
                         PlanTier        = "Gold",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance",
-                        CoverageLimit   = 8300000,
-                        BasePremium     = 1999,
-                        Tenure          = 45,
-                        ClaimLimit      = 4150000,
+                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Unlimited Trips Per Year",
+                        CoverageLimit   = 1000000,
+                        ClaimLimit      = 500000,
+                        BasePremium     = 4999,
+                        Tenure          = 365,
                         DestinationZone = "Asia,Europe,Schengen",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -153,11 +203,11 @@ namespace Infrastructure.Data
                         PolicyName      = "Platinum Multi Trip",
                         PolicyType      = "Multi-Trip",
                         PlanTier        = "Platinum",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage, Daily Hospital Cash Allowance",
-                        CoverageLimit   = 41500000,
-                        BasePremium     = 3999,
-                        Tenure          = 60,
-                        ClaimLimit      = 20750000,
+                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage, Daily Hospital Cash Allowance, Unlimited Trips Per Year",
+                        CoverageLimit   = 2500000,
+                        ClaimLimit      = 1250000,
+                        BasePremium     = 7999,
+                        Tenure          = 365,
                         DestinationZone = "Worldwide",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -170,10 +220,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Family",
                         PlanTier        = "Silver",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport (2 Adults + 2 Children)",
-                        CoverageLimit   = 4150000,
-                        BasePremium     = 799,
-                        Tenure          = 180,
-                        ClaimLimit      = 2075000,
+                        CoverageLimit   = 500000,
+                        ClaimLimit      = 250000,
+                        BasePremium     = 999,
+                        Tenure          = 30,
                         DestinationZone = "Asia",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -184,10 +234,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Family",
                         PlanTier        = "Gold",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment (2 Adults + 2 Children)",
-                        CoverageLimit   = 8300000,
-                        BasePremium     = 1299,
-                        Tenure          = 180,
-                        ClaimLimit      = 4150000,
+                        CoverageLimit   = 1000000,
+                        ClaimLimit      = 500000,
+                        BasePremium     = 1999,
+                        Tenure          = 30,
                         DestinationZone = "Asia,Europe,Schengen",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -198,10 +248,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Family",
                         PlanTier        = "Platinum",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage (2 Adults + 2 Children)",
-                        CoverageLimit   = 41500000,
-                        BasePremium     = 2499,
-                        Tenure          = 360,
-                        ClaimLimit      = 20750000,
+                        CoverageLimit   = 2500000,
+                        ClaimLimit      = 1250000,
+                        BasePremium     = 3499,
+                        Tenure          = 30,
                         DestinationZone = "Worldwide",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow
@@ -214,10 +264,10 @@ namespace Infrastructure.Data
                         PolicyType      = "Student",
                         PlanTier        = "Platinum",
                         CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Study Interruption, Sponsor Protection, Bail Bond, Baggage Loss & Delay, Personal Accident, Pre-existing Conditions, COVID-19 Coverage, University Requirements Coverage (Age 16-35)",
-                        CoverageLimit   = 41500000,
-                        BasePremium     = 699,
-                        Tenure          = 360,
-                        ClaimLimit      = 20750000,
+                        CoverageLimit   = 5000000,
+                        ClaimLimit      = 2500000,
+                        BasePremium     = 15000,
+                        Tenure          = 365,
                         DestinationZone = "Worldwide",
                         Status          = PolicyProductStatus.Available,
                         CreatedAt       = DateTime.UtcNow

@@ -1,0 +1,135 @@
+# Travel Insurance Management System
+## Presentation Slide Deck Content
+
+Below is a structured slide-by-slide outline for your project presentation. Each slide includes the **Main Content** (what goes on the slide) and **Speaker Notes** (what you can say during the presentation).
+
+---
+
+### Slide 1: Title Slide
+**Title:** Comprehensive Travel Insurance Management System
+**Subtitle:** A scalable, secure, and user-centric platform for travelers and agents.
+**Presenter:** [Your Name / Team Name]
+**Date:** [Date]
+
+**Speaker Notes:**
+> "Good morning/afternoon everyone. Today, I'm excited to present our comprehensive Travel Insurance Management System—a platform designed to modernize how travel insurance is purchased, managed, and claimed."
+
+---
+
+### Slide 2: Problem Statement 
+**Title:** The Challenge in Travel Insurance
+**Bullet Points:**
+* Traditional insurance processes are slow, heavily paper-based, and lack transparency.
+* Customers struggle to find, compare, and understand policy terms clearly.
+* Agents face difficulties in tracking their assigned customers and commissions.
+* Claims processing involves manual verifications, leading to long delays and poor customer experience.
+
+**Speaker Notes:**
+> "The travel insurance industry often suffers from outdated, manual processes. Customers find it hard to navigate complex policies, and when an emergency happens, filing a claim is stressful and slow. On the business side, agents and claims officers struggle with fragmented data. We built this platform to solve these exact pain points by digitizing the entire lifecycle."
+
+---
+
+### Slide 3: Our Solution
+**Title:** A Unified, Digital-First Platform
+**Bullet Points:**
+* **End-to-End Digitization:** From browsing policies to filing claims.
+* **Role-Based Portals:** Dedicated dashboards for Customers, Agents, Claims Officers, and Admins.
+* **Real-time Processing:** Instant policy generation and streamlined claim tracking.
+* **Transparency & Trust:** Clear coverage details, upfront pricing, and transparent claim status updates.
+
+**Speaker Notes:**
+> "Our solution is a unified portal that brings all stakeholders together. By providing dedicated, role-based interfaces, we ensure that whether you are a customer buying a policy for your next vacation, an agent selling a plan, or an officer reviewing a claim, you have exactly the tools and data you need in real-time."
+
+---
+
+### Slide 4: Key Features - Customer Portal
+**Title:** Empowering the Traveler
+**Visual Suggestion:** Screenshot of the "Browse Plans" or "My Policies" page.
+**Bullet Points:**
+* **Dynamic Plan Browsing:** Filter plans by Single Trip, Multi-Trip, Family, or Student.
+* **Detailed Coverage Views:** Clear presentation of what's covered, claim limits, and base premiums.
+* **Seamless Purchasing:** Scoped policies logically tied to the logged-in customer without cross-account bleeding.
+* **Hassle-Free Claims:** Submit claims online and upload supporting documents directly.
+
+**Speaker Notes:**
+> "For the customer, the focus is on ease of use. They can easily browse and compare customized plans like 'Family' or 'Single Trip'. Once purchased, the policies are strictly scoped to their account securely. If they need to file a claim, they can do it entirely online, uploading receipts and medical documents directly through the portal."
+
+---
+
+### Slide 5: Key Features - Agent & Admin Portals
+**Title:** Driving Business Efficiency
+**Visual Suggestion:** Dashboard mockup showing graphs and stats.
+**Bullet Points:**
+* **Agent Dashboard:** 
+  * View active policies and total coverage for assigned clients.
+  * Access detailed policy breakdowns and customer KYC data.
+* **Admin Dashboard:**
+  * Manage products, pricing, and coverage specifics dynamically.
+  * Oversee platform users (Agents, Officers, Customers) with activate/deactivate controls.
+  * Platform-wide analytics on policies sold and claims processed.
+
+**Speaker Notes:**
+> "For the business side, Agents get a powerful dashboard to track their portfolio, Active Policies, and view specific coverage details for their clients. Admins have unparalleled control to create new insurance products, update pricing, and manage user access across the entire platform."
+
+---
+
+### Slide 6: Key Features - Claims Processing
+**Title:** Streamlined Claim Management
+**Bullet Points:**
+* **Claims Officer Dashboard:** Consolidated view of newly assigned, under-review, and processed claims.
+* **Flexible Review Logic:** Officers can approve claims (even for partial amounts) or reject them with justified reasons.
+* **Document Handling:** Secure downloading and verification of customer-uploaded documents.
+* **Status Tracking:** Automated status updates (Submitted → Under Review → Approved/Rejected → Closed).
+
+**Speaker Notes:**
+> "Claims processing is often the biggest bottleneck. We revolutionized this by providing Claims Officers with a dedicated queue. They can securely download user documents, review the case, and optionally approve partial amounts if the full claim isn't valid, or reject it entirely. The customer sees these status changes instantly."
+
+---
+
+### Slide 7: Technical Architecture & Stack
+**Title:** Built for Scale and Security
+**Visual Suggestion:** A simple Architecture Diagram (Frontend -> REST API -> Database)
+**Bullet Points:**
+* **Frontend:** Angular 18 (TypeScript, HTML5, CSS3) with modern, premium UI/UX aesthetics.
+* **Backend:** ASP.NET Core 8 Web API (C#).
+* **Database:** Microsoft SQL Server with Entity Framework (EF) Core Code-First approach.
+* **Architecture:** Clean N-Tier Architecture (API, Application, Domain, Infrastructure).
+
+**Speaker Notes:**
+> "Under the hood, the platform is built on a modern, robust tech stack. The frontend is powered by Angular 18, ensuring a highly responsive and premium user experience. The backend uses ASP.NET Core 8 following a clean N-Tier architecture, separating our business logic (Application/Domain) from our data access layer (Infrastructure) using Entity Framework Core and SQL Server."
+
+---
+
+### Slide 8: Security & Reliability
+**Title:** Enterprise-Grade Security & Testing
+**Bullet Points:**
+* **Authentication & Authorization:** Secure JWT (JSON Web Tokens) and strict Role-Based Access Control (RBAC).
+* **Global Error Handling:** Custom Exception Middleware for consistent, safe API responses without exposing sensitive stack traces.
+* **Comprehensive Unit Testing:** Over 50+ unit tests across all layers using xUnit, Moq, and EF Core InMemory databases.
+* **Guarding Data Privacy:** Customers only see their data; Agents only see their assigned clients.
+
+**Speaker Notes:**
+> "Security and reliability are non-negotiable. We secure the API using JWTs and strict role-based access control. To ensure platform stability, we implemented a Global Exception Handling middleware that gracefully catches errors. Furthermore, the entire application is backed by comprehensive unit tests covering Repositories, Services, and Controllers using tools like Moq and xUnit, ensuring our business logic is bulletproof."
+
+---
+
+### Slide 9: Future Enhancements (Roadmap)
+**Title:** What's Next?
+**Bullet Points:**
+* Real-time Chat integration (SignalR) for live Agent-Customer support.
+* AI-driven claim risk assessment and automated approvals for minor claims.
+* Payment Gateway Integration (Stripe/PayPal) for real-time premium collection.
+* Automated Email/SMS notifications for policy renewals and claim status alerts.
+
+**Speaker Notes:**
+> "While the current system is feature-rich, we are already looking ahead. Immediate next steps include integrating a real-time SignalR chat for live support, wiring up a real-world payment gateway like Stripe, and eventually introducing AI to auto-assess low-risk claims for instant payouts."
+
+---
+
+### Slide 10: Conclusion & Q&A
+**Title:** Thank You!
+**Center Text:** Questions & Answers
+**Contact Info:** [Your Email / LinkedIn / GitHub]
+
+**Speaker Notes:**
+> "To conclude, our Travel Insurance Management System digitizes and simplifies a traditionally complex industry, providing immense value to both the traveler and the business operations team. Thank you for your time. I'd now like to open the floor to any questions."
