@@ -26,6 +26,7 @@ namespace API.Tests.Controllers
             return controller;
         }
 
+        // Get officer dashboard
         [Fact]
         public async Task GetDashboard_ReturnsOk_WhenOfficerExists()
         {
@@ -49,6 +50,7 @@ namespace API.Tests.Controllers
             Assert.Equal(200, result!.StatusCode);
         }
 
+        // Handle invalid officer
         [Fact]
         public async Task GetDashboard_ReturnsBadRequest_WhenOfficerNotFound()
         {

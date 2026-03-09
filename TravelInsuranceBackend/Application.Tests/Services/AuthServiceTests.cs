@@ -10,7 +10,7 @@ namespace Application.Tests.Services
     public class AuthServiceTests
     {
         private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
-        private readonly Mock<IConfiguration>               _configMock = new();
+        private readonly Mock<IConfiguration> _configMock = new();
 
         public AuthServiceTests()
         {

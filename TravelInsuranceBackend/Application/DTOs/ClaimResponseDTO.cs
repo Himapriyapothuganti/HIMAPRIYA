@@ -23,6 +23,7 @@ namespace Application.DTOs
         public string? RejectionReason { get; set; }
         public DateTime SubmittedAt { get; set; }
         public DateTime? ReviewedAt { get; set; }
+        public DateTime IncidentDate { get; set; }
         // ── Documents ─────────────────────────────────────
         public List<ClaimDocumentDTO> Documents { get; set; } = new();
     }

@@ -14,7 +14,7 @@ namespace Application.Services
         private readonly IPolicyProductRepository _productRepo;
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IClaimDocumentRepository _claimDocumentRepo;  // ← replaced AppDbContext
+        private readonly IClaimDocumentRepository _claimDocumentRepo; 
 
         public ClaimService(
             IClaimRepository claimRepo,
@@ -22,44 +22,51 @@ namespace Application.Services
             IPolicyProductRepository productRepo,
             IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
-            IClaimDocumentRepository claimDocumentRepo)  // ← replaced AppDbContext
+            IClaimDocumentRepository claimDocumentRepo)  
         {
             _claimRepo = claimRepo;
             _policyRepo = policyRepo;
             _productRepo = productRepo;
             _userRepo = userRepo;
             _userManager = userManager;
-            _claimDocumentRepo = claimDocumentRepo;  // ← replaced AppDbContext
+            _claimDocumentRepo = claimDocumentRepo;  
         }
 
         // ── SUBMIT CLAIM (Customer) ───────────────────────
+        //BUSINESS LOGIC (The brain of the operation)
         public async Task<ClaimResponseDTO> SubmitClaimAsync(string customerId, CreateClaimDTO dto)
         {
-            // Validate policy
+            // Validation Check 1: Does this policy exist and belong to this customer?
             var policy = await _policyRepo.GetByIdAsync(dto.PolicyId);
 
             if (policy.CustomerId != customerId)
                 throw new Exception("You are not authorized to claim on this policy.");
 
+            // Validation Check 2: Is the policy in a claimable state?
             if (policy.Status != PolicyStatus.Active && policy.Status != PolicyStatus.Expired)
                 throw new Exception("Only Active or Expired policies are eligible for claims.");
 
-            // Removed strict UTC Now checking against EndDate so customers can claim after their trip (Expired status).
-            if (DateTime.UtcNow < policy.StartDate)
-                throw new Exception("Claim cannot be submitted before the policy start date.");
+            // Validation Check 3: Is IncidentDate within the policy period?
+            if (dto.IncidentDate.Date < policy.StartDate.Date || dto.IncidentDate.Date > policy.EndDate.Date)
+                throw new Exception($"Incident date must fall between the policy start date ({policy.StartDate.ToShortDateString()}) and end date ({policy.EndDate.ToShortDateString()}).");
 
-            // Validate claim amount against product limit
+            // Validation Check 3.5: Cannot submit claim for an incident that hasn't happened yet
+            if (dto.IncidentDate.Date > DateTime.Now.Date)
+                throw new Exception("Incident date cannot be in the future.");
+
+            //  Validation Check 4: Is claimed amount within the product's claim limit?
             var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
             if (dto.ClaimedAmount > product.ClaimLimit)
                 throw new Exception($"Claimed amount exceeds the claim limit of {product.ClaimLimit}.");
 
-            // Auto assign Claims Officer based on least workload
+            //  Find the Claims Officer with the fewest active claims
+            // This ensures work is distributed fairly among all available officers
             var officers = await _userRepo.GetByRoleAsync(UserRole.ClaimsOfficer);
             var activeOfficers = officers.Where(o => o.IsActive).ToList();
             if (!activeOfficers.Any())
-                throw new Exception("No active claims officers available.");
+                throw new Exception("No active claims officers available to handle this request.");
 
-            // Find officer with least active claims
+            // Loop through all officers and pick the one with the least workload
             string assignedOfficerId = activeOfficers.First().Id;
             int minClaims = int.MaxValue;
 
@@ -73,6 +80,7 @@ namespace Application.Services
                 }
             }
 
+            // Build the Claim object and save it to the database
             var claim = new Claim
             {
                 PolicyId = dto.PolicyId,
@@ -80,11 +88,13 @@ namespace Application.Services
                 ClaimType = dto.ClaimType,
                 Description = dto.Description,
                 ClaimedAmount = dto.ClaimedAmount,
-                Status = ClaimStatus.UnderReview,
-                ClaimsOfficerId = assignedOfficerId,
+                IncidentDate = dto.IncidentDate,
+                Status = ClaimStatus.UnderReview,     // Default status when first submitted
+                ClaimsOfficerId = assignedOfficerId,  // Auto-assigned officer
                 SubmittedAt = DateTime.UtcNow
             };
 
+            // → This calls ClaimRepository.CreateAsync() — fires the SQL INSERT
             var created = await _claimRepo.CreateAsync(claim);
 
             // ── Save Uploaded Documents ───────────────────
@@ -97,7 +107,7 @@ namespace Application.Services
                 {
                     if (file.Length > 0)
                     {
-                        // Validate file type
+                        // Validate file type to prevent malicious uploads (like .exe or scripts)
                         var allowedTypes = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
                         var extension = Path.GetExtension(file.FileName).ToLower();
                         if (!allowedTypes.Contains(extension))
@@ -176,6 +186,8 @@ namespace Application.Services
                 if (dto.ApprovedAmount == null || dto.ApprovedAmount <= 0)
                     throw new Exception("Approved amount is required when approving a claim.");
 
+                // Note: The ApprovedAmount might be less than ClaimedAmount if the officer 
+                // determines the claim exceeds policy coverage limits or lacks sufficient evidence.
                 claim.ApprovedAmount = dto.ApprovedAmount;
                 claim.Status = ClaimStatus.Approved;
             }
@@ -219,6 +231,7 @@ namespace Application.Services
             if (claim.ClaimsOfficerId != officerId)
                 throw new Exception("You are not assigned to this claim.");
 
+            // Strict state machine constraint: Payments can only be processed if the claim was formally approved.
             if (claim.Status != ClaimStatus.Approved)
                 throw new Exception("Only approved claims can be processed for payment.");
 
@@ -305,6 +318,7 @@ namespace Application.Services
                 RejectionReason = claim.RejectionReason,
                 SubmittedAt = claim.SubmittedAt,
                 ReviewedAt = claim.ReviewedAt,
+                IncidentDate = claim.IncidentDate,
                 Documents = documents
             };
         }

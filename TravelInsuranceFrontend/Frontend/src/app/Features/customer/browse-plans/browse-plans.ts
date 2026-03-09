@@ -2,13 +2,15 @@ import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../Services/customer.service';
+import { PolicyRequestService } from '../../../Services/policy-request.service';
 import { Spinner } from '../../admin/components/spinner/spinner';
 import { Modal } from '../../admin/components/modal/modal.component';
+import { PolicyRequestModalComponent } from '../policy-request-modal/policy-request-modal.component';
 
 @Component({
   selector: 'app-browse-plans',
   standalone: true,
-  imports: [CommonModule, Spinner, Modal],
+  imports: [CommonModule, Spinner, Modal, PolicyRequestModalComponent],
   templateUrl: './browse-plans.html'
 })
 export class BrowsePlans implements OnInit {
@@ -16,9 +18,14 @@ export class BrowsePlans implements OnInit {
   filteredProducts: any[] = [];
   isLoading = true;
 
-  // Modal
+  ownedProductIds: Set<number> = new Set();
+  requestedProductIds: Set<number> = new Set();
+
+  // Modals
   isModalOpen = false;
   selectedPlan: any = null;
+
+  isRequestModalOpen = false;
 
   // Filters
   activeFilter: string = 'All';
@@ -29,13 +36,33 @@ export class BrowsePlans implements OnInit {
 
   constructor(
     private customerService: CustomerService,
+    private policyRequestService: PolicyRequestService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone
   ) { }
 
   ngOnInit() {
+    this.loadUserData();
     this.loadProducts();
+  }
+
+  loadUserData() {
+    this.customerService.getMyPolicies().subscribe({
+      next: (policies) => {
+        // Filter for Active and PendingPayment
+        policies.filter(p => p.status === 'Active' || p.status === 'PendingPayment')
+          .forEach(p => this.ownedProductIds.add(p.policyProductId));
+      }
+    });
+
+    this.policyRequestService.getMyRequests().subscribe({
+      next: (requests) => {
+        // Filter for Pending and Approved
+        requests.filter(r => r.status === 'Pending' || r.status === 'Approved')
+          .forEach(r => this.requestedProductIds.add(r.policyProductId));
+      }
+    });
   }
 
   loadProducts() {
@@ -120,6 +147,8 @@ export class BrowsePlans implements OnInit {
   }
 
   getCoverageList(details: string): string[] {
+    // The backend serves coverage specifics as a single comma-separated string (e.g., "Medical,Baggage").
+    // We split it here to render cleanly in the UI checklist.
     return details.split(',').map(d => d.trim()).filter(d => d.length > 0);
   }
 
@@ -186,5 +215,22 @@ export class BrowsePlans implements OnInit {
   closeDetails() {
     this.isModalOpen = false;
     this.selectedPlan = null;
+  }
+
+  openRequestModal(plan: any) {
+    this.selectedPlan = plan;
+    this.isModalOpen = false; // close details modal if open
+    this.isRequestModalOpen = true;
+  }
+
+  closeRequestModal() {
+    this.isRequestModalOpen = false;
+    this.selectedPlan = null;
+  }
+
+  onRequestSubmitted(response: any) {
+    alert('Policy Request submitted successfully! View status in My Requests.');
+    // Optionally navigate to my requests
+    // this.router.navigate(['/customer/my-requests']);
   }
 }

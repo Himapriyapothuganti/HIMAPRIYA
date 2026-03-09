@@ -21,6 +21,7 @@ namespace Domain.Entities
         public string? RejectionReason { get; set; }
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ReviewedAt { get; set; }
+        public DateTime IncidentDate { get; set; }
 
         // Navigation properties
         public Policy Policy { get; set; } = null!;

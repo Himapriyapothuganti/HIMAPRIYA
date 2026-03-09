@@ -1,0 +1,84 @@
+<app-spinner [isLoading]="isLoading()"></app-spinner>
+
+<div class="space-y-6" *ngIf="!isLoading()">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-3xl font-extrabold text-[#111] mb-1 tracking-tight"
+                style="font-family: 'Poppins', sans-serif;">Policy Requests</h2>
+            <p class="text-gray-500 text-sm">Review, approve, or reject customer policy requests.</p>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 border-b border-gray-200 pb-px">
+        <button *ngFor="let tab of tabs" (click)="applyFilter(tab)" [class.border-[#E8584A]]="activeTab() === tab"
+            [class.text-[#E8584A]]="activeTab() === tab" [class.border-transparent]="activeTab() !== tab"
+            [class.text-gray-500]="activeTab() !== tab"
+            class="px-5 py-3 border-b-2 font-bold text-sm transition-colors hover:text-[#E8584A]">
+            {{ tab }}
+        </button>
+    </div>
+
+    <!-- List -->
+    <div *ngIf="filteredRequests().length === 0"
+        class="bg-white rounded-2xl shadow-sm p-12 text-center border border-dashed border-gray-200">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            style="background: rgba(232,88,74,0.05);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E8584A" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-bold text-[#111] mb-1">No requests found</h3>
+        <p class="text-sm text-gray-500">There are no requests matching "{{ activeTab() }}" status.</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4" *ngIf="filteredRequests().length > 0">
+        <div *ngFor="let req of filteredRequests()"
+            class="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-5 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all">
+
+            <div class="flex-1 flex flex-col md:flex-row gap-6">
+                <!-- Main Info -->
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-1">
+                        <h4 class="font-bold text-lg text-[#111]">{{ req.customerName }}</h4>
+                        <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border"
+                            [ngClass]="getStatusBadgeClass(req.status)">
+                            {{ req.status }}
+                        </span>
+                    </div>
+                    <p class="text-[13px] text-gray-500 font-medium">
+                        {{ req.policyName }} ({{ req.planTier }}) &bull; {{ req.destination }} &bull; ₹{{
+                        req.calculatedPremium | number:'1.0-0' }}
+                    </p>
+                </div>
+
+                <!-- Meta -->
+                <div class="flex gap-8 items-center text-sm">
+                    <div>
+                        <span
+                            class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-0.5">Risk</span>
+                        <span class="inline-flex px-2 py-0.5 rounded text-xs font-bold"
+                            [ngClass]="getRiskBadgeClass(req.riskLevel)">{{ req.riskScore }} - {{ req.riskLevel
+                            }}</span>
+                    </div>
+                    <div>
+                        <span
+                            class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-0.5">Date</span>
+                        <span class="font-bold text-[#111]">{{ req.requestedAt | date:'mediumDate' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action -->
+            <div>
+                <button (click)="viewDetail(req.policyRequestId)"
+                    class="px-6 py-2.5 rounded-xl font-bold text-sm bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-[#111] transition-colors whitespace-nowrap">
+                    Review Application
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

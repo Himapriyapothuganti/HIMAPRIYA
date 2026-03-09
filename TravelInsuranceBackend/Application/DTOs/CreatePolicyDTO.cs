@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
-    public class CreatePolicyDTO
+    public class CreatePolicyDTO : IValidatableObject
     {
         [Required]
         public int PolicyProductId { get; set; }
@@ -25,6 +25,7 @@ namespace Application.DTOs
         public string TravellerName { get; set; } = string.Empty;
 
         [Required]
+        [Range(1, 120, ErrorMessage = "Traveller age must be between 1 and 120.")]
         public int TravellerAge { get; set; }
 
         [Required]
@@ -37,5 +38,18 @@ namespace Application.DTOs
 
         [Required]
         public string KycNumber { get; set; } = string.Empty;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (StartDate.Date < DateTime.Today)
+            {
+                yield return new ValidationResult("Policy start date cannot be in the past.", new[] { nameof(StartDate) });
+            }
+
+            if (EndDate.Date <= StartDate.Date)
+            {
+                yield return new ValidationResult("Policy end date must be strictly after the start date.", new[] { nameof(EndDate) });
+            }
+        }
     }
 }

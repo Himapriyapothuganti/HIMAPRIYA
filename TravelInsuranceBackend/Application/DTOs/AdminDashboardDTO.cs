@@ -25,8 +25,10 @@ namespace Application.DTOs
         public int TotalClaims { get; set; }
         public int SubmittedClaims { get; set; }
         public int UnderReviewClaims { get; set; }
+        public int PendingDocumentsClaims { get; set; }
         public int ApprovedClaims { get; set; }
         public int RejectedClaims { get; set; }
+        public int PaymentProcessedClaims { get; set; }
         public int ClosedClaims { get; set; }
         public decimal TotalClaimedAmount { get; set; }
         public decimal TotalApprovedAmount { get; set; }

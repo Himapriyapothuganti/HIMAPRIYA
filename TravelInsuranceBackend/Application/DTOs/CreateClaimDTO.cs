@@ -19,7 +19,10 @@ namespace Application.DTOs
         public decimal ClaimedAmount { get; set; }
 
         // ── Supporting Documents ──────────────────────────
-        // Optional at submission — can be uploaded later
+      
         public List<IFormFile>? Documents { get; set; } = new List<IFormFile>();
+
+        [Required]
+        public DateTime IncidentDate { get; set; }
     }
 }

@@ -13,8 +13,10 @@
           style="color:var(--coral);">&amp;</span>Travel</span>
     </div>
     <div style="display:flex;align-items:center;gap:30px;">
-      <a href="#" style="font-size:14px;font-weight:500;color:#555;text-decoration:none;">About Us</a>
-      <a href="#" style="font-size:14px;font-weight:500;color:#555;text-decoration:none;">Contact Us</a>
+      <a href="javascript:void(0)" onclick="window.scrollTo({top: document.body.scrollHeight/2, behavior: 'smooth'})"
+        style="font-size:14px;font-weight:500;color:#555;text-decoration:none;cursor:pointer;">About Us</a>
+      <a href="javascript:void(0)" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})"
+        style="font-size:14px;font-weight:500;color:#555;text-decoration:none;cursor:pointer;">Contact Us</a>
       <a routerLink="/login" class="btn-coral" style="padding:10px 22px;">Login/Register →</a>
     </div>
   </div>
@@ -245,131 +247,19 @@
   </div>
 </section>
 
-<!-- ══ BRANDS SECTION ══ -->
-<section class="brands-section">
-  <div style="max-width:1200px;margin:0 auto;padding:0 28px;">
-    <div style="display:flex;gap:80px;align-items:flex-start;flex-wrap:wrap;">
 
-      <!-- Left -->
-      <div style="flex:0 0 340px;max-width:340px;">
-        <span class="sec-label">Trusted Partners</span>
-        <h2 style="font-size:clamp(30px,4vw,48px);color:white;line-height:1.08;margin-bottom:22px;letter-spacing:-1px;">
-          BRANDS WE<br>WORK WITH</h2>
-        <p style="color:#777;font-size:15px;line-height:1.8;margin-bottom:32px;">We provide complete protection for every
-aspect of your journey. Travel with
-confidence knowing Talk & Travel
-has got you covered.</p>
-        <a href="#" class="btn-outline">See Pricing Plans →</a>
-      </div>
 
-      <!-- Grid -->
-      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px;min-width:280px;">
 
-        <!-- TravelInsurance -->
-        <div class="brand-card">
-          <div class="b-icon" style="background:#162D33;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#48C9D4" stroke-width="2">
-              <path
-                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-            </svg>
-          </div>
-          <span class="b-tag tag-teal">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path
-                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-            </svg>
-            TravelInsurance
-          </span>
-          <h4 style="color:#fff;font-size:16px;font-weight:700;margin-bottom:7px;">No revenue sharing. Ever.</h4>
-          <p style="color:#666;font-size:13px;line-height:1.6;">You make the content, you reap the rewards.</p>
-        </div>
 
-        <!-- Travelex -->
-        <div class="brand-card">
-          <div class="b-icon" style="background:#12243A;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B9BD5" stroke-width="2">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
-          </div>
-          <span class="b-tag tag-blue">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-            </svg>
-            Travelex
-          </span>
-          <h4 style="color:#fff;font-size:16px;font-weight:700;margin-bottom:7px;">Grow your business, not theirs.</h4>
-          <p style="color:#666;font-size:13px;line-height:1.6;">You own 100% of what you make.</p>
-        </div>
 
-        <!-- Faye -->
-        <div class="brand-card">
-          <div class="b-icon" style="background:#241835;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B39DDB" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-          </div>
-          <span class="b-tag tag-purple">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-            Faye
-          </span>
-          <h4 style="color:#fff;font-size:16px;font-weight:700;margin-bottom:7px;">Designed to scale.</h4>
-          <p style="color:#666;font-size:13px;line-height:1.6;">Dream big. No limits on what you can make and earn.</p>
-        </div>
 
-        <!-- Allianz -->
-        <div class="brand-card">
-          <div class="b-icon" style="background:#0E1E2E;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64B5F6" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-          </div>
-          <span class="b-tag tag-navy">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-            Allianz Travel
-          </span>
-          <h4 style="color:#fff;font-size:16px;font-weight:700;margin-bottom:7px;">No revenue sharing. Ever.</h4>
-          <p style="color:#666;font-size:13px;line-height:1.6;">You make the content, you reap the rewards.</p>
-        </div>
 
-        <!-- Travel Guard – full width -->
-        <div class="brand-card"
-          style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
-          <div>
-            <div class="b-icon" style="background:#122318;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#66BB6A" stroke-width="2">
-                <path
-                  d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6" />
-              </svg>
-            </div>
-            <span class="b-tag tag-green">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07" />
-              </svg>
-              Travel Guard
-            </span>
-            <h4 style="color:#fff;font-size:16px;font-weight:700;margin-bottom:7px;">Grow your business, not theirs.
-            </h4>
-            <p style="color:#666;font-size:13px;">You own 100% of what you make.</p>
-          </div>
-          <svg width="90" height="90" viewBox="0 0 64 64" fill="none" style="opacity:.07;flex-shrink:0;">
-            <path d="M60 28L8 14l4 14-4 14z" fill="#66BB6A" />
-            <path d="M20 28L32 12h10L36 28z" fill="#66BB6A" />
-            <path d="M10 28L6 16l10 12z" fill="#66BB6A" />
-          </svg>
-        </div>
 
-      </div>
-    </div>
-  </div>
-</section>
+
+
+
+
+
 
 <!-- ══ OFFERINGS ══ -->
 <section style="background:#FAFAF8;padding:100px 0;">
@@ -406,7 +296,7 @@ has got you covered.</p>
           <li style="padding:7px 0;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;"><span
               style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Hospital Coverage</li>
         </ul>
-        <a href="#" style="color:var(--coral);font-size:14px;font-weight:700;text-decoration:none;">Learn more →</a>
+        <!-- button removed -->
       </div>
       <!-- Trip – active -->
       <div class="ins-card ins-active" style="position:relative;overflow:hidden;">
@@ -434,7 +324,7 @@ has got you covered.</p>
           <li style="padding:7px 0;display:flex;gap:8px;align-items:center;font-size:14px;color:rgba(255,255,255,.88);">
             ✓ Flight Delays</li>
         </ul>
-        <a href="#" style="color:white;font-size:14px;font-weight:700;text-decoration:none;">Learn more →</a>
+        <!-- button removed -->
       </div>
       <!-- Visitors -->
       <div class="ins-card">
@@ -446,24 +336,24 @@ has got you covered.</p>
             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
           </svg>
         </div>
-        <h3 style="font-size:22px;color:#111;margin-bottom:14px;">Visitors Insurance</h3>
+        <h3 style="font-size:22px;color:#111;margin-bottom:14px;">Personal Coverage</h3>
         <ul style="list-style:none;padding:0;margin:0 0 22px;">
           <li
             style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Visitor Coverage
+            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Personal Accident
           </li>
           <li
             style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Pre-existing Conditions
+            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Hijack Distress Allowance
           </li>
           <li
             style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Return Assistance
+            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Emergency Treatment
           </li>
           <li style="padding:7px 0;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;"><span
-              style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Dental Emergency</li>
+              style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Adventure Sports Coverage</li>
         </ul>
-        <a href="#" style="color:var(--coral);font-size:14px;font-weight:700;text-decoration:none;">Learn more →</a>
+        <!-- button removed -->
       </div>
     </div>
   </div>
@@ -484,9 +374,10 @@ has got you covered.</p>
           </div>
         </div>
         <div style="padding-top:8px;">
-          <h4 style="font-size:17px;font-weight:700;color:#111;margin-bottom:6px;">Enter Your Trip Details</h4>
-          <p style="font-size:14px;color:#888;line-height:1.7;">Tell us where you're going, when you're traveling, and
-            who's coming along.</p>
+          <h4 style="font-size:17px;font-weight:700;color:#111;margin-bottom:6px;">Choose Your Plan</h4>
+          <p style="font-size:14px;color:#888;line-height:1.7;">Browse Silver, Gold and Platinum plans
+            across Single Trip, Multi-Trip, Family
+            and Student categories.</p>
         </div>
       </div>
       <div style="display:flex;gap:20px;margin-bottom:8px;">
@@ -497,9 +388,10 @@ has got you covered.</p>
           </div>
         </div>
         <div style="padding-top:8px;">
-          <h4 style="font-size:17px;font-weight:700;color:#111;margin-bottom:6px;">Get Expert Recommendations</h4>
-          <p style="font-size:14px;color:#888;line-height:1.7;">We compare plans from trusted providers and match you
-            with the best options.</p>
+          <h4 style="font-size:17px;font-weight:700;color:#111;margin-bottom:6px;"> Enter Trip Details</h4>
+          <p style="font-size:14px;color:#888;line-height:1.7;">Tell us your destination, travel dates
+            and traveller age. We calculate your
+            premium instantly.</p>
         </div>
       </div>
       <div style="display:flex;gap:20px;margin-bottom:38px;">
@@ -508,8 +400,8 @@ has got you covered.</p>
         </div>
         <div style="padding-top:8px;">
           <h4 style="font-size:17px;font-weight:700;color:#111;margin-bottom:6px;">Buy &amp; Get Covered</h4>
-          <p style="font-size:14px;color:#888;line-height:1.7;">Purchase your policy instantly and travel with complete
-            peace of mind.</p>
+          <p style="font-size:14px;color:#888;line-height:1.7;">Complete payment securely online.
+            Your policy is issued immediately.</p>
         </div>
       </div>
       <a routerLink="/login" class="btn-coral" style="font-size:15px;padding:15px 34px;">Get Your Free Quote Now →</a>
@@ -621,7 +513,6 @@ has got you covered.</p>
       <a routerLink="/login"
         style="background:white;color:var(--coral);border-radius:100px;padding:16px 40px;font-weight:700;font-size:16px;display:inline-block;text-decoration:none;box-shadow:0 8px 30px rgba(0,0,0,.2);">Get
         Your Free Quote →</a>
-      <a href="#" class="btn-white-outline">Talk to an Expert</a>
     </div>
   </div>
 </section>
@@ -642,43 +533,46 @@ has got you covered.</p>
           <span style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:white;">Talk<span
               style="color:var(--coral);">&amp;</span>Travel</span>
         </div>
-        <p style="color:#555;font-size:14px;line-height:1.8;">Your trusted partner for comprehensive travel insurance.
+        <p style="color:white;font-size:14px;line-height:1.8;">Your trusted partner for comprehensive travel insurance.
           Compare, choose, and travel with peace of mind.</p>
       </div>
       <div style="flex:1;min-width:130px;">
         <h5 style="color:white;font-weight:700;margin-bottom:18px;font-size:14px;">Quick Links</h5>
         <ul style="list-style:none;padding:0;">
-          <li style="margin-bottom:11px;"><a href="#" style="color:#555;font-size:14px;text-decoration:none;">About
+          <li style="margin-bottom:11px;"><a href="javascript:void(0)"
+              onclick="window.scrollTo({top: document.body.scrollHeight/2, behavior: 'smooth'})"
+              style="color:white;font-size:14px;text-decoration:none;cursor:pointer;">About
               Us</a></li>
-          <li style="margin-bottom:11px;"><a href="#" style="color:#555;font-size:14px;text-decoration:none;">Our
-              Offerings</a></li>
-          <li style="margin-bottom:11px;"><a href="#"
-              style="color:#555;font-size:14px;text-decoration:none;">Partners</a></li>
-          <li><a href="#" style="color:#555;font-size:14px;text-decoration:none;">Contact Us</a></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Our
+              Offerings</span></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Partners</span></li>
+          <li><a href="javascript:void(0)"
+              onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})"
+              style="color:white;font-size:14px;text-decoration:none;cursor:pointer;">Contact Us</a></li>
         </ul>
       </div>
       <div style="flex:1;min-width:150px;">
         <h5 style="color:white;font-weight:700;margin-bottom:18px;font-size:14px;">Insurance Types</h5>
         <ul style="list-style:none;padding:0;">
-          <li style="margin-bottom:11px;"><a href="#" style="color:#555;font-size:14px;text-decoration:none;">Medical
-              Insurance</a></li>
-          <li style="margin-bottom:11px;"><a href="#" style="color:#555;font-size:14px;text-decoration:none;">Trip
-              Insurance</a></li>
-          <li><a href="#" style="color:#555;font-size:14px;text-decoration:none;">Visitors Insurance</a></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Medical
+              Insurance</span></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Trip
+              Insurance</span></li>
+          <li><span style="color:white;font-size:14px;">Visitors Insurance</span></li>
         </ul>
       </div>
       <div style="flex:1;min-width:170px;">
         <h5 style="color:white;font-weight:700;margin-bottom:18px;font-size:14px;">Contact</h5>
-        <p style="color:#555;font-size:14px;margin-bottom:10px;">📧 hello@talkandtravel.com</p>
-        <p style="color:#555;font-size:14px;margin-bottom:10px;">📞 +1 (800) 123-4567</p>
-        <p style="color:#555;font-size:14px;">🕐 Mon–Fri, 9am–6pm</p>
+        <p style="color:white;font-size:14px;margin-bottom:10px;">📧 hello@talkandtravel.com</p>
+        <p style="color:white;font-size:14px;margin-bottom:10px;">📞 +1 (800) 123-4567</p>
+        <p style="color:white;font-size:14px;">🕐 Mon–Fri, 9am–6pm</p>
       </div>
     </div>
     <div
       style="border-top:1px solid #1E1E1E;padding-top:24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
-      <p style="color:#444;font-size:13px;">© 2024 Talk &amp; Travel. All rights reserved.</p>
-      <div style="display:flex;gap:20px;"><a href="#" style="color:#444;font-size:13px;text-decoration:none;">Privacy
-          Policy</a><a href="#" style="color:#444;font-size:13px;text-decoration:none;">Terms of Service</a></div>
+      <p style="color:white;font-size:13px;">© 2024 Talk &amp; Travel. All rights reserved.</p>
+      <div style="display:flex;gap:20px;"><span style="color:white;font-size:13px;">Privacy
+          Policy</span><span style="color:white;font-size:13px;">Terms of Service</span></div>
     </div>
   </div>
 </footer>

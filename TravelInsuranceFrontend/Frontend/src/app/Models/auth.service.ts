@@ -19,6 +19,7 @@ export class AuthService {
     }
 
     logout(): void {
+        // Clear all session data explicitly to prevent state leakage on shared devices
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('fullName');

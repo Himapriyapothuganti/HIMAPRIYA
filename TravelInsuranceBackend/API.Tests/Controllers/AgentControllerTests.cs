@@ -26,6 +26,7 @@ namespace API.Tests.Controllers
             return controller;
         }
 
+        // Agent gets their dashboard
         [Fact]
         public async Task GetDashboard_ReturnsOk_WhenAgentExists()
         {
@@ -49,6 +50,7 @@ namespace API.Tests.Controllers
             Assert.Equal(200, result!.StatusCode);
         }
 
+        // Agent gets their assigned policies
         [Fact]
         public async Task GetAssignedPolicies_ReturnsOk_WithList()
         {
@@ -70,6 +72,7 @@ namespace API.Tests.Controllers
             Assert.Equal(200, result!.StatusCode);
         }
 
+        // Handle agent not found
         [Fact]
         public async Task GetDashboard_ReturnsBadRequest_WhenServiceThrows()
         {

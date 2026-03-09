@@ -107,5 +107,23 @@ namespace API.Controllers
             var result = await _policyService.GetAllPoliciesAsync();
             return Ok(result);
         }
+
+        // ── CUSTOMER - Pay for Approved Request ───────────
+        [HttpPost("pay-request")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Customer")]
+        public async Task<IActionResult> PayRequest([FromBody] PayPolicyRequestDTO dto)
+        {
+            try
+            {
+                var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                                 ?? throw new Exception("User not found.");
+                var result = await _policyService.PayRequestAsync(customerId, dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -301,6 +301,83 @@
         }
       }
     },
+    "/api/Agent/policy-requests": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Agent/policy-requests/{requestId}": {
+      "get": {
+        "tags": [
+          "Agent"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Agent/policy-requests/{requestId}/review": {
+      "put": {
+        "tags": [
+          "Agent"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewPolicyRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewPolicyRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewPolicyRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Auth/register": {
       "post": {
         "tags": [
@@ -376,6 +453,7 @@
                   "ClaimedAmount",
                   "ClaimType",
                   "Description",
+                  "IncidentDate",
                   "PolicyId"
                 ],
                 "type": "object",
@@ -400,6 +478,10 @@
                       "type": "string",
                       "format": "binary"
                     }
+                  },
+                  "IncidentDate": {
+                    "type": "string",
+                    "format": "date-time"
                   }
                 }
               },
@@ -417,6 +499,9 @@
                   "style": "form"
                 },
                 "Documents": {
+                  "style": "form"
+                },
+                "IncidentDate": {
                   "style": "form"
                 }
               }
@@ -775,6 +860,178 @@
         }
       }
     },
+    "/api/Policy/pay-request": {
+      "post": {
+        "tags": [
+          "Policy"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayPolicyRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayPolicyRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PayPolicyRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PolicyRequest": {
+      "post": {
+        "tags": [
+          "PolicyRequest"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "PolicyProductId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Destination": {
+                    "type": "string"
+                  },
+                  "StartDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "EndDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "TravellerName": {
+                    "type": "string"
+                  },
+                  "TravellerAge": {
+                    "maximum": 120,
+                    "minimum": 1,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "PassportNumber": {
+                    "type": "string"
+                  },
+                  "KycType": {
+                    "type": "string"
+                  },
+                  "KycNumber": {
+                    "type": "string"
+                  },
+                  "kycFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "passportFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "otherFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "PolicyProductId": {
+                  "style": "form"
+                },
+                "Destination": {
+                  "style": "form"
+                },
+                "StartDate": {
+                  "style": "form"
+                },
+                "EndDate": {
+                  "style": "form"
+                },
+                "TravellerName": {
+                  "style": "form"
+                },
+                "TravellerAge": {
+                  "style": "form"
+                },
+                "PassportNumber": {
+                  "style": "form"
+                },
+                "KycType": {
+                  "style": "form"
+                },
+                "KycNumber": {
+                  "style": "form"
+                },
+                "kycFile": {
+                  "style": "form"
+                },
+                "passportFile": {
+                  "style": "form"
+                },
+                "otherFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PolicyRequest/my-requests": {
+      "get": {
+        "tags": [
+          "PolicyRequest"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PolicyRequest/document/{documentId}": {
+      "get": {
+        "tags": [
+          "PolicyRequest"
+        ],
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
@@ -870,6 +1127,8 @@
             "type": "string"
           },
           "travellerAge": {
+            "maximum": 120,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           },
@@ -989,6 +1248,20 @@
         },
         "additionalProperties": false
       },
+      "PayPolicyRequestDTO": {
+        "type": "object",
+        "properties": {
+          "policyRequestId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PolicyPaymentDTO": {
         "required": [
           "paymentMethod",
@@ -1064,6 +1337,24 @@
             "nullable": true
           },
           "rejectionReason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewPolicyRequestDTO": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "rejectionReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "agentNotes": {
             "type": "string",
             "nullable": true
           }

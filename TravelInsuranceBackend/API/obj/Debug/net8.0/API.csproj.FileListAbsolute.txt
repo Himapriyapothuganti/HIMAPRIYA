@@ -471,7 +471,6 @@ D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\staticwebassets.build.j
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\staticwebassets.development.json
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\swae.build.ex.cache
-D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\API.csproj.Up2Date
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\API.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\refint\API.dll
@@ -479,3 +478,4 @@ D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\API.pdb
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\ref\API.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

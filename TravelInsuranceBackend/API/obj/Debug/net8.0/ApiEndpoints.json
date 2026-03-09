@@ -193,6 +193,53 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.AgentController",
+    "Method": "GetPolicyRequests",
+    "RelativePath": "api/Agent/policy-requests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AgentController",
+    "Method": "GetPolicyRequestDetail",
+    "RelativePath": "api/Agent/policy-requests/{requestId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AgentController",
+    "Method": "ReviewPolicyRequest",
+    "RelativePath": "api/Agent/policy-requests/{requestId}/review",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "Application.DTOs.ReviewPolicyRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
@@ -392,6 +439,11 @@
         "Name": "Documents",
         "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
         "IsRequired": false
+      },
+      {
+        "Name": "IncidentDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -460,6 +512,22 @@
   },
   {
     "ContainingType": "API.Controllers.PolicyController",
+    "Method": "PayRequest",
+    "RelativePath": "api/Policy/pay-request",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Application.DTOs.PayPolicyRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyController",
     "Method": "GetAvailableProducts",
     "RelativePath": "api/Policy/products",
     "HttpMethod": "GET",
@@ -482,6 +550,103 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyRequestController",
+    "Method": "SubmitRequest",
+    "RelativePath": "api/PolicyRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PolicyProductId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Destination",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "TravellerName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TravellerAge",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PassportNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "KycType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "KycNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "kycFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "passportFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "otherFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyRequestController",
+    "Method": "DownloadDocument",
+    "RelativePath": "api/PolicyRequest/document/{documentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "documentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyRequestController",
+    "Method": "GetMyRequests",
+    "RelativePath": "api/PolicyRequest/my-requests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

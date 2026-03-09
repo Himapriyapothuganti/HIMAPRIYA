@@ -34,7 +34,7 @@ import { AuthService } from '../../../../Models/auth.service';
 
         <a routerLink="/officer/claims" routerLinkActive="bg-[#1E1E1E] text-white font-semibold shadow-inner"
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-[#1E1E1E] hover:text-white group text-[15px]">
-            <span class="text-xl group-hover:drop-shadow-md">🔍</span>
+            <span class="text-xl group-hover:drop-shadow-md">💰</span>
             All Claims
         </a>
     </nav>

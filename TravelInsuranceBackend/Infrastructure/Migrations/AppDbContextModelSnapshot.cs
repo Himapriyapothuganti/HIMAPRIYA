@@ -130,6 +130,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("IncidentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("PolicyId")
                         .HasColumnType("int");
 
@@ -314,6 +317,142 @@ namespace Infrastructure.Migrations
                     b.ToTable("PolicyProducts");
                 });
 
+            modelBuilder.Entity("Domain.Entities.PolicyRequest", b =>
+                {
+                    b.Property<int>("PolicyRequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PolicyRequestId"));
+
+                    b.Property<string>("AgentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AgentNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("CalculatedPremium")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("KycNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("KycType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PassportNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PolicyProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RiskAgeScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RiskDestinationScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RiskDurationScore")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RiskLevel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RiskScore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RiskTierScore")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TravellerAge")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TravellerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PolicyRequestId");
+
+                    b.HasIndex("AgentId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PolicyProductId");
+
+                    b.ToTable("PolicyRequests");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PolicyRequestDocument", b =>
+                {
+                    b.Property<int>("PolicyRequestDocumentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PolicyRequestDocumentId"));
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PolicyRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PolicyRequestDocumentId");
+
+                    b.HasIndex("PolicyRequestId");
+
+                    b.ToTable("PolicyRequestDocuments");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -480,6 +619,43 @@ namespace Infrastructure.Migrations
                     b.Navigation("PolicyProduct");
                 });
 
+            modelBuilder.Entity("Domain.Entities.PolicyRequest", b =>
+                {
+                    b.HasOne("Domain.Entities.ApplicationUser", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.ApplicationUser", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.PolicyProduct", "PolicyProduct")
+                        .WithMany()
+                        .HasForeignKey("PolicyProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agent");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("PolicyProduct");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PolicyRequestDocument", b =>
+                {
+                    b.HasOne("Domain.Entities.PolicyRequest", "PolicyRequest")
+                        .WithMany("Documents")
+                        .HasForeignKey("PolicyRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PolicyRequest");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -534,6 +710,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Policy", b =>
                 {
                     b.Navigation("Claims");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PolicyRequest", b =>
+                {
+                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }

@@ -41,6 +41,34 @@
                 </div>
             </div>
 
+            <div class="text-left mb-5">
+                <label class="block text-[13px] font-semibold text-[#444] mb-2">
+                    Security Check: What is {{captchaNum1}} + {{captchaNum2}}?
+                </label>
+                <div class="flex gap-3">
+                    <input type="number"
+                        class="w-full py-[14px] px-[18px] border border-[#E0E0E0] rounded-xl text-[15px] transition-all duration-300 focus:outline-none focus:border-[#E8584A] focus:ring-[3px] focus:ring-[#E8584A]/15"
+                        formControlName="captcha" placeholder="Enter the sum">
+                    <button type="button" (click)="generateCaptcha()"
+                        class="px-4 border border-[#E0E0E0] rounded-xl text-[#666] hover:bg-gray-50 transition-colors"
+                        title="Reload Captcha">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 2v6h-6"></path>
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div *ngIf="loginForm.get('captcha')?.touched && loginForm.get('captcha')?.invalid"
+                    class="text-[#C94035] text-[13px] mt-1.5">
+                    Security answer is required.
+                </div>
+                <div *ngIf="captchaError" class="text-[#C94035] text-[13px] mt-1.5 font-semibold">
+                    Incorrect security answer. Please try again.
+                </div>
+            </div>
+
             <button type="submit"
                 class="w-full bg-[#E8584A] text-white border-none rounded-full p-4 font-bold text-base cursor-pointer transition-all duration-250 mt-2.5 hover:-translate-y-0.5 hover:bg-[#C94035] hover:shadow-[0_8px_24px_rgba(232,88,74,.38)] disabled:bg-[#ccc] disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                 [disabled]="loginForm.invalid">Sign In</button>

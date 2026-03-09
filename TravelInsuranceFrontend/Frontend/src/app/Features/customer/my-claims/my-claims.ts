@@ -43,12 +43,15 @@ export class MyClaims implements OnInit {
     this.loadData();
   }
 
+
+  // Creates a reactive form with validation rules for each field
   initForm() {
     this.claimForm = this.fb.group({
-      policyId: ['', Validators.required],
-      claimType: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(20)]],
-      claimedAmount: ['', [Validators.required, Validators.min(1)]]
+      policyId: ['', Validators.required],                              // Must select a policy
+      claimType: ['', Validators.required],                             // Must choose claim type
+      incidentDate: ['', Validators.required],                          // Date of the incident
+      description: ['', [Validators.required, Validators.minLength(20)]], // Min 20 chars
+      claimedAmount: ['', [Validators.required, Validators.min(1)]]       // Must be > 0
     });
   }
 
@@ -123,8 +126,9 @@ export class MyClaims implements OnInit {
   removeFile(index: number) {
     this.selectedFiles.splice(index, 1);
   }
-
+  // SUBMIT THE CLAIM
   onSubmit() {
+    // Stop if form has any invalid fields
     if (this.claimForm.invalid) {
       this.claimForm.markAllAsTouched();
       return;
@@ -132,28 +136,33 @@ export class MyClaims implements OnInit {
 
     this.isSubmitting = true;
 
-    // Construct FormData for multipart upload
+    // Pack form values into FormData (needed for file uploads)
     const formData = new FormData();
     formData.append('policyId', this.claimForm.get('policyId')?.value);
     formData.append('claimType', this.claimForm.get('claimType')?.value);
+    formData.append('incidentDate', this.claimForm.get('incidentDate')?.value);
     formData.append('description', this.claimForm.get('description')?.value);
     formData.append('claimedAmount', this.claimForm.get('claimedAmount')?.value);
 
+    // Attach each uploaded document
     for (let i = 0; i < this.selectedFiles.length; i++) {
       formData.append('documents', this.selectedFiles[i]);
     }
 
+    // → Hand off to customer.service.ts which fires the POST request
     this.customerService.submitClaim(formData).subscribe({
       next: (res) => {
         this.ngZone.run(() => {
+          // Success — show message and refresh the claims list
           this.success = "Claim submitted successfully!";
           this.isSubmitting = false;
           this.closeModal();
-          this.loadData(); // Refresh list
+          this.loadData();
         });
       },
       error: (err) => {
         this.ngZone.run(() => {
+          //  Failure — show the error message returned from the backend
           console.error('Submit Claim HTTP Error:', err);
           console.error('Validation messages:', err.error);
           this.error = err.error?.message || JSON.stringify(err.error?.errors) || "Failed to submit claim.";

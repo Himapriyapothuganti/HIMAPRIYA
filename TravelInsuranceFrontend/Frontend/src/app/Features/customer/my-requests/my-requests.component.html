@@ -1,0 +1,216 @@
+<app-spinner [isLoading]="isLoading()"></app-spinner>
+
+<!-- Success Modal -->
+<div *ngIf="paymentSuccess()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl animate-fade-in">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-[#111] mb-2" style="font-family: 'Poppins', sans-serif;">
+            Payment Successful!
+        </h2>
+        <p class="text-gray-600 mb-6 whitespace-pre-line">{{ paymentSuccess() }}</p>
+        <p class="text-sm text-gray-400 font-medium">Redirecting to your policies...</p>
+    </div>
+</div>
+
+<!-- Payment Confirmation Modal -->
+<div *ngIf="showPaymentModal() && selectedRequest() as req"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden animate-fade-in">
+
+        <!-- Modal Header -->
+        <div class="px-8 pt-8 pb-4 border-b border-gray-100">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">
+                    Secure Checkout
+                </h3>
+                <button (click)="closePayment()"
+                    class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-gray-600 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="px-8 py-6 space-y-6">
+
+            <!-- Request Summary -->
+            <div class="bg-[#FDF4F0] rounded-2xl p-5 border border-[#E8584A]/10">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h4 class="font-bold text-[#111] text-base">{{ req.policyName }}</h4>
+                        <p class="text-xs text-gray-500 mt-0.5 font-medium">{{ req.planTier }} · {{ req.policyType
+                            }}</p>
+                    </div>
+                    <span
+                        class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase bg-green-100 text-green-700">Approved</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Destination</span>
+                        <p class="font-semibold text-gray-900">{{ req.destination }}</p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Travel Dates</span>
+                        <p class="font-semibold text-gray-900 text-xs">{{ req.startDate | date:'MMM d' }} - {{
+                            req.endDate | date:'MMM d' }}</p>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-[#E8584A]/10 flex justify-between items-baseline">
+                    <span class="text-gray-500 text-sm font-medium">Premium Due</span>
+                    <span class="text-2xl font-extrabold text-[#E8584A]" style="font-family: 'Poppins', sans-serif;">₹{{
+                        req.calculatedPremium | number:'1.0-0'
+                        }}</span>
+                </div>
+            </div>
+
+            <!-- Payment Method Selection -->
+            <div>
+                <h4 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                        <line x1="1" y1="10" x2="23" y2="10" />
+                    </svg>
+                    Payment Method
+                </h4>
+                <div class="space-y-2">
+                    <label *ngFor="let opt of paymentOptions"
+                        class="flex items-center gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200"
+                        [ngClass]="paymentMethod === opt
+                            ? 'bg-[#FDF4F0]/50 border-[#E8584A] shadow-[0_2px_8px_rgba(232,88,74,0.1)]'
+                            : 'bg-white border-gray-100 hover:border-gray-300'">
+                        <input type="radio" name="paymentMethod" [value]="opt" [(ngModel)]="paymentMethod"
+                            class="w-4 h-4 text-[#E8584A] accent-[#E8584A]">
+                        <span class="font-bold text-sm"
+                            [ngClass]="paymentMethod === opt ? 'text-[#111]' : 'text-gray-600'">{{ opt }}</span>
+                        <span class="ml-auto text-lg">
+                            <ng-container [ngSwitch]="opt">
+                                <span *ngSwitchCase="'Credit Card'">💳</span>
+                                <span *ngSwitchCase="'Debit Card'">💳</span>
+                                <span *ngSwitchCase="'Net Banking'">🏦</span>
+                                <span *ngSwitchCase="'UPI'">📱</span>
+                                <span *ngSwitchCase="'Wallet'">👛</span>
+                            </ng-container>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-8 pb-8 pt-2">
+            <button (click)="confirmPayment()" [disabled]="isPaying()"
+                class="w-full bg-[#E8584A] hover:bg-[#C94035] text-white py-4 rounded-2xl font-bold text-[15px] shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none transition-all disabled:opacity-60 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+                <span *ngIf="isPaying()"
+                    class="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                <span *ngIf="!isPaying()">Pay ₹{{ req.calculatedPremium | number:'1.0-0' }} Securely</span>
+                <span *ngIf="isPaying()">Processing Securely...</span>
+            </button>
+            <p
+                class="text-center text-[10px] text-gray-400 mt-4 flex items-center justify-center gap-1.5 font-bold uppercase tracking-wider">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
+                </svg>
+                End-to-end encrypted
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="space-y-8" *ngIf="!isLoading()">
+    <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-bold text-[#111]" style="font-family: 'Poppins', sans-serif;">My Policy Requests</h2>
+    </div>
+
+    <div *ngIf="requests().length === 0"
+        class="bg-white rounded-xl shadow-sm p-12 text-center border border-dashed border-gray-200">
+        <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-gray-400" stroke="currentColor"
+                stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">No Requests Found</h3>
+        <p class="text-sm text-gray-500">You haven't requested any custom policies yet.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" *ngIf="requests().length > 0">
+        <div *ngFor="let req of requests()"
+            class="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-6 flex flex-col hover:-translate-y-1 transition-transform relative overflow-hidden">
+
+            <!-- Top banner for status -->
+            <div class="absolute top-0 left-0 w-full h-1"
+                [ngClass]="{'bg-yellow-400': req.status === 'Pending', 'bg-green-500': req.status === 'Approved', 'bg-red-500': req.status === 'Rejected', 'bg-[#111]': req.status === 'Purchased'}">
+            </div>
+
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="font-bold text-lg text-gray-900">{{ req.policyName }}</h3>
+                    <p class="text-xs text-gray-500 font-medium tracking-wide uppercase mt-1">{{ req.planTier }} - {{
+                        req.policyType }}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold" [ngClass]="getStatusBadgeClass(req.status)">
+                    {{ req.status }}
+                </span>
+            </div>
+
+            <div class="space-y-3 mb-6 bg-gray-50 rounded-lg p-3">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Destination</span>
+                    <span class="font-semibold text-gray-900">{{ req.destination }}</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Premium</span>
+                    <span class="font-semibold text-gray-900">₹{{ req.calculatedPremium | number:'1.0-0' }}</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Dates</span>
+                    <span class="font-semibold text-gray-900 text-xs">{{ req.startDate | date:'MMM d' }} - {{
+                        req.endDate | date:'MMM d' }}</span>
+                </div>
+                <div class="flex justify-between items-center text-sm border-t border-gray-200 mt-2 pt-2">
+                    <span class="text-gray-500">Requested</span>
+                    <span class="font-semibold text-gray-900 text-xs">{{ req.requestedAt | date:'mediumDate' }}</span>
+                </div>
+            </div>
+
+            <div *ngIf="req.status === 'Rejected' && req.rejectionReason"
+                class="mb-4 bg-red-50 p-3 rounded-lg border border-red-100">
+                <p class="text-xs text-red-800"><span class="font-bold">Reason:</span> {{ req.rejectionReason }}</p>
+            </div>
+
+            <div class="mt-auto">
+                <button *ngIf="req.status === 'Approved'" (click)="openPayment(req)"
+                    class="w-full py-2.5 rounded-lg bg-[#E8584A] text-white font-bold text-sm hover:bg-red-600 transition-colors shadow-sm flex items-center justify-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                        <line x1="1" y1="10" x2="23" y2="10" />
+                    </svg>
+                    Pay & Activate Policy
+                </button>
+                <button *ngIf="req.status !== 'Approved'" disabled
+                    class="w-full py-2.5 rounded-lg bg-gray-100 text-gray-400 font-bold text-sm cursor-not-allowed">
+                    {{ req.status === 'Purchased' ? 'Policy Active ✓' : (req.status === 'Rejected' ? 'Request Rejected'
+                    :
+                    'Waiting for Approval') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,7 @@ namespace API.Tests.Controllers
             return controller;
         }
 
+        // Get customer's claims
         [Fact]
         public async Task GetMyClaims_ReturnsOk_WithClaimsList()
         {
@@ -47,6 +48,7 @@ namespace API.Tests.Controllers
             Assert.Equal(200, result!.StatusCode);
         }
 
+        // Prevent officer from reviewing others' claims
         [Fact]
         public async Task ReviewClaim_ReturnsBadRequest_WhenOfficerNotAssigned()
         {
@@ -65,6 +67,7 @@ namespace API.Tests.Controllers
             Assert.Equal(400, result!.StatusCode);
         }
 
+        // Admin gets all claims
         [Fact]
         public async Task GetAllClaims_ReturnsOk_WithAllClaims()
         {

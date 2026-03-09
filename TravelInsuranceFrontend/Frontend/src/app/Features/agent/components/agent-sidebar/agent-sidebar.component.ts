@@ -28,7 +28,7 @@ import { AuthService } from '../../../../Models/auth.service';
 
       <!-- Navigation -->
       <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
-        <div class="text-[10px] font-extrabold uppercase tracking-widest px-4 mb-3" style="color: rgba(255,255,255,0.2);">Menu</div>
+        <div class="text-[10px] font-extrabold uppercase tracking-widest px-4 mb-3" style="color: rgba(255, 255, 255, 0.96);">Menu</div>
 
         <a routerLink="/agent/dashboard" routerLinkActive="bg-[#1E1E1E] text-white font-semibold shadow-inner"
            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-[#1E1E1E] hover:text-white group text-[15px]">
@@ -40,6 +40,12 @@ import { AuthService } from '../../../../Models/auth.service';
            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-[#1E1E1E] hover:text-white group text-[15px]">
           <span class="text-xl group-hover:drop-shadow-md">📄</span>
           Assigned Policies
+        </a>
+
+        <a routerLink="/agent/policy-requests" routerLinkActive="bg-[#1E1E1E] text-white font-semibold shadow-inner"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-[#1E1E1E] hover:text-white group text-[15px]">
+          <span class="text-xl group-hover:drop-shadow-md">📥</span>
+          Policy Requests
         </a>
       </nav>
 

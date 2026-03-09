@@ -204,19 +204,35 @@
                                 <div class="text-[12px] font-bold text-gray-400">/trip</div>
                             </div>
 
-                            <div class="flex gap-2">
-                                <button (click)="openDetails(plan)"
-                                    class="flex-1 py-3 rounded-xl font-bold text-[13px] tracking-wide border-2 transition-all duration-300 hover:border-[#111] hover:text-[#111] active:scale-95"
-                                    style="background: white; color: #666; border-color: #e5e7eb;">
-                                    Details
-                                </button>
-                                <button (click)="buyNow(plan.policyProductId)"
-                                    class="flex-1 py-3 rounded-xl font-bold text-[13px] tracking-wide text-white transition-all duration-300 active:scale-95 relative overflow-hidden group/btn"
-                                    style="background: #111; box-shadow: 0 6px 16px rgba(17,17,17,0.2);">
-                                    <span class="relative z-10">Buy Now</span>
-                                    <div class="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"
-                                        style="background: linear-gradient(135deg, #E8584A, #D04336);"></div>
-                                </button>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex gap-2">
+                                    <button (click)="openDetails(plan)"
+                                        class="flex-1 py-3 rounded-xl font-bold text-[13px] tracking-wide border-2 transition-all duration-300 hover:border-[#111] hover:text-[#111] active:scale-95"
+                                        style="background: white; color: #666; border-color: #e5e7eb;">
+                                        Details
+                                    </button>
+                                </div>
+                                <ng-container *ngIf="ownedProductIds.has(plan.policyProductId); else checkRequested">
+                                    <button disabled
+                                        class="w-full py-2.5 rounded-xl font-bold text-[12px] tracking-wide border-2 border-dashed border-gray-300 text-gray-500 bg-gray-50 cursor-not-allowed">
+                                        Policy Active
+                                    </button>
+                                </ng-container>
+                                <ng-template #checkRequested>
+                                    <ng-container
+                                        *ngIf="requestedProductIds.has(plan.policyProductId); else canRequest">
+                                        <button disabled
+                                            class="w-full py-2.5 rounded-xl font-bold text-[12px] tracking-wide border-2 border-dashed border-orange-300 text-orange-500 bg-orange-50 cursor-not-allowed">
+                                            Request Pending
+                                        </button>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #canRequest>
+                                    <button (click)="openRequestModal(plan)"
+                                        class="w-full py-2.5 rounded-xl font-bold text-[12px] tracking-wide border-2 border-dashed border-[#E8584A]/30 text-[#E8584A] hover:bg-[#FDE8E0] transition-colors">
+                                        Request Agent
+                                    </button>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
@@ -403,14 +419,31 @@
                 class="px-6 py-3.5 rounded-2xl font-bold text-[14px] text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-colors outline-none">
                 Close
             </button>
-            <button (click)="buyNow(selectedPlan.policyProductId)"
-                class="px-8 py-3.5 rounded-2xl font-bold text-[14px] text-white flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
-                style="background: linear-gradient(135deg, #111, #222); box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
-                Continue to Purchase
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <polyline points="9 18 15 12 9 6" />
-                </svg>
-            </button>
+            <ng-container *ngIf="ownedProductIds.has(selectedPlan.policyProductId); else checkRequestedModal">
+                <button disabled
+                    class="px-6 py-3.5 rounded-2xl font-bold text-[14px] bg-gray-100 text-gray-500 border border-gray-300 cursor-not-allowed">
+                    Policy Active
+                </button>
+            </ng-container>
+            <ng-template #checkRequestedModal>
+                <ng-container *ngIf="requestedProductIds.has(selectedPlan.policyProductId); else canRequestModal">
+                    <button disabled
+                        class="px-6 py-3.5 rounded-2xl font-bold text-[14px] bg-orange-100 text-orange-500 border border-orange-300 cursor-not-allowed">
+                        Request Pending
+                    </button>
+                </ng-container>
+            </ng-template>
+            <ng-template #canRequestModal>
+                <button (click)="openRequestModal(selectedPlan)"
+                    class="px-6 py-3.5 rounded-2xl font-bold text-[14px] bg-[#FDE8E0] text-[#E8584A] hover:bg-[#FBD9CD] transition-colors border border-[#E8584A]/30">
+                    Request Agent
+                </button>
+            </ng-template>
         </div>
     </div>
 </app-modal>
+
+<!-- ─── POLICY REQUEST MODAL ──────────────────────────────── -->
+<app-policy-request-modal [isOpen]="isRequestModalOpen" [selectedPlan]="selectedPlan" (closeModal)="closeRequestModal()"
+    (requestSubmitted)="onRequestSubmitted($event)">
+</app-policy-request-modal>

@@ -51,27 +51,33 @@ namespace Infrastructure.Data
                         admin, UserRole.Admin);
             }
 
-            // ── Seed Agent ─────────────────────────────────
-            const string agentEmail = "agent@talktravel.com";
-            const string agentPassword = "Admin@123";
-
-            if (await userManager.FindByEmailAsync(
-                agentEmail) == null)
+            // ── Seed Agents ────────────────────────────────
+            var agentSeeds = new[]
             {
-                var agent = new ApplicationUser
+                new { Email = "agent1@talktravel.com", Name = "Rahul Sharma" },
+                new { Email = "agent2@talktravel.com", Name = "Priya Nair" },
+                new { Email = "agent3@talktravel.com", Name = "Arjun Mehta" }
+            };
+
+            foreach (var agentSeed in agentSeeds)
+            {
+                if (await userManager.FindByEmailAsync(agentSeed.Email) == null)
                 {
-                    FullName = "Test Agent",
-                    Email = agentEmail,
-                    UserName = agentEmail,
-                    Role = UserRole.Agent,
-                    IsActive = true,
-                    CreatedAt = DateTime.UtcNow
-                };
-                var result = await userManager
-                    .CreateAsync(agent, agentPassword);
-                if (result.Succeeded)
-                    await userManager.AddToRoleAsync(
-                        agent, UserRole.Agent);
+                    var agent = new ApplicationUser
+                    {
+                        FullName = agentSeed.Name,
+                        Email = agentSeed.Email,
+                        UserName = agentSeed.Email,
+                        Role = UserRole.Agent,
+                        IsActive = true,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    var result = await userManager
+                        .CreateAsync(agent, "Admin@123");
+                    if (result.Succeeded)
+                        await userManager.AddToRoleAsync(
+                            agent, UserRole.Agent);
+                }
             }
 
             // ── Seed Customer ──────────────────────────────

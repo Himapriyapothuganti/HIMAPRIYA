@@ -68,5 +68,53 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        // ── GET POLICY REQUESTS ───────────────────────────
+        [HttpGet("policy-requests")]
+        public async Task<IActionResult> GetPolicyRequests([FromServices] IPolicyRequestService requestService)
+        {
+            try
+            {
+                var agentId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("Agent not found.");
+                var result = await requestService.GetAgentRequestsAsync(agentId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // ── GET POLICY REQUEST DETAIL ─────────────────────
+        [HttpGet("policy-requests/{requestId}")]
+        public async Task<IActionResult> GetPolicyRequestDetail(int requestId, [FromServices] IPolicyRequestService requestService)
+        {
+            try
+            {
+                var agentId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("Agent not found.");
+                var result = await requestService.GetRequestByIdAsync(requestId, agentId, isAgent: true);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // ── REVIEW POLICY REQUEST ─────────────────────────
+        [HttpPut("policy-requests/{requestId}/review")]
+        public async Task<IActionResult> ReviewPolicyRequest(int requestId, [FromBody] Application.DTOs.ReviewPolicyRequestDTO dto, [FromServices] IPolicyRequestService requestService)
+        {
+            try
+            {
+                var agentId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("Agent not found.");
+                var result = await requestService.ReviewRequestAsync(requestId, agentId, dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

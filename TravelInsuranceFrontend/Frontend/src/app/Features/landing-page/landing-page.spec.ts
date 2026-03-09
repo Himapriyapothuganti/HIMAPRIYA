@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-
 import { LandingPage } from './landing-page';
+
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LandingPage', () => {
   let component: LandingPage;
@@ -9,14 +9,12 @@ describe('LandingPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LandingPage],
-      providers: [provideRouter([])]
-    })
-      .compileComponents();
+      imports: [LandingPage, RouterTestingModule]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LandingPage);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

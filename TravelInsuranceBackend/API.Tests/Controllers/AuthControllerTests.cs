@@ -13,6 +13,7 @@ namespace API.Tests.Controllers
         private AuthController CreateController() =>
             new(_authServiceMock.Object);
 
+        // Successful registration
         [Fact]
         public async Task Register_ReturnsOk_WhenServiceSucceeds()
         {
@@ -40,6 +41,7 @@ namespace API.Tests.Controllers
             Assert.Equal(response, result.Value);
         }
 
+        // Login fails with bad credentials
         [Fact]
         public async Task Login_ReturnsBadRequest_WhenExceptionThrown()
         {
@@ -58,6 +60,7 @@ namespace API.Tests.Controllers
             Assert.Equal(401, result!.StatusCode);
         }
 
+        // Successful login
         [Fact]
         public async Task Login_ReturnsOk_WhenCredentialsAreValid()
         {

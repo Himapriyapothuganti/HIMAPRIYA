@@ -14,19 +14,22 @@ namespace Application.Services
         private readonly IPolicyProductRepository _policyProductRepo;
         private readonly IUserRepository _userRepo;
         private readonly IClaimRepository _claimRepo;
+        private readonly IPolicyRequestRepository _policyRequestRepo;
 
         public AdminService(
             UserManager<ApplicationUser> userManager,
             IPolicyProductRepository policyProductRepo,
             IPolicyRepository policyRepo,
             IUserRepository userRepo,
-            IClaimRepository claimRepo)
+            IClaimRepository claimRepo,
+            IPolicyRequestRepository policyRequestRepo)
         {
             _userManager = userManager;
             _policyProductRepo = policyProductRepo;
             _policyRepo = policyRepo;
             _userRepo = userRepo;
             _claimRepo = claimRepo;
+            _policyRequestRepo = policyRequestRepo;
         }
 
         // ── CREATE AGENT / CLAIMS OFFICER ─────────────────
@@ -70,7 +73,33 @@ namespace Application.Services
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var role = roles.FirstOrDefault() ?? user.Role;
-                result.Add(MapToUserResponse(user, role));
+                var dto = MapToUserResponse(user, role);
+
+                // For customers, resolve assigned agent from most recent policy request or policy
+                if (role == UserRole.Customer)
+                {
+                    // First check policy requests (shows agent even before payment)
+                    var requests = await _policyRequestRepo.GetByCustomerIdAsync(user.Id);
+                    var latestRequest = requests.OrderByDescending(r => r.RequestedAt).FirstOrDefault();
+                    if (latestRequest?.AgentId != null)
+                    {
+                        var agent = await _userManager.FindByIdAsync(latestRequest.AgentId);
+                        dto.AssignedAgentName = agent?.FullName;
+                    }
+                    else
+                    {
+                        // Fallback to policies if no requests exist
+                        var policies = await _policyRepo.GetByCustomerIdAsync(user.Id);
+                        var latestPolicy = policies.OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+                        if (latestPolicy?.AgentId != null)
+                        {
+                            var agent = await _userManager.FindByIdAsync(latestPolicy.AgentId);
+                            dto.AssignedAgentName = agent?.FullName;
+                        }
+                    }
+                }
+
+                result.Add(dto);
             }
 
             return result;
@@ -288,12 +317,14 @@ namespace Application.Services
                 ExpiredPolicies = policies.Count(p => p.Status == PolicyStatus.Expired),
                 TotalPremiumRevenue = activePolicies.Sum(p => p.PremiumAmount),
 
-                // Claims
+                // Claims — all 7 statuses counted correctly
                 TotalClaims = claims.Count,
                 SubmittedClaims = claims.Count(c => c.Status == ClaimStatus.Submitted),
                 UnderReviewClaims = claims.Count(c => c.Status == ClaimStatus.UnderReview),
+                PendingDocumentsClaims = claims.Count(c => c.Status == ClaimStatus.PendingDocuments),
                 ApprovedClaims = claims.Count(c => c.Status == ClaimStatus.Approved),
                 RejectedClaims = claims.Count(c => c.Status == ClaimStatus.Rejected),
+                PaymentProcessedClaims = claims.Count(c => c.Status == ClaimStatus.PaymentProcessed),
                 ClosedClaims = claims.Count(c => c.Status == ClaimStatus.Closed),
                 TotalClaimedAmount = claims.Sum(c => c.ClaimedAmount),
                 TotalApprovedAmount = claims.Sum(c => c.ApprovedAmount ?? 0),

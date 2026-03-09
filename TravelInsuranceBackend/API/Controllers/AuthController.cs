@@ -20,11 +20,13 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
         {
+            // Validate incoming payload against DTO data annotations (like Required, EmailAddress)
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
+                // Delegates core business logic (user creation, password hashing, role assignment) to AuthService
                 var result = await _authService.RegisterAsync(dto);
                 return Ok(result);
             }
@@ -43,6 +45,7 @@ namespace API.Controllers
 
             try
             {
+                // Returns a generated JWT and user metadata (FullName, Role) if credentials match
                 var result = await _authService.LoginAsync(dto);
                 return Ok(result);
             }

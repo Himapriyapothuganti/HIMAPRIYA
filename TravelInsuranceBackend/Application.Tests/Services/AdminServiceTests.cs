@@ -15,6 +15,7 @@ namespace Application.Tests.Services
         private readonly Mock<IPolicyRepository>             _policyRepoMock        = new();
         private readonly Mock<IUserRepository>               _userRepoMock          = new();
         private readonly Mock<IClaimRepository>              _claimRepoMock         = new();
+        private readonly Mock<IPolicyRequestRepository>      _policyRequestRepoMock = new();
 
         public AdminServiceTests()
         {
@@ -25,7 +26,8 @@ namespace Application.Tests.Services
 
         private AdminService CreateService() =>
             new(_userManagerMock.Object, _policyProductRepoMock.Object,
-                _policyRepoMock.Object,  _userRepoMock.Object, _claimRepoMock.Object);
+                _policyRepoMock.Object,  _userRepoMock.Object, _claimRepoMock.Object,
+                _policyRequestRepoMock.Object);
 
         [Fact]
         public async Task CreateUser_ThrowsException_WhenRoleIsCustomer()

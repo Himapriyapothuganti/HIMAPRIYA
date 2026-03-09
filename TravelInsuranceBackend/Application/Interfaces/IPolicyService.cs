@@ -12,6 +12,7 @@ namespace Application.Interfaces
         // Customer
         Task<List<PolicyProductResponseDTO>> GetAvailablePolicyProductsAsync();
         Task<PolicyResponseDTO> PurchasePolicyAsync(string customerId, CreatePolicyDTO dto);
+        Task<PolicyResponseDTO> PayRequestAsync(string customerId, PayPolicyRequestDTO dto);
         Task<PaymentResponseDTO> MakePaymentAsync(string customerId, PolicyPaymentDTO dto);
         Task<List<PolicyResponseDTO>> GetMyPoliciesAsync(string customerId);
         Task<PolicyResponseDTO> GetPolicyByIdAsync(int policyId, string customerId);

@@ -57,7 +57,7 @@
                                 Date</label>
                             <input formControlName="startDate" type="date" [min]="today"
                                 class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none font-medium text-gray-700">
-                            <div *ngIf="f['startDate'].touched && f['startDate'].invalid"
+                            <div *ngIf="f['startDate'].touched && f['startDate'].errors?.['required']"
                                 class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="3">
@@ -66,6 +66,16 @@
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
                                 </svg>
                                 Start Date is required
+                            </div>
+                            <div *ngIf="f['startDate'].touched && f['startDate'].errors?.['pastDate']"
+                                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg>
+                                Start Date cannot be in the past
                             </div>
                         </div>
 

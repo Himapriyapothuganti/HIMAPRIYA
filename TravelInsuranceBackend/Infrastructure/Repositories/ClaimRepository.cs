@@ -11,10 +11,14 @@ namespace Infrastructure.Repositories
 {
     public class ClaimRepository :IClaimRepository
     {
+        // REPOSITORY (Data Access Layer)
+        // This class talks directly to the database using EF Core
+        // It has NO business logic — only database operations
         private readonly AppDbContext _context;
 
         public ClaimRepository(AppDbContext context)
         {
+            // AppDbContext is injected — it is the EF Core gateway to SQL Server
             _context = context;
         }
 
@@ -52,8 +56,12 @@ namespace Infrastructure.Repositories
 
         public async Task<Domain.Entities.Claim> CreateAsync(Domain.Entities.Claim claim)
         {
+            // Stage the new claim record in EF Core's change tracker
             _context.Claims.Add(claim);
+
+            // THIS fires the actual SQL INSERT into the Claims table in SQL Server
             await _context.SaveChangesAsync();
+
             return claim;
         }
 

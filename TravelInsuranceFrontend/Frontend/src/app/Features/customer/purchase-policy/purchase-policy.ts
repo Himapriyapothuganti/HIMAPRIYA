@@ -47,7 +47,7 @@ export class PurchasePolicy implements OnInit {
   initForm() {
     this.purchaseForm = this.fb.group({
       destination: ['', [Validators.required]],
-      startDate: ['', [Validators.required]],
+      startDate: ['', [Validators.required, this.pastDateValidator]],
       endDate: ['', [Validators.required]],
       travellerName: ['', [Validators.required]],
       travellerAge: ['', [Validators.required, Validators.min(1), Validators.max(99)]],
@@ -55,6 +55,18 @@ export class PurchasePolicy implements OnInit {
       kycType: ['PAN', [Validators.required]],
       kycNumber: ['', [Validators.required]]
     }, { validators: this.dateRangeValidator });
+  }
+
+  // Rejects dates that are before today
+  pastDateValidator(control: any): { [key: string]: boolean } | null {
+    if (!control.value) return null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selected = new Date(control.value);
+    if (selected < today) {
+      return { 'pastDate': true };
+    }
+    return null;
   }
 
   // Cross-field validation to ensure end date is after start date
@@ -74,6 +86,7 @@ export class PurchasePolicy implements OnInit {
 
     if (!kycNumberCtrl) return;
 
+    // Swap regex validation patterns based on the selected Indian KYC document type
     if (kycType === 'PAN') {
       kycNumberCtrl.setValidators([Validators.required, Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]);
     } else if (kycType === 'Aadhaar') {
@@ -82,7 +95,8 @@ export class PurchasePolicy implements OnInit {
       kycNumberCtrl.setValidators([Validators.required, Validators.pattern(/^[0-9]{14}$/)]);
     }
 
-    // Only update value and validity if the field has been touched or dirty to avoid premature errors
+    // Only update value and validity if the field has been touched or dirty to avoid throwing
+    // premature validation errors in the UI before the user starts typing.
     if (kycNumberCtrl.dirty || kycNumberCtrl.touched) {
       kycNumberCtrl.updateValueAndValidity({ emitEvent: false });
     }
@@ -137,7 +151,7 @@ export class PurchasePolicy implements OnInit {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
       if (diffDays > 0) {
-        // Assume base premium is for 30 days. Pro-rate it.
+        // Assume base premium covers an initial 30-day block. Pro-rate for extended travel.
         premium = premium * (diffDays / 30);
       }
     }
@@ -145,14 +159,17 @@ export class PurchasePolicy implements OnInit {
     // 2. Age Loading
     if (vals.travellerAge) {
       const age = parseInt(vals.travellerAge, 10);
+      // Senior citizens carry higher risk, apply 30% loading factor
       if (age > 60) {
         premium = premium * 1.3;
       } else if (age > 40) {
+        // Middle-aged bracket, apply 10% loading factor
         premium = premium * 1.1;
       }
     }
 
-    this.estimatedPremium = Math.max(premium, this.product.basePremium); // Never drop below base
+    // Never drop the total price below the core base premium, regardless of prorating math
+    this.estimatedPremium = Math.max(premium, this.product.basePremium);
   }
 
   onSubmit() {

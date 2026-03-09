@@ -3,6 +3,8 @@ import { LandingPage } from './Features/landing-page/landing-page';
 import { LoginComponent } from './Features/auth/login/login.component';
 import { RegisterComponent } from './Features/auth/register/register.component';
 import { authGuard } from './Core/Guards/auth.guard';
+import { noAuthGuard } from './Core/Guards/no-auth.guard';
+import { NotFoundComponent } from './Features/not-found/not-found.component';
 import { AdminLayout } from './Features/admin/admin-layout/admin-layout';
 import { Dashboard } from './Features/admin/dashboard/dashboard';
 import { Users } from './Features/admin/users/users';
@@ -28,11 +30,13 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [noAuthGuard]
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate: [noAuthGuard]
   },
   {
     path: 'admin',
@@ -60,7 +64,8 @@ export const routes: Routes = [
       { path: 'purchase/:productId', component: PurchasePolicy },
       { path: 'payment/:policyId', component: Payment },
       { path: 'my-policies', component: MyPolicies },
-      { path: 'my-claims', component: MyClaims }
+      { path: 'my-claims', component: MyClaims },
+      { path: 'my-requests', loadComponent: () => import('./Features/customer/my-requests/my-requests.component').then(m => m.MyRequestsComponent) }
     ]
   },
   {
@@ -72,7 +77,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadComponent: () => import('./Features/agent/dashboard/dashboard').then(m => m.Dashboard) },
       { path: 'my-policies', loadComponent: () => import('./Features/agent/my-policies/my-policies').then(m => m.MyPolicies) },
-      { path: 'my-policies/:id', loadComponent: () => import('./Features/agent/policy-detail/policy-detail').then(m => m.PolicyDetail) }
+      { path: 'my-policies/:id', loadComponent: () => import('./Features/agent/policy-detail/policy-detail').then(m => m.PolicyDetail) },
+      { path: 'policy-requests', loadComponent: () => import('./Features/agent/policy-requests/policy-requests').then(m => m.PolicyRequests) },
+      { path: 'policy-requests/:id', loadComponent: () => import('./Features/agent/policy-request-detail/policy-request-detail').then(m => m.PolicyRequestDetail) }
     ]
   },
   {
@@ -86,5 +93,10 @@ export const routes: Routes = [
       { path: 'claims', component: OfficerClaimsComponent },
       { path: 'claims/:id', component: OfficerClaimDetailComponent }
     ]
+  },
+  // Catch-all: any unknown URL shows the 404 page
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];

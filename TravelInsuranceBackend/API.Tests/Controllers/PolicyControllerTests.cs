@@ -29,6 +29,7 @@ namespace API.Tests.Controllers
             return controller;
         }
 
+        // Fetch products
         [Fact]
         public async Task GetAvailableProducts_ReturnsOk_WithProductList()
         {
@@ -51,6 +52,7 @@ namespace API.Tests.Controllers
             Assert.Equal(200, result!.StatusCode);
         }
 
+        // Purchase fails if product invalid
         [Fact]
         public async Task PurchasePolicy_ReturnsBadRequest_WhenServiceThrows()
         {
@@ -69,6 +71,7 @@ namespace API.Tests.Controllers
             Assert.Equal(400, result!.StatusCode);
         }
 
+        // Get policies for current user
         [Fact]
         public async Task GetMyPolicies_ReturnsOk_WithPoliciesList()
         {

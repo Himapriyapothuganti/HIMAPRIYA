@@ -15,6 +15,11 @@ namespace API.Tests.Controllers
         private AdminController CreateController() =>
             new(_adminServiceMock.Object);
 
+       
+        //Tests the CreateUser endpoint when a valid user creation request is made.
+        // It verifies that if the admin service successfully creates an agent,
+        // the controller returns a 200 OK response with the user details.
+       
         [Fact]
         public async Task CreateUser_ReturnsOk_WhenAgentCreated()
         {
@@ -41,6 +46,11 @@ namespace API.Tests.Controllers
             Assert.Equal(200, result!.StatusCode);
         }
 
+       
+        /// Tests the CreateUser endpoint for a failure scenario, such as a duplicate email.
+        /// It ensures that when the underlying service throws an Exception,
+        /// the controller properly catches it or returns a 400 Bad Request.
+       
         [Fact]
         public async Task CreateUser_ReturnsBadRequest_WhenServiceThrows()
         {
@@ -59,6 +69,11 @@ namespace API.Tests.Controllers
             Assert.Equal(400, result!.StatusCode);
         }
 
+        /// <summary>
+        /// Tests the GetDashboard endpoint to verify it correctly fetches admin metrics.
+        /// It ensures that when the service returns dashboard statistics,
+        /// the controller returns them with a 200 OK status.
+        /// </summary>
         [Fact]
         public async Task GetDashboard_ReturnsOk_WithDashboardData()
         {

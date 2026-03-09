@@ -19,12 +19,13 @@ namespace Application.Services
         public AgentService(
             IPolicyRepository policyRepo,
             IPolicyProductRepository productRepo,
-            IClaimRepository claimRepo,   // ← fixed
+            IClaimRepository claimRepo,  
+
             UserManager<ApplicationUser> userManager)
         {
             _policyRepo = policyRepo;
             _productRepo = productRepo;
-            _claimRepo = claimRepo;   // ← fixed
+            _claimRepo = claimRepo;   
             _userManager = userManager;
         }
 
@@ -87,7 +88,7 @@ namespace Application.Services
 
         private async Task<PolicyResponseDTO> MapPolicyAsync(
             Domain.Entities.Policy policy,
-            bool includeClaims = false)   // ← fixed
+            bool includeClaims = false)   
         {
             var customer = await _userManager.FindByIdAsync(policy.CustomerId);
             var agent = policy.AgentId != null

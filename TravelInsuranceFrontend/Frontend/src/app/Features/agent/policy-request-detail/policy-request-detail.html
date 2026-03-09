@@ -1,0 +1,269 @@
+<app-spinner [isLoading]="isLoading()"></app-spinner>
+
+<div class="space-y-6 pb-12" *ngIf="request() && !isLoading()">
+    <ng-container *ngIf="request() as r">
+
+        <div class="flex items-center gap-4 border-b border-gray-200 pb-4">
+            <button (click)="goBack()"
+                class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-500 hover:text-[#111] hover:bg-gray-50 transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <div>
+                <h2 class="text-2xl font-extrabold text-[#111]" style="font-family: 'Poppins', sans-serif;">Request
+                    Detail
+                </h2>
+                <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1.5">ID: #{{ r.policyRequestId
+                    }} &bull; {{ r.requestedAt | date:'medium' }}</p>
+            </div>
+            <div class="ml-auto flex gap-2">
+                <span class="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider border"
+                    [ngClass]="getStatusBadgeClass(r.status)">
+                    Status: {{ r.status }}
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Left Column (Details) -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Customer & Travel Info -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-bold text-[#111] mb-4 flex items-center gap-2">
+                        <span>✈️</span>
+                        Travel & Customer Details
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-6">
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Customer
+                                Name</span>
+                            <span class="font-semibold text-gray-900">{{ r.customerName }}</span>
+                        </div>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Traveller
+                                Name ({{ r.travellerAge }} yrs)</span>
+                            <span class="font-semibold text-gray-900">{{ r.travellerName }}</span>
+                        </div>
+                        <div class="col-span-2 border-t border-gray-100 my-1"></div>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Destination</span>
+                            <span class="font-semibold text-gray-900">{{ r.destination }}</span>
+                        </div>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Travel
+                                Dates</span>
+                            <span class="font-semibold text-gray-900">{{ r.startDate | date:'mediumDate' }} to {{
+                                r.endDate | date:'mediumDate' }}</span>
+                        </div>
+                        <div class="col-span-2 border-t border-gray-100 my-1"></div>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Policy
+                                Requested</span>
+                            <span class="font-semibold text-[#E8584A]">{{ r.policyName }} ({{ r.planTier
+                                }})</span>
+                        </div>
+                        <div>
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Calculated
+                                Premium</span>
+                            <span class="font-bold text-gray-900 text-lg">₹{{ r.calculatedPremium | number:'1.0-2'
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Docs -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-bold text-[#111] mb-4 flex items-center gap-2">
+                        <span>📄</span>
+                        Verification Documents
+                    </h3>
+
+                    <div class="mb-4 flex items-center gap-4 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <div class="flex-1">
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">KYC
+                                Type</span>
+                            <span class="font-semibold text-gray-900">{{ r.kycType }}</span>
+                        </div>
+                        <div class="w-px h-8 bg-gray-200"></div>
+                        <div class="flex-1">
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">KYC
+                                Number</span>
+                            <span class="font-Mono font-semibold text-gray-900">{{ r.kycNumber }}</span>
+                        </div>
+                        <div class="w-px h-8 bg-gray-200"></div>
+                        <div class="flex-1">
+                            <span
+                                class="block text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-1">Passport</span>
+                            <span class="font-Mono font-semibold text-gray-900">{{ r.passportNumber }}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div *ngFor="let doc of r.documents"
+                            class="flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors bg-white">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626"
+                                        stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-bold justify-self-start text-[13px] text-gray-900">{{
+                                        doc.documentType
+                                        }}</div>
+                                    <div class="text-[10px] text-gray-500 tracking-wider">.{{(doc.fileType ||
+                                        'pdf').split('/')[1] || doc.fileType}} &bull; {{(doc.fileSize / 1024 / 1024) |
+                                        number:'1.1-2'}} MB</div>
+                                </div>
+                            </div>
+                            <button (click)="downloadDocument(doc.policyRequestDocumentId)"
+                                class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (Risk & Action) -->
+            <div class="space-y-6">
+
+                <!-- Risk Score -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 border-t-4 border-t-[#E8584A]">
+                    <h3 class="text-lg font-bold text-[#111] mb-4 flex items-center justify-between">
+                        <span class="flex items-center gap-2">
+                            <span>🛡️</span>
+                            Risk Assessment
+                        </span>
+                        <span class="px-2.5 py-1 rounded text-[11px] font-extrabold uppercase border"
+                            [ngClass]="getRiskBadgeClass(r.riskLevel)">
+                            {{ r.riskLevel }} RISK
+                        </span>
+                    </h3>
+
+                    <div class="flex items-end gap-2 mb-6">
+                        <span class="text-5xl font-extrabold leading-none text-[#111]">{{ r.riskScore }}</span>
+                        <span class="text-sm font-bold text-gray-400 mb-1 tracking-widest">/ 100 PTS</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                            <span class="text-gray-500 font-semibold text-xs tracking-wider uppercase">Age Factor</span>
+                            <span class="font-bold text-gray-900">{{ r.riskAgeScore }} pts</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                            <span
+                                class="text-gray-500 font-semibold text-xs tracking-wider uppercase">Destination</span>
+                            <span class="font-bold text-gray-900">{{ r.riskDestinationScore }} pts</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                            <span class="text-gray-500 font-semibold text-xs tracking-wider uppercase">Duration</span>
+                            <span class="font-bold text-gray-900">{{ r.riskDurationScore }} pts</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                            <span class="text-gray-500 font-semibold text-xs tracking-wider uppercase">Plan Tier</span>
+                            <span class="font-bold text-green-600">-{{ Math.abs(r.riskTierScore) }} pts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Panel -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-bold text-[#111] mb-4 flex items-center gap-2">
+                        <span>📝</span>
+                        Decision
+                    </h3>
+
+                    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="space-y-5">
+
+                        <div>
+                            <label
+                                class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-2">Final
+                                Status</label>
+                            <div class="flex bg-gray-100 p-1 rounded-xl">
+                                <label
+                                    class="flex-1 text-center py-2 text-sm font-bold rounded-lg cursor-pointer transition-colors"
+                                    [class.bg-white]="reviewForm.get('status')?.value === 'Approved'"
+                                    [class.text-green-600]="reviewForm.get('status')?.value === 'Approved'"
+                                    [class.shadow-sm]="reviewForm.get('status')?.value === 'Approved'"
+                                    [class.text-gray-500]="reviewForm.get('status')?.value !== 'Approved'">
+                                    <input type="radio" formControlName="status" value="Approved" class="hidden"
+                                        [attr.disabled]="r.status !== 'Pending' ? '' : null">
+                                    Approve
+                                </label>
+                                <label
+                                    class="flex-1 text-center py-2 text-sm font-bold rounded-lg cursor-pointer transition-colors"
+                                    [class.bg-white]="reviewForm.get('status')?.value === 'Rejected'"
+                                    [class.text-red-600]="reviewForm.get('status')?.value === 'Rejected'"
+                                    [class.shadow-sm]="reviewForm.get('status')?.value === 'Rejected'"
+                                    [class.text-gray-500]="reviewForm.get('status')?.value !== 'Rejected'">
+                                    <input type="radio" formControlName="status" value="Rejected" class="hidden"
+                                        [attr.disabled]="r.status !== 'Pending' ? '' : null">
+                                    Reject
+                                </label>
+                            </div>
+                        </div>
+
+                        <div *ngIf="showRejectReason">
+                            <label
+                                class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-2">Rejection
+                                Reason *</label>
+                            <textarea formControlName="rejectionReason" rows="2"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-red-300 text-sm transition-colors text-[#111]"></textarea>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest mb-2">Internal
+                                Notes</label>
+                            <textarea formControlName="agentNotes" rows="3"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-gray-300 text-sm transition-colors text-[#111]"
+                                placeholder="Only visible to agents"></textarea>
+                        </div>
+
+                        <button *ngIf="r.status === 'Pending'" type="submit"
+                            [disabled]="reviewForm.invalid || isSubmitting()"
+                            class="w-full py-3 rounded-xl font-bold text-white transition-all shadow-md active:scale-[0.98] flex justify-center items-center gap-2"
+                            [ngClass]="{'opacity-50': reviewForm.invalid, 'bg-green-600 hover:bg-green-700': reviewForm.get('status')?.value === 'Approved', 'bg-red-600 hover:bg-red-700': reviewForm.get('status')?.value === 'Rejected'}">
+                            <span *ngIf="isSubmitting()"
+                                class="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                            {{ reviewForm.get('status')?.value === 'Approved' ? 'Confirm Approval' : 'Confirm Rejection'
+                            }}
+                        </button>
+
+                        <div *ngIf="r.status !== 'Pending'"
+                            class="bg-gray-50 p-4 rounded-xl border border-gray-100 text-center text-sm font-bold text-gray-500">
+                            Request already {{ r.status.toLowerCase() }}.
+                            <div *ngIf="r.status === 'Purchased'" class="text-[#E8584A] text-xs mt-1">Customer has
+                                paid and policy is ACTIVE.</div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </ng-container>
+</div>

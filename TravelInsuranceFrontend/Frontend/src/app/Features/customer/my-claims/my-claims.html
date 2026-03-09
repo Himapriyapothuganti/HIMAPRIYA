@@ -220,6 +220,24 @@
             </div>
         </div>
 
+        <!-- Incident Date -->
+        <div>
+            <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">
+                Incident Date
+            </label>
+            <input formControlName="incidentDate" type="date"
+                class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-[15px] font-medium placeholder-gray-400">
+            <div *ngIf="f['incidentDate'].touched && f['incidentDate'].invalid"
+                class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                Incident date is required.
+            </div>
+        </div>
+
         <!-- Claimed Amount -->
         <div>
             <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">
@@ -308,7 +326,7 @@
                 Cancel Request
             </button>
 
-            <!-- ✅ Fixed coral submit button -->
+            <!--submit button -->
             <button type="submit" [disabled]="isSubmitting || claimForm.invalid || activePolicies.length === 0"
                 class="bg-[#E8584A] hover:bg-[#C94035] text-white px-8 py-3.5 rounded-2xl font-bold text-[15px] shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none hover:translate-y-1 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:shadow-none flex items-center gap-2">
                 <span *ngIf="isSubmitting"

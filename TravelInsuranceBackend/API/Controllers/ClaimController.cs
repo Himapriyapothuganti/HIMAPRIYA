@@ -19,20 +19,33 @@ namespace API.Controllers
 
         // ── CUSTOMER ──────────────────────────────────────
 
+        // This endpoint is called by Angular's customer.service.ts
+        // Full URL: POST https://localhost:7161/api/Claim/submit
         [HttpPost("submit")]
+        // Security: Only logged-in users with role "Customer" can call this
+        // Anyone without a valid JWT token gets 401 Unauthorized automatically
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Customer")]
+        // Tells the API to expect file uploads + form fields together
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> SubmitClaim([FromForm] CreateClaimDTO dto)
         {
             try
             {
+                // Read the logged-in customer's ID from the JWT token
+                // (Angular sends this token automatically in the request header)
                 var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
                                  ?? throw new Exception("User not found.");
+
+                // Hand off to ClaimService for business logic
                 var result = await _claimService.SubmitClaimAsync(customerId, dto);
+
+                //Success — return 200 OK with the saved claim details
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                //Failure — return 400 Bad Request with the error message
+                // This message is what shows up in the Angular UI
                 return BadRequest(new { message = ex.Message });
             }
         }

@@ -60,7 +60,8 @@ namespace API
             builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IClaimDocumentRepository, ClaimDocumentRepository>();
-
+            builder.Services.AddScoped<IPolicyRequestRepository, PolicyRequestRepository>();
+            builder.Services.AddScoped<IPolicyRequestDocumentRepository, PolicyRequestDocumentRepository>();
 
             // Application Services
             builder.Services.AddScoped<IAuthService, AuthService>();
@@ -69,7 +70,7 @@ namespace API
             builder.Services.AddScoped<IClaimService, ClaimService>();
             builder.Services.AddScoped<IClaimsOfficerService, ClaimsOfficerService>();
             builder.Services.AddScoped<IAgentService, AgentService>();
-            
+            builder.Services.AddScoped<IPolicyRequestService, PolicyRequestService>();
 
             // Add services to the container.
 

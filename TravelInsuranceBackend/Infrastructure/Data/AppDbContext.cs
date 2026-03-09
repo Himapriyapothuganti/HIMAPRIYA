@@ -4,14 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
+    
+    // EF Core uses this class to translate C# operations into SQL queries
+    // Each DbSet below maps directly to a TABLE in SQL Server
     public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Policy> Policies => Set<Policy>();
-        public DbSet<Domain.Entities.Claim> Claims => Set<Domain.Entities.Claim>();
-        public DbSet<PolicyProduct> PolicyProducts => Set<PolicyProduct>();
-        public DbSet<ClaimDocument> ClaimDocuments { get; set; }
+        // Each line below = one SQL table
+        public DbSet<Policy> Policies => Set<Policy>();                          // → Policies table
+        public DbSet<Domain.Entities.Claim> Claims => Set<Domain.Entities.Claim>(); // → Claims table ← OUR CLAIM IS SAVED HERE
+        public DbSet<PolicyProduct> PolicyProducts => Set<PolicyProduct>();      // → PolicyProducts table
+        public DbSet<ClaimDocument> ClaimDocuments { get; set; }                 // → ClaimDocuments table
+        public DbSet<PolicyRequest> PolicyRequests { get; set; }                 // → PolicyRequests table
+        public DbSet<PolicyRequestDocument> PolicyRequestDocuments { get; set; } // → PolicyRequestDocuments table
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -39,6 +45,23 @@ namespace Infrastructure.Data
                       .HasColumnType("decimal(18,2)");
                 entity.Property(e => e.ClaimLimit)
                       .HasColumnType("decimal(18,2)");
+            });
+
+            builder.Entity<PolicyRequest>(entity =>
+            {
+                entity.Property(e => e.CalculatedPremium)
+                      .HasColumnType("decimal(18,2)");
+                
+                // Prevent cascade delete issues with multiple ApplicationUser foreign keys
+                entity.HasOne(e => e.Customer)
+                      .WithMany()
+                      .HasForeignKey(e => e.CustomerId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Agent)
+                      .WithMany()
+                      .HasForeignKey(e => e.AgentId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

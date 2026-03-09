@@ -47,7 +47,9 @@ export class Users implements OnInit {
     this.cdr.detectChanges();
     this.adminService.getUsers().subscribe({
       next: (data) => {
-        this.users = data;
+        this.users = data.sort((a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
         this.filteredUsers = [...this.users];
         this.isLoading = false;
         this.cdr.detectChanges();
