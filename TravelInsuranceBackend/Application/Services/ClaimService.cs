@@ -1,9 +1,10 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
+using Application.Interfaces.Services;
 
 namespace Application.Services
 {
@@ -15,6 +16,7 @@ namespace Application.Services
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IClaimDocumentRepository _claimDocumentRepo; 
+        private readonly INotificationService _notificationService;
 
         public ClaimService(
             IClaimRepository claimRepo,
@@ -22,7 +24,8 @@ namespace Application.Services
             IPolicyProductRepository productRepo,
             IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
-            IClaimDocumentRepository claimDocumentRepo)  
+            IClaimDocumentRepository claimDocumentRepo,
+            INotificationService notificationService)  
         {
             _claimRepo = claimRepo;
             _policyRepo = policyRepo;
@@ -30,6 +33,7 @@ namespace Application.Services
             _userRepo = userRepo;
             _userManager = userManager;
             _claimDocumentRepo = claimDocumentRepo;  
+            _notificationService = notificationService;
         }
 
         // ── SUBMIT CLAIM (Customer) ───────────────────────
@@ -138,6 +142,20 @@ namespace Application.Services
                 await _claimDocumentRepo.SaveChangesAsync();
             }
 
+            var customer = await _userManager.FindByIdAsync(customerId);
+            var assignedOfficer = await _userManager.FindByIdAsync(assignedOfficerId);
+
+            string custName = customer?.FullName ?? "Customer";
+            string officerName = assignedOfficer?.FullName ?? "an Officer";
+
+            // Notify Customer
+            string custMessage = $"Your claim for Policy {policy.PolicyNumber} has been successfully submitted! It has been assigned to Claims Officer {officerName}.";
+            await _notificationService.CreateNotificationAsync(customerId, custMessage, "ClaimSubmitted");
+
+            // Notify Officer
+            string officerMessage = $"You have been assigned a new claim from {custName} for Policy {policy.PolicyNumber}.";
+            await _notificationService.CreateNotificationAsync(assignedOfficerId, officerMessage, "ClaimAssigned");
+
             return await MapToClaimResponse(created);
         }
 
@@ -202,6 +220,21 @@ namespace Application.Services
 
             claim.ReviewedAt = DateTime.UtcNow;
             var updated = await _claimRepo.UpdateAsync(claim);
+
+            var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
+            var claimOfficer = await _userManager.FindByIdAsync(officerId);
+            
+            if (dto.IsApproved)
+            {
+                string message = $"Good news! Your Claim #{claim.ClaimId} on Policy {policy.PolicyNumber} has been Approved for {dto.ApprovedAmount:C} by Claims Officer {claimOfficer?.FullName}.";
+                await _notificationService.CreateNotificationAsync(claim.CustomerId, message, "ClaimApproved");
+            }
+            else
+            {
+                string message = $"Your Claim #{claim.ClaimId} on Policy {policy.PolicyNumber} was Rejected by Claims Officer {claimOfficer?.FullName}. Reason: {dto.RejectionReason}. Please contact support for details.";
+                await _notificationService.CreateNotificationAsync(claim.CustomerId, message, "ClaimRejected");
+            }
+
             return await MapToClaimResponse(updated);
         }
 
@@ -220,6 +253,13 @@ namespace Application.Services
             claim.Status = ClaimStatus.PendingDocuments;
 
             var updated = await _claimRepo.UpdateAsync(claim);
+
+            // Notify Customer
+            var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
+            var claimOfficer = await _userManager.FindByIdAsync(officerId);
+            string message = $"Hello! Your Claims Officer, {claimOfficer?.FullName}, has requested additional documents for Claim #{claim.ClaimId} on Policy {policy.PolicyNumber}. Reason: {dto.Reason}. Please upload them to continue.";
+            await _notificationService.CreateNotificationAsync(claim.CustomerId, message, "DocumentRequest");
+
             return await MapToClaimResponse(updated);
         }
 
@@ -237,6 +277,12 @@ namespace Application.Services
 
             claim.Status = ClaimStatus.PaymentProcessed;
             var updated = await _claimRepo.UpdateAsync(claim);
+
+            var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
+            var claimOfficer = await _userManager.FindByIdAsync(officerId);
+            string message = $"Success! Payment for Claim #{claim.ClaimId} on Policy {policy.PolicyNumber} has been processed by Claims Officer {claimOfficer?.FullName}. Funds should arrive shortly.";
+            await _notificationService.CreateNotificationAsync(claim.CustomerId, message, "PaymentProcessed");
+
             return await MapToClaimResponse(updated);
         }
 

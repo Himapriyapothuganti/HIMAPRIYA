@@ -1,5 +1,7 @@
 using Application.DTOs;
+using Application.Interfaces;
 using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
 using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
@@ -15,6 +17,7 @@ namespace Application.Tests.Services
         private readonly Mock<IPolicyProductRepository>  _productRepoMock      = new();
         private readonly Mock<IUserRepository>           _userRepoMock         = new();
         private readonly Mock<IClaimDocumentRepository>  _claimDocRepoMock     = new();
+        private readonly Mock<INotificationService>      _notificationServiceMock = new();
         private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
 
         public ClaimServiceTests()
@@ -27,7 +30,8 @@ namespace Application.Tests.Services
         private ClaimService CreateService() =>
             new(_claimRepoMock.Object, _policyRepoMock.Object,
                 _productRepoMock.Object, _userRepoMock.Object,
-                _userManagerMock.Object, _claimDocRepoMock.Object);
+                _userManagerMock.Object, _claimDocRepoMock.Object,
+                _notificationServiceMock.Object);
 
         private Claim BuildClaim(string officerId, ClaimStatus status) => new()
         {

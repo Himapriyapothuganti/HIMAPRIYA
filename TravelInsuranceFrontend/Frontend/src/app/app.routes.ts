@@ -65,6 +65,7 @@ export const routes: Routes = [
       { path: 'payment/:policyId', component: Payment },
       { path: 'my-policies', component: MyPolicies },
       { path: 'my-claims', component: MyClaims },
+      { path: 'profile', loadComponent: () => import('./Features/customer/profile/profile').then(m => m.ProfileComponent) },
       { path: 'my-requests', loadComponent: () => import('./Features/customer/my-requests/my-requests.component').then(m => m.MyRequestsComponent) }
     ]
   },

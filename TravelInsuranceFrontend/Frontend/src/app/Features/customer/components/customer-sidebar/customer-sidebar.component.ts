@@ -55,6 +55,12 @@ import { AuthService } from '../../../../Models/auth.service';
           <span class="text-xl group-hover:drop-shadow-md">📥</span>
           My Requests
         </a>
+
+        <a routerLink="/customer/profile" routerLinkActive="bg-[#1E1E1E] text-white font-semibold shadow-inner"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-[#1E1E1E] hover:text-white group text-[15px]">
+          <span class="text-xl group-hover:drop-shadow-md">👤</span>
+          Profile
+        </a>
       </nav>
 
       <!-- Logout Area -->

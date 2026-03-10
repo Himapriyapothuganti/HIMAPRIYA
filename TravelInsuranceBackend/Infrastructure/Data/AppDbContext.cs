@@ -18,6 +18,7 @@ namespace Infrastructure.Data
         public DbSet<ClaimDocument> ClaimDocuments { get; set; }                 // → ClaimDocuments table
         public DbSet<PolicyRequest> PolicyRequests { get; set; }                 // → PolicyRequests table
         public DbSet<PolicyRequestDocument> PolicyRequestDocuments { get; set; } // → PolicyRequestDocuments table
+        public DbSet<Notification> Notifications { get; set; }                   // → Notifications table
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

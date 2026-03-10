@@ -1,0 +1,121 @@
+﻿
+> frontend@0.0.0 build
+> ng build
+
+[33mΓ¥»[39m Building...
+[32mΓ£ö[39m Building...
+Application bundle generation failed. [5.339 seconds] - 2026-03-10T13:28:28.328Z
+
+node.exe : 
+[1m[33m[33mΓû▓ [43
+;33m[[43;30mWARNING[
+43;33m][0m 
+[1mNG8113: Spinner 
+is not used within 
+the template of 
+PolicyProducts[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+At line:1 char:1
++ & "C:\nvm4w\nodejs/n
+ode.exe" "C:\nvm4w\nod
+ejs/node_modules/npm/b
+in/np ...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([1m[33m   
+ [33mΓ...r-compile    
+r][0m:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+
+    src/app/Features/a
+dmin/policy-products/p
+olicy-products.ts:11:6
+0:
+[37m      11 Γöé ... 
+[CommonModule, 
+ReactiveFormsModule, 
+FormsModule, 
+[32mSpinner[37m, 
+Toast],
+         Γò╡          
+                      
+                      
+[32m~~~~~~~[0m
+
+
+[33mΓû▓ [43;33m[[43
+;30mWARNING[43;33m][
+0m [1mNG8113: Toast 
+is not used within 
+the template of 
+PolicyProducts[0m 
+[1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/Features/a
+dmin/policy-products/p
+olicy-products.ts:11:6
+9:
+[37m      11 Γöé ... 
+[CommonModule, 
+ReactiveFormsModule, 
+FormsModule, Spinner, 
+[32mToast[37m],
+         Γò╡          
+                      
+                      
+         
+[32m~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;3
+1m[[41;97mERROR[41;3
+1m][0m [1mNG5002: 
+Unexpected closing 
+tag "div". It may 
+happen when the tag 
+has already been 
+closed by another 
+tag. For more info 
+see https://www.w3.org
+/TR/html5/syntax.html#
+closing-elements-that-
+have-implied-end-tags
+[0m [1m[35m[plugin 
+angular-compiler][0m
+
+    src/app/Features/a
+dmin/policy-products/p
+olicy-products.html:23
+3:0:
+[37m      233 Γöé 
+[32m</div>[37m
+          Γò╡ 
+[32m~~~~~~[0m
+
+  Error occurs in the 
+template of component 
+PolicyProducts.
+
+    src/app/Features/a
+dmin/policy-products/p
+olicy-products.ts:12:1
+5:
+[37m      12 Γöé   
+templateUrl: [32m'./p
+olicy-products.html'[
+37m,
+         Γò╡          
+      [32m~~~~~~~~~~~
+~~~~~~~~~~~~~[0m
+
+[39m[22m

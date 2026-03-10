@@ -101,10 +101,13 @@ export class MyClaims implements OnInit {
     this.isModalOpen = true;
     this.claimForm.reset();
     this.selectedFiles = [];
+    this.error = '';
+    this.success = '';
   }
 
   closeModal() {
     this.isModalOpen = false;
+    this.error = '';
   }
 
   onFileChange(event: any) {
@@ -153,20 +156,33 @@ export class MyClaims implements OnInit {
     this.customerService.submitClaim(formData).subscribe({
       next: (res) => {
         this.ngZone.run(() => {
-          // Success — show message and refresh the claims list
-          this.success = "Claim submitted successfully!";
-          this.isSubmitting = false;
-          this.closeModal();
-          this.loadData();
+          setTimeout(() => {
+            this.success = "Claim submitted successfully!";
+            this.isSubmitting = false;
+            this.closeModal();
+            this.loadData();
+            this.cdr.detectChanges();
+          }, 0);
         });
       },
       error: (err) => {
         this.ngZone.run(() => {
-          //  Failure — show the error message returned from the backend
           console.error('Submit Claim HTTP Error:', err);
-          console.error('Validation messages:', err.error);
-          this.error = err.error?.message || JSON.stringify(err.error?.errors) || "Failed to submit claim.";
-          this.isSubmitting = false;
+          
+          let errorMsg = "Failed to submit claim. Please try again.";
+          if (err.error) {
+            if (typeof err.error === 'string') errorMsg = err.error;
+            else if (err.error.message) errorMsg = err.error.message;
+            else if (err.error.errors) errorMsg = Object.values(err.error.errors).flat().join(' ');
+          }
+          
+          // Use setTimeout to ensure the UI updates in the next tick
+          setTimeout(() => {
+            this.error = errorMsg;
+            this.isSubmitting = false;
+            this.cdr.detectChanges();
+            this.cdr.markForCheck();
+          }, 0);
         });
       }
     });

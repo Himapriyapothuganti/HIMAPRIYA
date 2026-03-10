@@ -38,7 +38,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <!-- LEFT COLUMN: Policy Summary ✅ fixed white bg -->
+
         <div
             class="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 relative overflow-hidden flex flex-col h-full xl:mr-4">
 
@@ -146,88 +146,163 @@
                     Payment Method
                 </h3>
 
-                <div class="space-y-4 mb-10">
-                    <label *ngFor="let opt of paymentOptions"
-                        class="flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group"
-                        [ngClass]="paymentMethod === opt
-                            ? 'bg-[#FDF4F0]/50 border-[#E8584A] shadow-[0_4px_12px_rgba(232,88,74,0.1)]'
-                            : 'bg-white border-gray-100 hover:border-gray-300 hover:bg-gray-50'">
+                <div class="space-y-4 mb-10 pr-2">
+                    <ng-container *ngFor="let opt of paymentOptions">
+                        <div>
+                            <label
+                                class="flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 relative overflow-hidden group"
+                                [ngClass]="paymentMethod === opt
+                                ? 'bg-[#FDF4F0]/50 border-[#E8584A] shadow-[0_4px_12px_rgba(232,88,74,0.1)] rounded-b-none border-b-transparent'
+                                : 'bg-white border-gray-100 hover:border-gray-300 hover:bg-gray-50'">
 
-                        <!-- Active left border accent -->
-                        <div *ngIf="paymentMethod === opt" class="absolute left-0 top-0 bottom-0 w-1.5 bg-[#E8584A]">
-                        </div>
+                                <!-- Active left border accent -->
+                                <div *ngIf="paymentMethod === opt"
+                                    class="absolute left-0 top-0 bottom-0 w-1.5 bg-[#E8584A]">
+                                </div>
 
-                        <div class="flex items-center gap-4">
-                            <div class="relative flex items-center justify-center">
-                                <input type="radio" name="paymentMethod" [value]="opt" [(ngModel)]="paymentMethod"
-                                    class="peer w-5 h-5 opacity-0 absolute cursor-pointer">
-                                <div
-                                    class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center transition-colors peer-checked:border-[#E8584A] peer-checked:bg-[#E8584A]">
-                                    <div
-                                        class="w-2.5 h-2.5 rounded-full bg-white scale-0 transition-transform peer-checked:scale-100">
+                                <div class="flex items-center gap-4">
+                                    <div class="relative flex items-center justify-center">
+                                        <input type="radio" name="paymentMethod" [value]="opt" [(ngModel)]="paymentMethod"
+                                            class="peer w-5 h-5 opacity-0 absolute cursor-pointer">
+                                        <div
+                                            class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center transition-colors peer-checked:border-[#E8584A] peer-checked:bg-[#E8584A]">
+                                            <div
+                                                class="w-2.5 h-2.5 rounded-full bg-white scale-0 transition-transform peer-checked:scale-100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-gray-800 text-[16px]"
+                                        [ngClass]="paymentMethod === opt ? 'text-[#111]' : ''">
+                                        {{ opt }}
+                                    </span>
+                                </div>
+                            </label>
+
+                            <!-- Expandable Form for the selected method -->
+                            <div *ngIf="paymentMethod === opt"
+                                class="pl-5 pr-5 pb-5 pt-2 animate-fade-in border-l-2 border-r-2 border-b-2 border-[#E8584A] rounded-b-2xl mt-[-10px] bg-[#FDF4F0]/20 mb-4 shadow-[0_4px_12px_rgba(232,88,74,0.05)]">
+
+                                <!-- Credit/Debit Card Form -->
+                                <div *ngIf="opt === 'Credit Card' || opt === 'Debit Card'" class="space-y-4 pt-3">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Card
+                                            Number</label>
+                                        <input type="text" [(ngModel)]="cardNumber" (input)="formatCardNumber($event)"
+                                            placeholder="0000 0000 0000 0000"
+                                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all font-mono">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Name on
+                                            Card</label>
+                                        <input type="text" [(ngModel)]="cardName" placeholder="John Doe"
+                                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label
+                                                class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Expiry
+                                                Date</label>
+                                            <input type="text" [(ngModel)]="cardExpiry" (input)="formatExpiry($event)"
+                                                placeholder="MM/YY"
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all font-mono">
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">CVV</label>
+                                            <input type="password" [(ngModel)]="cardCvv" (input)="formatCvv($event)"
+                                                placeholder="123"
+                                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all font-mono">
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Net Banking Form -->
+                                <div *ngIf="opt === 'Net Banking'" class="pt-3">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Select
+                                        Bank</label>
+                                    <select [(ngModel)]="selectedBank"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all bg-white appearance-none cursor-pointer">
+                                        <option value="" disabled selected>Choose your bank</option>
+                                        <option *ngFor="let bank of banks" [value]="bank">{{ bank }}</option>
+                                    </select>
+                                </div>
+
+                                <!-- UPI Form -->
+                                <div *ngIf="opt === 'UPI'" class="pt-3">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">UPI ID /
+                                        VPA</label>
+                                    <div class="relative">
+                                        <input type="text" [(ngModel)]="upiId" placeholder="username@upi"
+                                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all">
+                                        <button *ngIf="upiId.includes('@')"
+                                            class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-green-50 text-green-600 font-bold text-xs rounded-lg border border-green-200">Verify</button>
+                                    </div>
+                                    <p class="text-[11px] text-gray-400 mt-2">A payment request will be sent to your UPI app.</p>
+                                </div>
+
+                                <!-- Wallet Form -->
+                                <div *ngIf="opt === 'Wallet'" class="pt-3">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Select
+                                        Wallet</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label *ngFor="let wallet of wallets"
+                                            class="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-[#E8584A] hover:bg-white transition-all"
+                                            [ngClass]="selectedWallet === wallet ? 'border-[#E8584A] bg-white shadow-sm ring-1 ring-[#E8584A]/30' : 'bg-transparent'">
+                                            <input type="radio" name="walletSelect" [value]="wallet" [(ngModel)]="selectedWallet"
+                                                class="hidden">
+                                            <span class="font-bold text-sm text-gray-700"
+                                                [ngClass]="selectedWallet === wallet ? 'text-[#E8584A]' : 'text-gray-700'">{{ wallet
+                                                }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+
                             </div>
-                            <span class="font-bold text-gray-800 text-[16px]"
-                                [ngClass]="paymentMethod === opt ? 'text-[#111]' : ''">
-                                {{ opt }}
-                            </span>
                         </div>
-
-                        <!-- Payment Icons -->
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 text-xl group-hover:scale-110 transition-transform"
-                            [ngClass]="paymentMethod === opt ? 'shadow-md border-[#E8584A]/20' : ''">
-                            <span *ngIf="opt === 'Credit Card' || opt === 'Debit Card'">💳</span>
-                            <span *ngIf="opt === 'Net Banking'">🏦</span>
-                            <span *ngIf="opt === 'UPI'">📱</span>
-                            <span *ngIf="opt === 'Wallet'">👛</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Pay Button -->
-            <div>
-                <button (click)="processPayment()" [disabled]="isProcessing"
-                    class="w-full bg-[#E8584A] hover:bg-[#C94035] text-white py-5 rounded-2xl font-bold text-[17px] shadow-[0_12px_24px_rgba(232,88,74,0.3)] hover:shadow-none hover:translate-y-1 transition-all duration-300 disabled:opacity-70 disabled:hover:translate-y-0 disabled:shadow-none flex justify-center items-center group relative overflow-hidden">
-                    <div
-                        class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    </div>
-                    <span *ngIf="!isProcessing" class="relative z-10 flex items-center gap-2">
-                        Pay ₹{{ policy.premiumAmount | number:'1.0-0' }} Securely
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            class="group-hover:translate-x-1 transition-transform" stroke="currentColor"
-                            stroke-width="2.5">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                        </svg>
-                    </span>
-                    <span *ngIf="isProcessing" class="flex items-center gap-3 relative z-10">
-                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                            </circle>
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                            </path>
-                        </svg>
-                        Processing Securely...
-                    </span>
-                </button>
-
-                <p
-                    class="text-center text-xs text-gray-400 mt-5 flex items-center justify-center gap-1.5 font-bold uppercase tracking-wider">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                        </path>
-                    </svg>
-                    End-to-end encrypted secure transaction
-                </p>
+                    </ng-container>
             </div>
         </div>
 
+        <!-- Pay Button -->
+        <div>
+            <button (click)="processPayment()" [disabled]="isProcessing || !isFormValid()"
+                class="w-full bg-[#E8584A] hover:bg-[#C94035] text-white py-5 rounded-2xl font-bold text-[17px] shadow-[0_12px_24px_rgba(232,88,74,0.3)] hover:shadow-none hover:translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-500 disabled:hover:translate-y-0 disabled:shadow-none flex justify-center items-center group relative overflow-hidden">
+                <div
+                    class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                </div>
+                <span *ngIf="!isProcessing" class="relative z-10 flex items-center gap-2">
+                    Pay ₹{{ policy.premiumAmount | number:'1.0-0' }} Securely
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        class="group-hover:translate-x-1 transition-transform" stroke="currentColor" stroke-width="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </span>
+                <span *ngIf="isProcessing" class="flex items-center gap-3 relative z-10">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    Processing Securely...
+                </span>
+            </button>
+
+            <p
+                class="text-center text-xs text-gray-400 mt-5 flex items-center justify-center gap-1.5 font-bold uppercase tracking-wider">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
+                </svg>
+                End-to-end encrypted secure transaction
+            </p>
+        </div>
     </div>
+
 </div>
 
 <!-- Policy Not Found -->

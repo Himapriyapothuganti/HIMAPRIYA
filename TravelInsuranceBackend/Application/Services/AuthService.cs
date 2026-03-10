@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
@@ -69,6 +69,23 @@ namespace Application.Services
             var role = roles.FirstOrDefault() ?? user.Role;
 
             return GenerateToken(user, role);
+        }
+
+        // ── GET USER PROFILE ──────────────────────────────
+        public async Task<ProfileResponseDTO> GetUserProfileAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) throw new Exception("User not found.");
+
+            return new ProfileResponseDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email ?? string.Empty,
+                PhoneNumber = user.PhoneNumber ?? string.Empty,
+                Role = user.Role,
+                CreatedAt = user.CreatedAt
+            };
         }
 
         // ── JWT TOKEN GENERATION ──────────────────────────

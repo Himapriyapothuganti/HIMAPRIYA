@@ -1,7 +1,8 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -52,6 +53,26 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 return Unauthorized(new { message = ex.Message });
+            }
+        }
+
+        // GET api/auth/profile
+        [HttpGet("profile")]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            var userId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            try
+            {
+                var profile = await _authService.GetUserProfileAsync(userId);
+                return Ok(profile);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
         }
     }

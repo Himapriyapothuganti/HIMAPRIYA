@@ -4,6 +4,7 @@ using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.AspNetCore.Http;
+using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Application.Services
         private readonly IPolicyRepository _policyRepo;
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly INotificationService _notificationService;
 
         public PolicyRequestService(
             IPolicyRequestRepository requestRepo,
@@ -29,7 +31,8 @@ namespace Application.Services
             IPolicyProductRepository productRepo,
             IPolicyRepository policyRepo,
             IUserRepository userRepo,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            INotificationService notificationService)
         {
             _requestRepo = requestRepo;
             _documentRepo = documentRepo;
@@ -37,6 +40,7 @@ namespace Application.Services
             _policyRepo = policyRepo;
             _userRepo = userRepo;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public async Task<PolicyRequestResponseDTO> SubmitRequestAsync(string customerId, CreatePolicyRequestDTO dto, IFormFile kycFile, IFormFile passportFile, IFormFile? otherFile)
@@ -145,6 +149,29 @@ namespace Application.Services
                 await SaveDocumentAsync(created.PolicyRequestId, otherFile, "Other");
             }
             await _documentRepo.SaveChangesAsync();
+
+            var customer = await _userManager.FindByIdAsync(customerId);
+            string custName = customer?.FullName ?? "a Customer";
+
+            if (!string.IsNullOrEmpty(assignedAgentId))
+            {
+                var agent = await _userManager.FindByIdAsync(assignedAgentId);
+                string agentName = agent?.FullName ?? "an Agent";
+
+                // Notify Customer
+                string custMessage = $"Your policy request for {product.PolicyName} has been successfully submitted! It has been assigned to Agent {agentName}.";
+                await _notificationService.CreateNotificationAsync(customerId, custMessage, "PolicyRequestSubmitted");
+
+                // Notify Agent
+                string agentMessage = $"You have been assigned a new policy request from {custName} for destination {dto.Destination}.";
+                await _notificationService.CreateNotificationAsync(assignedAgentId, agentMessage, "PolicyRequestAssigned");
+            }
+            else
+            {
+                // Fallback if no agent is somehow assigned
+                string custMessage = $"Your policy request for {product.PolicyName} has been successfully submitted!";
+                await _notificationService.CreateNotificationAsync(customerId, custMessage, "PolicyRequestSubmitted");
+            }
 
             return await MapToCustomerResponse(created);
         }
@@ -293,6 +320,21 @@ namespace Application.Services
 
             req.ReviewedAt = DateTime.UtcNow;
             var updated = await _requestRepo.UpdateAsync(req);
+
+            var product = await _productRepo.GetByIdAsync(req.PolicyProductId);
+            var agent = await _userManager.FindByIdAsync(agentId);
+
+            if (dto.Status == "Approved")
+            {
+                string message = $"Your policy request for {product.PolicyName} has been Approved by your assigned Agent, {agent?.FullName}. Please proceed to payment to activate your policy.";
+                await _notificationService.CreateNotificationAsync(req.CustomerId, message, "PolicyApproved");
+            }
+            else if (dto.Status == "Rejected")
+            {
+                string message = $"Your policy request for {product.PolicyName} was Rejected by your assigned Agent, {agent?.FullName}. Reason: {dto.RejectionReason}.";
+                await _notificationService.CreateNotificationAsync(req.CustomerId, message, "PolicyRejected");
+            }
+
             return await MapToAgentResponse(updated);
         }
 

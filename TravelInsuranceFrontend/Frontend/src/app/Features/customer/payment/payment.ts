@@ -24,6 +24,18 @@ export class Payment implements OnInit {
   paymentMethod: string = 'Credit Card';
   paymentOptions = ['Credit Card', 'Debit Card', 'Net Banking', 'UPI', 'Wallet'];
 
+  // Payment Details
+  cardNumber: string = '';
+  cardName: string = '';
+  cardExpiry: string = '';
+  cardCvv: string = '';
+  upiId: string = '';
+  selectedBank: string = '';
+  selectedWallet: string = '';
+
+  banks = ['HDFC Bank', 'ICICI Bank', 'State Bank of India', 'Axis Bank', 'Kotak Mahindra Bank'];
+  wallets = ['Amazon Pay', 'Paytm', 'PhonePe', 'MobiKwik'];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -41,7 +53,6 @@ export class Payment implements OnInit {
     this.isLoading = true;
     this.customerService.getPolicyDetails(this.policyId).subscribe({
       next: (data) => {
-        this.ngZone.run(() => {
           this.policy = data;
 
           // If already active, no need to pay
@@ -50,16 +61,11 @@ export class Payment implements OnInit {
           }
 
           this.isLoading = false;
-          this.cdr.detectChanges(); // Manually trigger change detection
-        });
       },
       error: (err) => {
-        this.ngZone.run(() => {
           console.error(err);
           this.error = "Failed to load policy details.";
           this.isLoading = false;
-          this.cdr.detectChanges(); // Manually trigger change detection on error too
-        });
       }
     });
   }
@@ -67,31 +73,56 @@ export class Payment implements OnInit {
   processPayment() {
     this.isProcessing = true;
     const payload = {
-      policyId: parseInt(this.policyId, 10),
+      policyId: Number(this.policyId),
       paymentMethod: this.paymentMethod
     };
 
     this.customerService.payPremium(payload).subscribe({
       next: () => {
-        this.ngZone.run(() => {
           this.isProcessing = false;
           this.success = `🎉 Policy Activated Successfully!\nPolicy Number: ${this.policy.policyNumber}\nYou are now covered!`;
-          this.cdr.detectChanges(); // Update UI to show success message
 
           setTimeout(() => {
             this.router.navigate(['/customer/my-policies']);
           }, 3000);
-        });
       },
       error: (err) => {
-        this.ngZone.run(() => {
           console.error(err);
           this.error = err.error?.message || "Payment processing failed.";
           this.isProcessing = false;
-          this.cdr.detectChanges(); // Update UI to show error message
-        });
       }
     });
+  }
+
+  formatCardNumber(event: any) {
+    let input = event.target.value.replace(/\D/g, '').substring(0, 16);
+    input = input.replace(/(\d{4})/g, '$1 ').trim();
+    this.cardNumber = input;
+  }
+
+  formatExpiry(event: any) {
+    let input = event.target.value.replace(/\D/g, '').substring(0, 4);
+    if (input.length > 2) {
+      input = input.substring(0, 2) + '/' + input.substring(2, 4);
+    }
+    this.cardExpiry = input;
+  }
+
+  formatCvv(event: any) {
+    this.cardCvv = event.target.value.replace(/\D/g, '').substring(0, 4);
+  }
+
+  isFormValid(): boolean {
+    if (this.paymentMethod === 'Credit Card' || this.paymentMethod === 'Debit Card') {
+      return this.cardNumber.length >= 15 && this.cardName.length > 0 && this.cardExpiry.length === 5 && this.cardCvv.length >= 3;
+    } else if (this.paymentMethod === 'Net Banking') {
+      return this.selectedBank.length > 0;
+    } else if (this.paymentMethod === 'UPI') {
+      return this.upiId.includes('@');
+    } else if (this.paymentMethod === 'Wallet') {
+      return this.selectedWallet.length > 0;
+    }
+    return false;
   }
 
   closeToast() {

@@ -40,7 +40,7 @@
         </div>
 
         <!-- Modal Body -->
-        <div class="px-8 py-6 space-y-6">
+        <div class="px-8 py-6 space-y-6 overflow-y-auto max-h-[70vh] custom-scrollbar">
 
             <!-- Request Summary -->
             <div class="bg-[#FDF4F0] rounded-2xl p-5 border border-[#E8584A]/10">
@@ -83,33 +83,120 @@
                     Payment Method
                 </h4>
                 <div class="space-y-2">
-                    <label *ngFor="let opt of paymentOptions"
-                        class="flex items-center gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200"
-                        [ngClass]="paymentMethod === opt
-                            ? 'bg-[#FDF4F0]/50 border-[#E8584A] shadow-[0_2px_8px_rgba(232,88,74,0.1)]'
+                    <ng-container *ngFor="let opt of paymentOptions">
+                        <label
+                            class="flex items-center gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200"
+                            [ngClass]="paymentMethod === opt
+                            ? 'bg-[#FDF4F0]/50 border-[#E8584A] shadow-[0_2px_8px_rgba(232,88,74,0.1)] rounded-b-none border-b-transparent'
                             : 'bg-white border-gray-100 hover:border-gray-300'">
-                        <input type="radio" name="paymentMethod" [value]="opt" [(ngModel)]="paymentMethod"
-                            class="w-4 h-4 text-[#E8584A] accent-[#E8584A]">
-                        <span class="font-bold text-sm"
-                            [ngClass]="paymentMethod === opt ? 'text-[#111]' : 'text-gray-600'">{{ opt }}</span>
-                        <span class="ml-auto text-lg">
-                            <ng-container [ngSwitch]="opt">
-                                <span *ngSwitchCase="'Credit Card'">💳</span>
-                                <span *ngSwitchCase="'Debit Card'">💳</span>
-                                <span *ngSwitchCase="'Net Banking'">🏦</span>
-                                <span *ngSwitchCase="'UPI'">📱</span>
-                                <span *ngSwitchCase="'Wallet'">👛</span>
-                            </ng-container>
-                        </span>
-                    </label>
+                            <input type="radio" name="paymentMethod" [value]="opt" [(ngModel)]="paymentMethod"
+                                class="w-4 h-4 text-[#E8584A] accent-[#E8584A]">
+                            <span class="font-bold text-sm"
+                                [ngClass]="paymentMethod === opt ? 'text-[#111]' : 'text-gray-600'">{{ opt }}</span>
+                            <span class="ml-auto text-lg">
+                                <ng-container [ngSwitch]="opt">
+                                    <span *ngSwitchCase="'Credit Card'">💳</span>
+                                    <span *ngSwitchCase="'Debit Card'">💳</span>
+                                    <span *ngSwitchCase="'Net Banking'">🏦</span>
+                                    <span *ngSwitchCase="'UPI'">📱</span>
+                                    <span *ngSwitchCase="'Wallet'">👛</span>
+                                </ng-container>
+                            </span>
+                        </label>
+
+                        <!-- Expandable Form for the selected method -->
+                        <div *ngIf="paymentMethod === opt"
+                            class="pl-4 pr-4 pb-4 pt-3 animate-fade-in border-l-2 border-r-2 border-b-2 border-[#E8584A] rounded-b-xl mt-[-8px] bg-[#FDF4F0]/30 mb-2">
+
+                            <!-- Credit/Debit Card Form -->
+                            <div *ngIf="opt === 'Credit Card' || opt === 'Debit Card'" class="space-y-3">
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Card
+                                        Number</label>
+                                    <input type="text" [(ngModel)]="cardNumber" (input)="formatCardNumber($event)"
+                                        placeholder="0000 0000 0000 0000"
+                                        class="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Name
+                                        on Card</label>
+                                    <input type="text" [(ngModel)]="cardName" placeholder="John Doe"
+                                        class="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all text-sm">
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label
+                                            class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Expiry
+                                            Date</label>
+                                        <input type="text" [(ngModel)]="cardExpiry" (input)="formatExpiry($event)"
+                                            placeholder="MM/YY"
+                                            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all font-mono text-sm">
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">CVV</label>
+                                        <input type="password" [(ngModel)]="cardCvv" (input)="formatCvv($event)"
+                                            placeholder="123"
+                                            class="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all font-mono text-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Net Banking Form -->
+                            <div *ngIf="opt === 'Net Banking'">
+                                <label
+                                    class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Select
+                                    Bank</label>
+                                <select [(ngModel)]="selectedBank"
+                                    class="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all bg-white text-sm cursor-pointer">
+                                    <option value="" disabled selected>Choose your bank</option>
+                                    <option *ngFor="let bank of banks" [value]="bank">{{ bank }}</option>
+                                </select>
+                            </div>
+
+                            <!-- UPI Form -->
+                            <div *ngIf="opt === 'UPI'">
+                                <label
+                                    class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">UPI
+                                    ID / VPA</label>
+                                <div class="relative">
+                                    <input type="text" [(ngModel)]="upiId" placeholder="username@upi"
+                                        class="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#E8584A] focus:ring-1 focus:ring-[#E8584A] outline-none transition-all text-sm">
+                                    <button *ngIf="upiId.includes('@')"
+                                        class="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-green-50 text-green-600 font-bold text-[10px] rounded border border-green-200">Verify</button>
+                                </div>
+                            </div>
+
+                            <!-- Wallet Form -->
+                            <div *ngIf="opt === 'Wallet'">
+                                <label
+                                    class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Select
+                                    Wallet</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label *ngFor="let wallet of wallets"
+                                        class="flex flex-col items-center justify-center p-2 rounded-lg border border-gray-200 cursor-pointer hover:border-[#E8584A] bg-white transition-all text-xs"
+                                        [ngClass]="selectedWallet === wallet ? 'border-[#E8584A] shadow-sm ring-1 ring-[#E8584A]/30' : ''">
+                                        <input type="radio" name="walletSelectReq" [value]="wallet"
+                                            [(ngModel)]="selectedWallet" class="hidden">
+                                        <span class="font-bold whitespace-nowrap"
+                                            [ngClass]="selectedWallet === wallet ? 'text-[#E8584A]' : 'text-gray-700'">{{
+                                            wallet }}</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </div>
 
         <!-- Modal Footer -->
         <div class="px-8 pb-8 pt-2">
-            <button (click)="confirmPayment()" [disabled]="isPaying()"
-                class="w-full bg-[#E8584A] hover:bg-[#C94035] text-white py-4 rounded-2xl font-bold text-[15px] shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none transition-all disabled:opacity-60 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+            <button (click)="confirmPayment()" [disabled]="isPaying() || !isFormValid()"
+                class="w-full bg-[#E8584A] hover:bg-[#C94035] text-white py-4 rounded-2xl font-bold text-[15px] shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none transition-all disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed flex justify-center items-center gap-2">
                 <span *ngIf="isPaying()"
                     class="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
                 <span *ngIf="!isPaying()">Pay ₹{{ req.calculatedPremium | number:'1.0-0' }} Securely</span>

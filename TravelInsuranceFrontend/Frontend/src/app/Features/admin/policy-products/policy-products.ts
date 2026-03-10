@@ -16,6 +16,11 @@ export class PolicyProducts implements OnInit {
   products: any[] = [];
   filteredProducts: any[] = [];
   searchTerm: string = '';
+  
+  // Lookup data for dropdowns
+  policyTypes = ['Single Trip', 'Multi-Trip', 'Family', 'Student'];
+  planTiers = ['Silver', 'Gold', 'Platinum'];
+  destinationZones = ['Worldwide', 'Worldwide (Excl. USA/Canada)', 'Asia', 'Europe', 'Schengen'];
 
   isLoading = false;
   toastMsg = '';

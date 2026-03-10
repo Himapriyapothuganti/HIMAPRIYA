@@ -26,6 +26,18 @@ export class MyRequestsComponent implements OnInit {
     paymentOptions = ['Credit Card', 'Debit Card', 'Net Banking', 'UPI', 'Wallet'];
     paymentSuccess = signal<string>('');
 
+    // Payment Details
+    cardNumber: string = '';
+    cardName: string = '';
+    cardExpiry: string = '';
+    cardCvv: string = '';
+    upiId: string = '';
+    selectedBank: string = '';
+    selectedWallet: string = '';
+
+    banks = ['HDFC Bank', 'ICICI Bank', 'State Bank of India', 'Axis Bank', 'Kotak Mahindra Bank'];
+    wallets = ['Amazon Pay', 'Paytm', 'PhonePe', 'MobiKwik'];
+
     ngOnInit() {
         this.loadRequests();
     }
@@ -53,6 +65,40 @@ export class MyRequestsComponent implements OnInit {
     closePayment() {
         this.showPaymentModal.set(false);
         this.selectedRequest.set(null);
+    }
+
+    isFormValid(): boolean {
+        if (this.paymentMethod === 'Credit Card' || this.paymentMethod === 'Debit Card') {
+            return this.cardNumber.length >= 16 && this.cardName.trim().length > 0 && this.cardExpiry.length >= 5 && this.cardCvv.length >= 3;
+        }
+        if (this.paymentMethod === 'UPI') {
+            return this.upiId.includes('@');
+        }
+        if (this.paymentMethod === 'Net Banking') {
+            return this.selectedBank !== '';
+        }
+        if (this.paymentMethod === 'Wallet') {
+            return this.selectedWallet !== '';
+        }
+        return false;
+    }
+
+    formatCardNumber(event: any) {
+        let input = event.target.value.replace(/\D/g, '').substring(0, 16);
+        input = input.replace(/(\d{4})/g, '$1 ').trim();
+        this.cardNumber = input;
+    }
+
+    formatExpiry(event: any) {
+        let input = event.target.value.replace(/\D/g, '').substring(0, 4);
+        if (input.length > 2) {
+            input = input.substring(0, 2) + '/' + input.substring(2, 4);
+        }
+        this.cardExpiry = input;
+    }
+
+    formatCvv(event: any) {
+        this.cardCvv = event.target.value.replace(/\D/g, '').substring(0, 4);
     }
 
     confirmPayment() {

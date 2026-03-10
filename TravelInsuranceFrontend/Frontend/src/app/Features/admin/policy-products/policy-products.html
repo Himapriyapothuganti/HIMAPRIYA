@@ -29,53 +29,77 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                        <th class="p-4 font-semibold">Product Details</th>
-                        <th class="p-4 font-semibold">Coverage</th>
-                        <th class="p-4 font-semibold">Base Premium</th>
-                        <th class="p-4 font-semibold">Duration (Days)</th>
-                        <th class="p-4 font-semibold">Status</th>
-                        <th class="p-4 font-semibold text-right">Actions</th>
+                    <tr class="bg-gray-50 text-gray-500 text-[10px] uppercase font-bold tracking-widest">
+                        <th class="p-5">Product Details</th>
+                        <th class="p-5">Tier / Type</th>
+                        <th class="p-5">Coverage / Claim</th>
+                        <th class="p-5">Premium / Days</th>
+                        <th class="p-5">Zone</th>
+                        <th class="p-5">Status</th>
+                        <th class="p-5 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <tr *ngFor="let product of filteredProducts" class="hover:bg-gray-50 transition-colors">
-                        <td class="p-4">
-                            <div class="font-bold text-gray-900 mb-0.5">{{ product.policyName }}</div>
-                            <div class="text-xs text-gray-500 max-w-sm line-clamp-2" [title]="product.coverageDetails">
+                    <tr *ngFor="let product of filteredProducts" class="hover:bg-gray-50/50 transition-colors group">
+                        <td class="p-5">
+                            <div class="font-bold text-gray-900 mb-1 group-hover:text-[#E8584A] transition-colors">{{ product.policyName }}</div>
+                            <div class="text-[11px] text-gray-400 max-w-[240px] line-clamp-1" [title]="product.coverageDetails">
                                 {{ product.coverageDetails }}</div>
                         </td>
-                        <td class="p-4 font-medium text-gray-800">₹{{ product.coverageLimit | number:'1.0-0' }}</td>
-                        <td class="p-4 font-bold text-[#E8584A]">₹{{ product.basePremium | number:'1.0-0' }}</td>
-                        <td class="p-4 text-sm text-gray-600">{{ product.tenure }}</td>
-                        <td class="p-4">
-                            <span class="flex items-center gap-1.5 text-sm font-medium"
+                        <td class="p-5">
+                            <div class="flex flex-col gap-1.5">
+                                <span class="inline-flex items-center w-fit px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide border"
+                                    [ngClass]="{
+                                        'bg-gray-50 border-gray-200 text-gray-500': product.planTier === 'Silver',
+                                        'bg-yellow-50 border-yellow-200 text-yellow-600': product.planTier === 'Gold',
+                                        'bg-red-50 border-red-200 text-[#E8584A]': product.planTier === 'Platinum'
+                                    }">
+                                    {{ product.planTier }}
+                                </span>
+                                <span class="text-xs font-semibold text-gray-600 uppercase tracking-tighter">{{ product.policyType }}</span>
+                            </div>
+                        </td>
+                        <td class="p-5">
+                            <div class="flex flex-col gap-0.5">
+                                <div class="font-bold text-gray-800 text-sm">₹{{ product.coverageLimit | number:'1.0-0' }}</div>
+                                <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Claim: ₹{{ product.claimLimit | number:'1.0-0' }}</div>
+                            </div>
+                        </td>
+                        <td class="p-5">
+                            <div class="flex flex-col gap-0.5">
+                                <div class="font-bold text-[#E8584A] text-sm">₹{{ product.basePremium | number:'1.0-0' }}</div>
+                                <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{{ product.tenure }} Days</div>
+                            </div>
+                        </td>
+                        <td class="p-5">
+                            <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded-lg">{{ product.destinationZone }}</span>
+                        </td>
+                        <td class="p-5">
+                            <span class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider"
                                 [ngClass]="product.status === 'Available' ? 'text-green-600' : 'text-gray-400'">
-                                <span class="w-2 h-2 rounded-full"
+                                <span class="w-1.5 h-1.5 rounded-full"
                                     [ngClass]="product.status === 'Available' ? 'bg-green-500' : 'bg-gray-300'"></span>
                                 {{ product.status === 'Available' ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
-                        <td class="p-4 text-right">
-                            <div class="flex items-center justify-end gap-2">
+                        <td class="p-5 text-right">
+                            <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button (click)="toggleStatus(product)"
-                                    class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors border"
+                                    class="px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-widest transition-all border"
                                     [ngClass]="product.status === 'Available' 
-                    ? 'border-red-200 text-red-600 hover:bg-red-50' 
-                    : 'border-green-200 text-green-600 hover:bg-green-50'">
+                    ? 'border-red-100 text-red-500 hover:bg-red-50' 
+                    : 'border-green-100 text-green-500 hover:bg-green-50'">
                                     {{ product.status === 'Available' ? 'Disable' : 'Enable' }}
                                 </button>
                                 <button (click)="deleteProduct(product.policyProductId)"
-                                    class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-700 transition-colors tooltip"
+                                    class="p-2 rounded-xl text-gray-300 hover:bg-gray-100 hover:text-red-500 transition-all border border-transparent hover:border-gray-100"
                                     title="Delete Product">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="3 6 5 6 21 6"></polyline>
                                         <path
                                             d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                         </path>
-                                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                                        <line x1="14" y1="11" x2="14" y2="17"></line>
                                     </svg>
                                 </button>
                             </div>
@@ -83,8 +107,13 @@
                     </tr>
 
                     <tr *ngIf="filteredProducts.length === 0">
-                        <td colspan="6" class="p-8 text-center text-gray-500 italic">
-                            No products found.
+                        <td colspan="7" class="p-12 text-center text-gray-400 font-medium">
+                            <div class="flex flex-col items-center gap-2">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gray-200">
+                                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                </svg>
+                                No products found.
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -95,88 +124,106 @@
 
 <!-- Create Product Modal -->
 <div *ngIf="showCreateModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 pt-10 overflow-y-auto">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
     <!-- Modal Content -->
-    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg mb-auto mt-10">
-        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-            <h3 class="text-xl font-bold text-[#111]" style="font-family: 'Poppins', sans-serif;">Create Policy Product
-            </h3>
-            <button (click)="closeCreateModal()" class="text-gray-400 hover:text-gray-800 transition-colors">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <div class="bg-white rounded-[32px] shadow-2xl w-full max-w-2xl my-auto animate-fade-in overflow-hidden border border-gray-100">
+        <div class="px-8 py-7 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+            <div>
+                <h3 class="text-2xl font-extrabold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">Create Policy Product</h3>
+                <p class="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Configure new insurance offering</p>
+            </div>
+            <button (click)="closeCreateModal()" class="w-10 h-10 rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#E8584A] hover:border-[#E8584A]/30 transition-all">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
         </div>
 
-        <form [formGroup]="createProductForm" (ngSubmit)="onCreateSubmit()" class="p-6">
-            <div class="space-y-4">
-                <!-- Name -->
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Product
-                        Name</label>
+        <form [formGroup]="createProductForm" (ngSubmit)="onCreateSubmit()" class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Full Name -->
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Product Name</label>
                     <input type="text" formControlName="policyName"
-                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all"
-                        placeholder="e.g. Basic Travel Security">
-                    <div *ngIf="createProductForm.get('policyName')?.touched && createProductForm.get('policyName')?.invalid"
-                        class="text-red-500 text-xs mt-1">Required</div>
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-semibold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none"
+                        placeholder="e.g. Worldwide Gold Security">
                 </div>
 
-                <!-- Description -->
+                <!-- Type & Tier -->
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Coverage
-                        Details</label>
-                    <textarea formControlName="coverageDetails" rows="3"
-                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all resize-none"
-                        placeholder="Brief details about coverage..."></textarea>
-                    <div *ngIf="createProductForm.get('coverageDetails')?.touched && createProductForm.get('coverageDetails')?.invalid"
-                        class="text-red-500 text-xs mt-1">Required</div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Policy Type</label>
+                    <select formControlName="policyType"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-semibold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none appearance-none bg-white">
+                        <option *ngFor="let type of policyTypes" [value]="type">{{ type }}</option>
+                    </select>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Coverage Amount -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Coverage
-                            Amount (₹)</label>
-                        <input type="number" formControlName="coverageLimit" min="1"
-                            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all"
-                            placeholder="0.00">
-                        <div *ngIf="createProductForm.get('coverageLimit')?.touched && createProductForm.get('coverageLimit')?.invalid"
-                            class="text-red-500 text-xs mt-1">Valid amount required</div>
-                    </div>
-
-                    <!-- Base Rate -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Base
-                            Premium (₹)</label>
-                        <input type="number" formControlName="basePremium" min="0.01" step="0.01"
-                            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all"
-                            placeholder="0.00">
-                        <div *ngIf="createProductForm.get('basePremium')?.touched && createProductForm.get('basePremium')?.invalid"
-                            class="text-red-500 text-xs mt-1">Valid premium required</div>
-                    </div>
-                </div>
-
-                <!-- Duration -->
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Duration
-                        (Days)</label>
-                    <input type="number" formControlName="tenure" min="1"
-                        class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#E8584A] focus:ring-2 focus:ring-[#E8584A]/20 transition-all"
-                        placeholder="30">
-                    <div *ngIf="createProductForm.get('tenure')?.touched && createProductForm.get('tenure')?.invalid"
-                        class="text-red-500 text-xs mt-1">Valid duration required</div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Plan Tier</label>
+                    <select formControlName="planTier"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-semibold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none appearance-none bg-white">
+                        <option *ngFor="let tier of planTiers" [value]="tier">{{ tier }}</option>
+                    </select>
+                </div>
+
+                <!-- Coverage details -->
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Coverage Highlights (Comma separated)</label>
+                    <textarea formControlName="coverageDetails" rows="2"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-semibold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none resize-none"
+                        placeholder="Medical, Luggage, Delay, etc."></textarea>
+                </div>
+
+                <!-- Limits -->
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Coverage Limit (₹)</label>
+                    <input type="number" formControlName="coverageLimit"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-extrabold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none"
+                        placeholder="5,00,000">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Claim Limit (₹)</label>
+                    <input type="number" formControlName="claimLimit"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-extrabold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none"
+                        placeholder="50,000">
+                </div>
+
+                <!-- Zone & Duration -->
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Destination Zone</label>
+                    <select formControlName="destinationZone"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-semibold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none appearance-none bg-white">
+                        <option *ngFor="let zone of destinationZones" [value]="zone">{{ zone }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Duration (Days)</label>
+                    <input type="number" formControlName="tenure"
+                        class="w-full px-4 py-3 rounded-2xl border border-gray-200 text-sm font-bold focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none">
+                </div>
+
+                <!-- Premium -->
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">Base Premium (₹)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-gray-400">₹</span>
+                        <input type="number" formControlName="basePremium"
+                            class="w-full pl-8 pr-4 py-4 rounded-2xl border-2 border-[#E8584A]/10 bg-[#FDF4F0]/30 text-xl font-black text-[#E8584A] focus:outline-none focus:border-[#E8584A] focus:ring-4 focus:ring-[#E8584A]/5 transition-all outline-none"
+                            placeholder="0.00">
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-8 flex gap-3">
+            <div class="mt-10 flex gap-4">
                 <button type="button" (click)="closeCreateModal()"
-                    class="flex-1 py-3 px-4 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors text-sm">
+                    class="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 bg-gray-50 hover:bg-gray-100 transition-all text-[15px]">
                     Cancel
                 </button>
                 <button type="submit" [disabled]="createProductForm.invalid || isSubmitting"
-                    class="flex-1 py-3 px-4 rounded-xl font-bold text-white bg-[#E8584A] hover:bg-[#C94035] transition-all disabled:opacity-50 text-sm shadow-md hover:shadow-lg disabled:shadow-none hover:-translate-y-0.5 disabled:translate-y-0">
-                    {{ isSubmitting ? 'Creating...' : 'Create Product' }}
+                    class="flex-2 py-4 px-10 rounded-2xl font-bold text-white bg-[#111] hover:bg-black transition-all disabled:opacity-30 text-[15px] shadow-[0_10px_25px_rgba(0,0,0,0.1)] hover:shadow-none hover:translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
+                    <span *ngIf="isSubmitting" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    {{ isSubmitting ? 'Creating...' : 'Launch Product' }}
                 </button>
             </div>
         </form>

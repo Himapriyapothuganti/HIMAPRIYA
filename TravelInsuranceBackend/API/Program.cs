@@ -1,6 +1,7 @@
 ﻿
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
 using Application.Services;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -62,6 +63,7 @@ namespace API
             builder.Services.AddScoped<IClaimDocumentRepository, ClaimDocumentRepository>();
             builder.Services.AddScoped<IPolicyRequestRepository, PolicyRequestRepository>();
             builder.Services.AddScoped<IPolicyRequestDocumentRepository, PolicyRequestDocumentRepository>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
             // Application Services
             builder.Services.AddScoped<IAuthService, AuthService>();
@@ -71,6 +73,7 @@ namespace API
             builder.Services.AddScoped<IClaimsOfficerService, ClaimsOfficerService>();
             builder.Services.AddScoped<IAgentService, AgentService>();
             builder.Services.AddScoped<IPolicyRequestService, PolicyRequestService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
 
             // Add services to the container.
 

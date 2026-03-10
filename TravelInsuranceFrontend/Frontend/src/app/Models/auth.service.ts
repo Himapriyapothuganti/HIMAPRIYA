@@ -18,6 +18,10 @@ export class AuthService {
         return this.http.post(`${this.apiUrl}/register`, data);
     }
 
+    getProfile(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/profile`);
+    }
+
     logout(): void {
         // Clear all session data explicitly to prevent state leakage on shared devices
         localStorage.removeItem('token');

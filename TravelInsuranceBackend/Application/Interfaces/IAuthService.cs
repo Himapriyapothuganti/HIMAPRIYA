@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ namespace Application.Interfaces
     {
         Task<AuthResponseDTO> RegisterAsync(RegisterDTO dto);
         Task<AuthResponseDTO> LoginAsync(LoginDTO dto);
+        Task<ProfileResponseDTO> GetUserProfileAsync(string userId);
     }
 
 }
