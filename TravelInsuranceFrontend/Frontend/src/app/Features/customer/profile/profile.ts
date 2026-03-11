@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../Models/auth.service';
 import { Spinner } from '../../admin/components/spinner/spinner';
@@ -19,7 +19,10 @@ export class ProfileComponent implements OnInit {
   phoneNumber: string = '';
   isLoading: boolean = true;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // Fallbacks initially
@@ -37,24 +40,35 @@ export class ProfileComponent implements OnInit {
     // Fetch live profile details
     this.authService.getProfile().subscribe({
       next: (data) => {
-        this.customerName = data.fullName;
-        this.customerEmail = data.email;
-        this.phoneNumber = data.phoneNumber || 'Not provided';
-        this.customerId = data.id;
+        try {
+          // If response is somehow empty but not an error
+          if (!data) return;
+          
+          this.customerName = data?.fullName || 'Unknown User';
+          this.customerEmail = data?.email || '';
+          this.phoneNumber = data?.phoneNumber || 'Not provided';
+          this.customerId = data?.id || 'CUS-PENDING';
 
-        const date = new Date(data.createdAt);
-        this.memberSince = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+          const date = new Date(data?.createdAt || Date.now());
+          this.memberSince = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-        // Update initials perfectly
-        const liveParts = data.fullName.split(' ');
-        this.customerInitials = liveParts.length > 1
-          ? (liveParts[0].charAt(0) + liveParts[1].charAt(0)).toUpperCase()
-          : data.fullName.charAt(0).toUpperCase();
-        this.isLoading = false;
+          // Update initials perfectly
+          const fullNameStr = data?.fullName || 'U';
+          const liveParts = fullNameStr.split(' ');
+          this.customerInitials = liveParts.length > 1 && liveParts[1].length > 0
+            ? (liveParts[0].charAt(0) + liveParts[1].charAt(0)).toUpperCase()
+            : fullNameStr.charAt(0).toUpperCase();
+        } catch (error) {
+          console.error('Error processing profile data', error);
+        } finally {
+          this.isLoading = false;
+          this.cdr.detectChanges(); // Ensure UI un-spins immediately
+        }
       },
       error: (err) => {
         console.error('Failed to load full profile data', err);
         this.isLoading = false;
+        this.cdr.detectChanges(); // Ensure UI un-spins on error too
       }
     });
   }

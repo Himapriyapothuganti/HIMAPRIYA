@@ -218,7 +218,7 @@
   <!-- Destination ticker -->
   <div
     style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.65);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.9);padding:11px 0;z-index:6;overflow:hidden;">
-    <div style="display:flex;gap:0;white-space:nowrap;animation:ticker 22s linear infinite;">
+    <div class="ticker-wrap">
       <div style="display:flex;gap:48px;padding-right:48px;">
         <span style="font-size:12px;font-weight:600;color:#888;">✈ Bali, Indonesia</span>
         <span style="font-size:12px;font-weight:600;color:#888;">🏔 Swiss Alps</span>
@@ -270,90 +270,106 @@
       <p style="color:#777;font-size:16px;max-width:460px;margin:0 auto;line-height:1.7;">We provide complete protection
         for every aspect of your journey. Travel with confidence knowing we've got you covered.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
-      <!-- Medical -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
+      <!-- Card 1: Individual -->
       <div class="ins-card">
         <div
           style="width:62px;height:62px;background:var(--peach);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2.5">
+            <path d="M22 2L15 22l-4-9-9-4 20-7z" />
           </svg>
         </div>
-        <h3 style="font-size:22px;color:#111;margin-bottom:14px;">Medical Insurance</h3>
-        <ul style="list-style:none;padding:0;margin:0 0 22px;">
-          <li
-            style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Emergency Medical
-          </li>
-          <li
-            style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Medical Evacuation
-          </li>
-          <li
-            style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> 24/7 Assistance
-          </li>
-          <li style="padding:7px 0;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;"><span
-              style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Hospital Coverage</li>
-        </ul>
-        <!-- button removed -->
+        <h3 style="font-size:20px;color:#111;margin-bottom:6px;">Individual Travel Insurance</h3>
+        <p style="font-size:12px;color:var(--coral);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">For globetrotting wanderers</p>
+        <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:20px;">
+          Flying solo in search of new experiences? Our Single Trip plans cover you from
+          departure to return with essential medical, personal accident and journey protection.
+        </p>
+        <div style="border-top:1px solid #f0f0f0;padding-top:18px;margin-top:auto;">
+          <p style="font-size:12px;color:#999;font-weight:600;margin-bottom:4px;">Silver / Gold / Platinum</p>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-size:18px;font-weight:800;color:#111;">₹599<span style="font-size:12px;color:#888;font-weight:500;">/trip</span></span>
+            <a routerLink="/login" style="font-size:13px;font-weight:700;color:var(--coral);text-decoration:none;">View Plans →</a>
+          </div>
+        </div>
       </div>
-      <!-- Trip – active -->
+
+      <!-- Card 2: Family (POPULAR) -->
       <div class="ins-card ins-active" style="position:relative;overflow:hidden;">
         <div
           style="position:absolute;top:18px;right:18px;background:rgba(255,255,255,.2);border-radius:100px;padding:3px 12px;font-size:11px;font-weight:700;color:white;letter-spacing:.5px;">
           POPULAR</div>
         <div
           style="width:62px;height:62px;background:rgba(255,255,255,.2);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <path
-              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
         </div>
-        <h3 style="font-size:22px;color:white;margin-bottom:14px;">Trip Insurance</h3>
-        <ul style="list-style:none;padding:0;margin:0 0 22px;">
-          <li
-            style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.18);display:flex;gap:8px;align-items:center;font-size:14px;color:rgba(255,255,255,.88);">
-            ✓ Trip Cancellation</li>
-          <li
-            style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.18);display:flex;gap:8px;align-items:center;font-size:14px;color:rgba(255,255,255,.88);">
-            ✓ Trip Interruption</li>
-          <li
-            style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.18);display:flex;gap:8px;align-items:center;font-size:14px;color:rgba(255,255,255,.88);">
-            ✓ Baggage Loss</li>
-          <li style="padding:7px 0;display:flex;gap:8px;align-items:center;font-size:14px;color:rgba(255,255,255,.88);">
-            ✓ Flight Delays</li>
-        </ul>
-        <!-- button removed -->
+        <h3 style="font-size:20px;color:white;margin-bottom:6px;">Family Travel Insurance</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">For families that stick together</p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.9);line-height:1.6;margin-bottom:20px;">
+          Family vacations are where memories are made. Give your loved ones the security
+          they deserve with one plan covering 2 adults and 2 children together.
+        </p>
+        <div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:18px;margin-top:auto;">
+          <p style="font-size:12px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:4px;">Silver / Gold / Platinum</p>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-size:18px;font-weight:800;color:white;">₹1,299<span style="font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;">/trip</span></span>
+            <a routerLink="/login" style="font-size:13px;font-weight:700;color:white;text-decoration:none;">View Plans →</a>
+          </div>
+        </div>
       </div>
-      <!-- Visitors -->
+
+      <!-- Card 3: Frequent Flier -->
       <div class="ins-card">
         <div
           style="width:62px;height:62px;background:var(--peach);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="2" y1="12" x2="22" y2="12" />
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2.5">
+            <path d="M23 4v6h-6" />
+            <path d="M1 20v-6h6" />
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
           </svg>
         </div>
-        <h3 style="font-size:22px;color:#111;margin-bottom:14px;">Personal Coverage</h3>
-        <ul style="list-style:none;padding:0;margin:0 0 22px;">
-          <li
-            style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Personal Accident
-          </li>
-          <li
-            style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Hijack Distress Allowance
-          </li>
-          <li
-            style="padding:7px 0;border-bottom:1px solid #f4f4f4;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;">
-            <span style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Emergency Treatment
-          </li>
-          <li style="padding:7px 0;display:flex;gap:8px;align-items:center;font-size:14px;color:#555;"><span
-              style="color:var(--coral);font-weight:700;font-size:16px;">✓</span> Adventure Sports Coverage</li>
-        </ul>
-        <!-- button removed -->
+        <h3 style="font-size:20px;color:#111;margin-bottom:6px;">Frequent Flier Insurance</h3>
+        <p style="font-size:12px;color:var(--coral);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">For the jetsetter</p>
+        <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:20px;">
+          Travel multiple times a year? Our Annual Multi Trip plan secures unlimited trips
+          under one comprehensive plan so you never travel unprotected.
+        </p>
+        <div style="border-top:1px solid #f0f0f0;padding-top:18px;margin-top:auto;">
+          <p style="font-size:12px;color:#999;font-weight:600;margin-bottom:4px;">Silver / Gold / Platinum</p>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-size:18px;font-weight:800;color:#111;">₹2,999<span style="font-size:12px;color:#888;font-weight:500;">/year</span></span>
+            <a routerLink="/login" style="font-size:13px;font-weight:700;color:var(--coral);text-decoration:none;">View Plans →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Student -->
+      <div class="ins-card ins-active">
+        <div
+          style="width:62px;height:62px;background:rgba(255,255,255,.2);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+          </svg>
+        </div>
+        <h3 style="font-size:20px;color:white;margin-bottom:6px;">Student Travel Insurance</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">For study abroad aspirants</p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.9);line-height:1.6;margin-bottom:20px;">
+          Planning to pursue higher education abroad? Our Student plan covers prolonged stay,
+          study interruption, sponsor protection and much more.
+        </p>
+        <div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:18px;margin-top:auto;">
+          <p style="font-size:12px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:4px;">Platinum Plan Only</p>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;">
+            <span style="font-size:18px;font-weight:800;color:white;">₹28,000<span style="font-size:12px;color:rgba(255,255,255,0.6);font-weight:500;">/year</span></span>
+            <a routerLink="/login" style="font-size:13px;font-weight:700;color:white;text-decoration:none;">View Plans →</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -534,7 +550,7 @@
               style="color:var(--coral);">&amp;</span>Travel</span>
         </div>
         <p style="color:white;font-size:14px;line-height:1.8;">Your trusted partner for comprehensive travel insurance.
-          Compare, choose, and travel with peace of mind.</p>
+          Compare, choose, and travel with peace of mind. Talk & Travel ensures you're always protected.</p>
       </div>
       <div style="flex:1;min-width:130px;">
         <h5 style="color:white;font-weight:700;margin-bottom:18px;font-size:14px;">Quick Links</h5>
@@ -554,23 +570,22 @@
       <div style="flex:1;min-width:150px;">
         <h5 style="color:white;font-weight:700;margin-bottom:18px;font-size:14px;">Insurance Types</h5>
         <ul style="list-style:none;padding:0;">
-          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Medical
-              Insurance</span></li>
-          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Trip
-              Insurance</span></li>
-          <li><span style="color:white;font-size:14px;">Visitors Insurance</span></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Individual Insurance</span></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Family Insurance</span></li>
+          <li style="margin-bottom:11px;"><span style="color:white;font-size:14px;">Frequent Flier Insurance</span></li>
+          <li><span style="color:white;font-size:14px;">Student Insurance</span></li>
         </ul>
       </div>
       <div style="flex:1;min-width:170px;">
         <h5 style="color:white;font-weight:700;margin-bottom:18px;font-size:14px;">Contact</h5>
         <p style="color:white;font-size:14px;margin-bottom:10px;">📧 hello@talkandtravel.com</p>
-        <p style="color:white;font-size:14px;margin-bottom:10px;">📞 +1 (800) 123-4567</p>
-        <p style="color:white;font-size:14px;">🕐 Mon–Fri, 9am–6pm</p>
+        <p style="color:white;font-size:14px;margin-bottom:10px;">📞 +91 (800) 555-0199</p>
+        <p style="color:white;font-size:14px;">🕐 24/7 Global Support</p>
       </div>
     </div>
     <div
       style="border-top:1px solid #1E1E1E;padding-top:24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
-      <p style="color:white;font-size:13px;">© 2024 Talk &amp; Travel. All rights reserved.</p>
+      <p style="color:white;font-size:13px;">© 2026 Talk &amp; Travel. All rights reserved.</p>
       <div style="display:flex;gap:20px;"><span style="color:white;font-size:13px;">Privacy
           Policy</span><span style="color:white;font-size:13px;">Terms of Service</span></div>
     </div>

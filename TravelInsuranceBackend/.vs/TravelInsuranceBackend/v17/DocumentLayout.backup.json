@@ -226,7 +226,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -241,16 +241,12 @@
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ClaimsOfficerService.cs",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\ClaimsOfficerService.cs",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
-              "RelativeToolTip": "Application\\Services\\ClaimsOfficerService.cs",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-04T09:41:57.084Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
               "$type": "Document",
@@ -263,6 +259,31 @@
               "ViewState": "AgIAAMoAAAAAAAAAAAAmwNIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-05T11:21:07.59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClaimService.cs",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\ClaimService.cs",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
+              "RelativeToolTip": "Application\\Services\\ClaimService.cs",
+              "ViewState": "AgIAAC4BAAAAAAAAAAAIwDYBAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T09:40:04.542Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ClaimsOfficerService.cs",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\ClaimsOfficerService.cs",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
+              "RelativeToolTip": "Application\\Services\\ClaimsOfficerService.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T09:41:57.084Z"
             },
             {
               "$type": "Document",
@@ -287,27 +308,6 @@
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwBQAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-04T10:26:09Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClaimService.cs",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\ClaimService.cs",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
-              "RelativeToolTip": "Application\\Services\\ClaimService.cs",
-              "ViewState": "AgIAAC4BAAAAAAAAAAAIwDgBAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-04T09:40:04.542Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
               "$type": "Document",
