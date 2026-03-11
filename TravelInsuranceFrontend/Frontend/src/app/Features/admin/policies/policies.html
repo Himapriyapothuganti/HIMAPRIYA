@@ -71,9 +71,9 @@
                                 policy.endDate | date:'mediumDate' }}</div>
                         </td>
                         <td class="p-4 text-right">
-                            <button (click)="openAssignModal(policy)"
+                            <button *ngIf="!policy.agentId" (click)="openAssignModal(policy)"
                                 class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-blue-200 text-blue-600 hover:bg-blue-50 transition-colors">
-                                {{ policy.agentId ? 'Reassign Agent' : 'Assign Agent' }}
+                                Assign Agent
                             </button>
                         </td>
                     </tr>

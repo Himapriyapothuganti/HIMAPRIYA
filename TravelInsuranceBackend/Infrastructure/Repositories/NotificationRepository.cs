@@ -26,8 +26,9 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Notification>> GetByUserIdAsync(string userId)
         {
+            var cutoffTime = DateTime.UtcNow.AddHours(-24);
             return await _context.Notifications
-                .Where(n => n.UserId == userId)
+                .Where(n => n.UserId == userId && n.CreatedAt >= cutoffTime)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
         }

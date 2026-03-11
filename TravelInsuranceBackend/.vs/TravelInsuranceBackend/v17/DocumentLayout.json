@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|d:\\himapriya\\travelinsurancebackend\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|d:\\himapriya\\travelinsurancebackend\\infrastructure\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8F46F24E-37E7-4071-8F95-ADC65ACB21AA}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\dbseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -65,10 +69,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|d:\\himapriya\\travelinsurancebackend\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|d:\\himapriya\\travelinsurancebackend\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FCB36765-B8C3-4A6B-A09D-35CED34A1336}|API\\API.csproj|d:\\himapriya\\travelinsurancebackend\\api\\controllers\\policyrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -230,7 +230,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -246,15 +246,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Dbseeder.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Data\\Dbseeder.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Data\\Dbseeder.cs",
               "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Infrastructure\\Data\\Dbseeder.cs",
               "RelativeToolTip": "Infrastructure\\Data\\Dbseeder.cs",
-              "ViewState": "AgIAABkBAAAAAAAAAAAswCUBAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUBAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-11T04:49:02.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\appsettings.json",
+              "RelativeDocumentMoniker": "API\\appsettings.json",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\appsettings.json",
+              "RelativeToolTip": "API\\appsettings.json",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-08T16:20:22.85Z",
               "EditorCaption": ""
             },
             {
@@ -262,12 +275,8 @@
               "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "PolicyRequestService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\PolicyRequestService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\PolicyRequestService.cs",
@@ -279,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ClaimService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\ClaimService.cs",
@@ -287,12 +296,15 @@
               "RelativeToolTip": "Application\\Services\\ClaimService.cs",
               "ViewState": "AgIAAC4BAAAAAAAAAAAIwDYBAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-04T09:40:04.542Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-04T09:40:04.542Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "ClaimsOfficerService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimsOfficerService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\ClaimsOfficerService.cs",
@@ -304,7 +316,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ExceptionMiddleware.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\Middlewares\\ExceptionMiddleware.cs",
               "RelativeDocumentMoniker": "API\\Middlewares\\ExceptionMiddleware.cs",
@@ -316,7 +328,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\AuthController.cs",
@@ -328,7 +340,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\AuthService.cs",
@@ -340,7 +352,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "AgentService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\AgentService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\AgentService.cs",
@@ -352,7 +364,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "AdminService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\AdminService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\AdminService.cs",
@@ -364,7 +376,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "PolicyControllerTests.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\Controllers\\PolicyControllerTests.cs",
               "RelativeDocumentMoniker": "API.Tests\\Controllers\\PolicyControllerTests.cs",
@@ -376,7 +388,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "ClaimsOfficerControllerTests.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\Controllers\\ClaimsOfficerControllerTests.cs",
               "RelativeDocumentMoniker": "API.Tests\\Controllers\\ClaimsOfficerControllerTests.cs",
@@ -388,7 +400,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "AgentControllerTests.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\Controllers\\AgentControllerTests.cs",
               "RelativeDocumentMoniker": "API.Tests\\Controllers\\AgentControllerTests.cs",
@@ -400,7 +412,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "AdminControllerTests.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\Controllers\\AdminControllerTests.cs",
               "RelativeDocumentMoniker": "API.Tests\\Controllers\\AdminControllerTests.cs",
@@ -412,7 +424,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "ClaimControllerTests.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\Controllers\\ClaimControllerTests.cs",
               "RelativeDocumentMoniker": "API.Tests\\Controllers\\ClaimControllerTests.cs",
@@ -424,7 +436,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "AuthControllerTests.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\Controllers\\AuthControllerTests.cs",
               "RelativeDocumentMoniker": "API.Tests\\Controllers\\AuthControllerTests.cs",
@@ -433,18 +445,6 @@
               "ViewState": "AgIAAEwAAAAAAAAAAAAkwEkAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-05T05:02:21.037Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\appsettings.json",
-              "RelativeDocumentMoniker": "API\\appsettings.json",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\appsettings.json",
-              "RelativeToolTip": "API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-03-08T16:20:22.85Z"
             },
             {
               "$type": "Document",
@@ -460,7 +460,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API\\Program.cs",
               "RelativeDocumentMoniker": "API\\Program.cs",
