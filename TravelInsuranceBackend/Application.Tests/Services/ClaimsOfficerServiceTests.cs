@@ -11,6 +11,7 @@ namespace Application.Tests.Services
     {
         private readonly Mock<IClaimRepository>             _claimRepoMock  = new();
         private readonly Mock<IPolicyRepository>            _policyRepoMock = new();
+        private readonly Mock<IPolicyProductRepository>     _policyProductRepoMock = new();
         private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
 
         public ClaimsOfficerServiceTests()
@@ -21,7 +22,7 @@ namespace Application.Tests.Services
         }
 
         private ClaimsOfficerService CreateService() =>
-            new(_claimRepoMock.Object, _policyRepoMock.Object, _userManagerMock.Object);
+            new(_claimRepoMock.Object, _policyRepoMock.Object, _policyProductRepoMock.Object, _userManagerMock.Object);
 
         [Fact]
         public async Task GetDashboard_ThrowsException_WhenOfficerNotFound()

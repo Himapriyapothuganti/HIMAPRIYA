@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs
+namespace Application.DTOs
 {
     public class PolicyResponseDTO
     {
@@ -24,6 +24,8 @@
         public string KycNumber { get; set; } = string.Empty;
 
         public decimal PremiumAmount { get; set; }
+        public decimal CoverageLimit { get; set; }
+        public decimal ClaimLimit { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; } = string.Empty;

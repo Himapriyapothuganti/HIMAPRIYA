@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +21,9 @@ namespace Application.DTOs
         public decimal? ApprovedAmount { get; set; }
         public string Status { get; set; } = string.Empty;
         public string? RejectionReason { get; set; }
+
+        public decimal SuggestedPayout { get; set; }
+        public decimal DeductibleApplied { get; set; }
         public DateTime SubmittedAt { get; set; }
         public DateTime? ReviewedAt { get; set; }
         public DateTime IncidentDate { get; set; }

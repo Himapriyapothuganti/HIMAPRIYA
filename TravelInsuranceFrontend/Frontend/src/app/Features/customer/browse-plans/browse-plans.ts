@@ -50,17 +50,21 @@ export class BrowsePlans implements OnInit {
   loadUserData() {
     this.customerService.getMyPolicies().subscribe({
       next: (policies) => {
-        // Filter for Active and PendingPayment
-        policies.filter(p => p.status === 'Active' || p.status === 'PendingPayment')
-          .forEach(p => this.ownedProductIds.add(p.policyProductId));
+        setTimeout(() => {
+          policies.filter(p => p.status === 'Active' || p.status === 'PendingPayment')
+            .forEach(p => this.ownedProductIds.add(p.policyProductId));
+          this.cdr.detectChanges();
+        });
       }
     });
 
     this.policyRequestService.getMyRequests().subscribe({
       next: (requests) => {
-        // Filter for Pending and Approved
-        requests.filter(r => r.status === 'Pending' || r.status === 'Approved')
-          .forEach(r => this.requestedProductIds.add(r.policyProductId));
+        setTimeout(() => {
+          requests.filter(r => r.status === 'Pending' || r.status === 'Approved')
+            .forEach(r => this.requestedProductIds.add(r.policyProductId));
+          this.cdr.detectChanges();
+        });
       }
     });
   }
@@ -93,14 +97,9 @@ export class BrowsePlans implements OnInit {
     }
   }
 
-  // Returns groups sorted by typeOrder, each with type + plans sorted by tier
   get groupedPlans(): { type: string; plans: any[] }[] {
     const tierOrder: Record<string, number> = { Silver: 0, Gold: 1, Platinum: 2 };
-
-    // Determine which types to include
-    const types = this.activeFilter === 'All'
-      ? this.typeOrder
-      : [this.activeFilter];
+    const types = this.activeFilter === 'All' ? this.typeOrder : [this.activeFilter];
 
     return types
       .map(type => ({
@@ -141,66 +140,9 @@ export class BrowsePlans implements OnInit {
     }
   }
 
-  getTierEmoji(tier: string): string {
-    const map: Record<string, string> = { Silver: '🥈', Gold: '🥇', Platinum: '💎' };
-    return map[tier] ?? '';
-  }
-
   getCoverageList(details: string): string[] {
-    // The backend serves coverage specifics as a single comma-separated string (e.g., "Medical,Baggage").
-    // We split it here to render cleanly in the UI checklist.
-    return details.split(',').map(d => d.trim()).filter(d => d.length > 0);
-  }
-
-  getIncludedItems(tier: string): string[] {
-    const silver = [
-      'Medical Expenses & Hospitalization',
-      'Emergency Medical Evacuation',
-      'Repatriation of Remains',
-      'Trip Cancellation',
-      'Personal Accident',
-      'Loss of Passport'
-    ];
-    const goldExtra = [
-      'Baggage Loss & Delay',
-      'Flight Delay (>4hrs)',
-      'Missed Flight Connection',
-      'Emergency Dental Treatment',
-      'Hijack Distress Allowance'
-    ];
-    const platinumExtra = [
-      'Adventure Sports Coverage',
-      'Pre-existing Conditions',
-      'COVID-19 Coverage',
-      'Daily Hospital Cash Allowance',
-      'Emergency Hotel Extension'
-    ];
-
-    if (tier === 'Silver') return silver;
-    if (tier === 'Gold') return [...silver, ...goldExtra];
-    if (tier === 'Platinum') return [...silver, ...goldExtra, ...platinumExtra];
-    return silver;
-  }
-
-  getExcludedItems(tier: string): string[] {
-    if (tier === 'Silver') return [
-      'Baggage Loss & Delay',
-      'Flight Delay Coverage',
-      'Adventure Sports',
-      'Pre-existing Conditions',
-      'COVID-19 Coverage',
-      'Emergency Dental Treatment'
-    ];
-    if (tier === 'Gold') return [
-      'Adventure Sports',
-      'Pre-existing Conditions',
-      'COVID-19 Coverage',
-      'Emergency Hotel Extension'
-    ];
-    if (tier === 'Platinum') return [
-      'War & Terror Zone Coverage'
-    ];
-    return [];
+    if (!details) return [];
+    return details.split(/,\s*(?![^()]*\))/).map(d => d.trim()).filter(d => d.length > 0);
   }
 
   buyNow(productId: number) {
@@ -219,7 +161,7 @@ export class BrowsePlans implements OnInit {
 
   openRequestModal(plan: any) {
     this.selectedPlan = plan;
-    this.isModalOpen = false; // close details modal if open
+    this.isModalOpen = false;
     this.isRequestModalOpen = true;
   }
 
@@ -229,8 +171,7 @@ export class BrowsePlans implements OnInit {
   }
 
   onRequestSubmitted(response: any) {
-    alert('Policy Request submitted successfully! View status in My Requests.');
-    // Optionally navigate to my requests
-    // this.router.navigate(['/customer/my-requests']);
+    // SUCCESS toast is handled by the PolicyRequestModal internally
+    // We could navigate if we wanted to
   }
 }

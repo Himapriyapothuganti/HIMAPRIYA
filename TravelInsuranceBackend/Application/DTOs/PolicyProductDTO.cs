@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs
 {
@@ -15,6 +15,8 @@ namespace Application.DTOs
 
         [Required]
         public string CoverageDetails { get; set; } = string.Empty;
+
+        public string? ExclusionDetails { get; set; }
 
         [Required]
         public decimal CoverageLimit { get; set; }
@@ -39,6 +41,7 @@ namespace Application.DTOs
         public string PolicyType { get; set; } = string.Empty;
         public string PlanTier { get; set; } = string.Empty;
         public string CoverageDetails { get; set; } = string.Empty;
+        public string? ExclusionDetails { get; set; }
         public decimal CoverageLimit { get; set; }
         public decimal BasePremium { get; set; }
         public int Tenure { get; set; }

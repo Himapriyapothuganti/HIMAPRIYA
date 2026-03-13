@@ -26,10 +26,49 @@ export class MyClaims implements OnInit {
   claimForm!: FormGroup;
   selectedFiles: File[] = [];
 
-  claimTypes = [
-    'Medical', 'Trip Cancellation', 'Baggage Loss',
-    'Flight Delay', 'Emergency Evacuation', 'Personal Accident'
-  ];
+  availableClaimTypes: any[] = [];
+  selectedPolicy: any = null;
+  selectedClaimConfig: any = null;
+
+  CLAIM_TYPES: any = {
+    Silver: [
+      { type: 'Emergency Medical', maxINR: null, deductibleINR: 8300 },
+      { type: 'Dental', maxINR: 24900, deductibleINR: 12450 },
+      { type: 'Hospital Cash', maxINR: 6225, deductibleINR: 0 },
+      { type: 'Personal Accident', maxINR: 415000, deductibleINR: 0 },
+    ],
+    Gold: [
+      { type: 'Emergency Medical', maxINR: null, deductibleINR: 8300 },
+      { type: 'Dental', maxINR: 24900, deductibleINR: 12450 },
+      { type: 'Hospital Cash', maxINR: 6225, deductibleINR: 0 },
+      { type: 'Personal Accident', maxINR: 415000, deductibleINR: 0 },
+      { type: 'Baggage Loss', maxINR: 16600, deductibleINR: 0 },
+      { type: 'Baggage Delay', maxINR: 20750, deductibleINR: 0 },
+      { type: 'Flight Cancellation', maxINR: 8300, deductibleINR: 0 },
+      { type: 'Trip Cancellation', maxINR: 8300, deductibleINR: 4150 },
+      { type: 'Loss of Passport', maxINR: 16600, deductibleINR: 0 },
+      { type: 'Flight Delay', maxINR: 8300, deductibleINR: 0 },
+      { type: 'Emergency Hotel', maxINR: 83000, deductibleINR: 8300 },
+    ],
+    Platinum: [
+      { type: 'Emergency Medical', maxINR: null, deductibleINR: 8300 },
+      { type: 'Dental', maxINR: 24900, deductibleINR: 12450 },
+      { type: 'Hospital Cash', maxINR: 6225, deductibleINR: 0 },
+      { type: 'Personal Accident', maxINR: 415000, deductibleINR: 0 },
+      { type: 'Baggage Loss', maxINR: 16600, deductibleINR: 0 },
+      { type: 'Baggage Delay', maxINR: 20750, deductibleINR: 0 },
+      { type: 'Flight Cancellation', maxINR: 8300, deductibleINR: 0 },
+      { type: 'Trip Cancellation', maxINR: 8300, deductibleINR: 4150 },
+      { type: 'Loss of Passport', maxINR: 16600, deductibleINR: 0 },
+      { type: 'Flight Delay', maxINR: 8300, deductibleINR: 0 },
+      { type: 'Emergency Hotel', maxINR: 83000, deductibleINR: 8300 },
+      { type: 'Pre-existing Disease', maxINR: null, deductibleINR: 8300 },
+      { type: 'Personal Liability', maxINR: 830000, deductibleINR: 0 },
+      { type: 'Missed Connection', maxINR: 41500, deductibleINR: 0 },
+      { type: 'Hijack Distress', maxINR: 8300, deductibleINR: 0 },
+      { type: 'Emergency Cash', maxINR: 41500, deductibleINR: 0 },
+    ]
+  };
 
   constructor(
     private customerService: CustomerService,
@@ -41,6 +80,27 @@ export class MyClaims implements OnInit {
   ngOnInit() {
     this.initForm();
     this.loadData();
+    this.setupListeners();
+  }
+
+  setupListeners() {
+    // When Policy changes, load the correct Claim Types based on Tier
+    this.claimForm.get('policyId')?.valueChanges.subscribe(val => {
+      this.selectedPolicy = this.activePolicies.find(p => p.policyId == val);
+      if (this.selectedPolicy) {
+        const tier = this.selectedPolicy.planTier || 'Silver'; // Fallback
+        this.availableClaimTypes = this.CLAIM_TYPES[tier] || this.CLAIM_TYPES['Silver'];
+        this.claimForm.get('claimType')?.setValue(''); // Reset selected type
+        this.selectedClaimConfig = null;
+      }
+    });
+
+    // When Claim Type changes, update the selected config to show max limiting text
+    this.claimForm.get('claimType')?.valueChanges.subscribe(val => {
+      if (this.availableClaimTypes.length > 0 && val) {
+        this.selectedClaimConfig = this.availableClaimTypes.find(t => t.type === val);
+      }
+    });
   }
 
 
@@ -103,6 +163,9 @@ export class MyClaims implements OnInit {
     this.selectedFiles = [];
     this.error = '';
     this.success = '';
+    this.selectedPolicy = null;
+    this.selectedClaimConfig = null;
+    this.availableClaimTypes = [];
   }
 
   closeModal() {

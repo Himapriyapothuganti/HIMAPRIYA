@@ -44,7 +44,9 @@ import { NotificationService, NotificationDTO } from '../../../Services/notifica
             </div>
             
             <!-- Notification Dropdown -->
-            <div *ngIf="showNotifications()" class="absolute right-8 top-[85%] mt-2 w-[340px] bg-white rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.15)] border border-gray-100 overflow-hidden z-50 transform origin-top-right transition-all">
+            <div *ngIf="showNotifications()" 
+                 (mouseleave)="showNotifications.set(false)"
+                 class="absolute right-8 top-[85%] mt-2 w-[340px] bg-white rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.15)] border border-gray-100 overflow-hidden z-50 transform origin-top-right transition-all">
                 <div class="px-5 py-4 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                     <h3 class="font-bold text-[#111]">Notifications</h3>
                     <span class="text-xs font-bold text-[#E8584A]">{{ unreadCount() }} new</span>

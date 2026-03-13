@@ -642,6 +642,26 @@
         "IsRequired": false
       },
       {
+        "Name": "Dependents",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UniversityName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StudentId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TripFrequency",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "kycFile",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false

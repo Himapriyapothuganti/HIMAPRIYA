@@ -1,105 +1,324 @@
-<app-modal [isOpen]="isOpen" [title]="'Request Plan: ' + (selectedPlan?.policyName || '')" (closeModal)="close()">
-    <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" class="space-y-6">
+<app-toast *ngIf="error" [message]="error" type="error" (closeToast)="closeToast()"></app-toast>
+<app-toast *ngIf="success" [message]="success" type="success" (closeToast)="closeToast()"></app-toast>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Destination -->
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-1">Destination</label>
-                <input type="text" formControlName="destination" class="w-full px-4 py-2 border rounded-xl"
-                    placeholder="e.g. Rome, Italy" />
-                <span class="text-xs text-red-500"
-                    *ngIf="requestForm.get('destination')?.invalid && requestForm.get('destination')?.touched">Destination
-                    is required.</span>
+<app-modal [isOpen]="isOpen" [title]="'Request Agent: ' + (selectedPlan?.policyName || '')" (closeModal)="close()" maxWidthClass="max-w-4xl">
+    <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" class="space-y-8">
+
+        <!-- ─── SECTION 1: TRIP DETAILS ─── -->
+        <div class="relative bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 rounded-xl bg-[#FDF4F0] flex items-center justify-center text-[#E8584A] shadow-sm">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10l-6 1.5l-9 7l-2 -1.5l2 -1.5l-3 -4.5l3 1.5l7 -2l2 -7.5l2 1.5z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-extrabold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">Trip Details</h3>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Destination & Timeline</p>
+                </div>
             </div>
 
-            <!-- Dates -->
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <!-- Destination -->
+                <div class="md:col-span-2">
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Destination City/Country</label>
+                    <input type="text" formControlName="destination" 
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium placeholder-gray-400"
+                        placeholder="e.g. Paris, France" />
+                    <div *ngIf="f['destination'].touched && f['destination'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Destination is required
+                    </div>
+                </div>
+
+                <!-- Dates -->
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Start Date</label>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Departure Date</label>
                     <input type="date" formControlName="startDate" [min]="today"
-                        class="w-full px-4 py-2 border rounded-xl" />
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium text-gray-700" />
+                    <div *ngIf="f['startDate'].touched && f['startDate'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Required
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">End Date</label>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Return Date</label>
                     <input type="date" formControlName="endDate" [min]="requestForm.get('startDate')?.value || today"
-                        class="w-full px-4 py-2 border rounded-xl" />
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium text-gray-700" />
+                    <div *ngIf="f['endDate'].touched && f['endDate'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Required
+                    </div>
+                    <!-- Date Range Error -->
+                    <div *ngIf="requestForm.errors?.['dateRangeInvalid'] && f['endDate'].touched" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Return date must be after departure
+                    </div>
                 </div>
-            </div>
 
-            <!-- Traveller Details -->
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-1">Traveller Name</label>
-                <input type="text" formControlName="travellerName" class="w-full px-4 py-2 border rounded-xl" />
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Age</label>
-                    <input type="number" formControlName="travellerAge" class="w-full px-4 py-2 border rounded-xl" />
+                <!-- Multi-Trip Frequency -->
+                <div *ngIf="selectedPlan?.policyType === 'Multi-Trip'" class="md:col-span-2">
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Coverage Period</label>
+                    <div class="px-5 py-3.5 bg-[#FDF4F0]/60 border-2 border-[#FDE4D8] border-dashed rounded-2xl flex items-center gap-3">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#E8584A] animate-pulse"></span>
+                        <input type="text" formControlName="tripFrequency" readonly 
+                            class="grow bg-transparent border-none p-0 outline-none text-xs font-bold text-[#E8584A] italic" />
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Passport Number</label>
-                    <input type="text" formControlName="passportNumber" class="w-full px-4 py-2 border rounded-xl" />
-                </div>
-            </div>
-
-            <!-- KYC Details -->
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-1">KYC Type</label>
-                <select formControlName="kycType" class="w-full px-4 py-2 border rounded-xl bg-white">
-                    <option value="Aadhaar">Aadhaar</option>
-                    <option value="PAN">PAN</option>
-                    <option value="DriverLicense">Driver's License</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-bold text-gray-700 mb-1">KYC Number</label>
-                <input type="text" formControlName="kycNumber" class="w-full px-4 py-2 border rounded-xl" />
             </div>
         </div>
 
-        <div class="border-t pt-4 space-y-4">
-            <h3 class="text-sm font-bold text-[#E8584A] uppercase tracking-widest">Required Documents <span
-                    class="text-xs text-gray-400 lowercase font-normal">(PDF, JPG, PNG - Max 5MB)</span></h3>
+        <!-- ─── SECTION 2: TRAVELLER INFORMATION ─── -->
+        <div class="relative bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 rounded-xl bg-[#FDF4F0] flex items-center justify-center text-[#E8584A] shadow-sm">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-extrabold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">Traveller Details</h3>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Identity & Eligibility</p>
+                </div>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <div class="md:col-span-2">
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Full Name (per Passport)</label>
+                    <input type="text" formControlName="travellerName" 
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium placeholder-gray-400" />
+                    <div *ngIf="f['travellerName'].touched && f['travellerName'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Name is required
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Age (18+)</label>
+                    <input type="number" formControlName="travellerAge" 
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium" />
+                    <div *ngIf="f['travellerAge'].touched && f['travellerAge'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Min. 18 years
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Passport Number</label>
+                    <input type="text" formControlName="passportNumber" 
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium uppercase" />
+                    <div *ngIf="f['passportNumber'].touched && f['passportNumber'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Invalid (e.g. A1234567)
+                    </div>
+                </div>
+
+                <!-- Student Plan -->
+                <ng-container *ngIf="selectedPlan?.policyType === 'Student'">
+                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-5 p-5 bg-[#FDF4F0]/40 rounded-2xl border-2 border-[#FDE4D8]">
+                        <div>
+                            <label class="block text-[11px] font-bold text-[#E8584A] uppercase tracking-widest mb-2">University Name</label>
+                            <input type="text" formControlName="universityName" 
+                                class="w-full px-4 py-2.5 bg-white border-2 border-[#FDE4D8] rounded-xl focus:border-[#E8584A] transition-all outline-none text-sm font-medium" />
+                            <div *ngIf="f['universityName']?.touched && f['universityName']?.invalid" class="text-[#E8584A] text-[9px] mt-1 font-bold uppercase tracking-wider">Required</div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-[#E8584A] uppercase tracking-widest mb-2">Student ID</label>
+                            <input type="text" formControlName="studentId" 
+                                class="w-full px-4 py-2.5 bg-white border-2 border-[#FDE4D8] rounded-xl focus:border-[#E8584A] transition-all outline-none text-sm font-medium" />
+                            <div *ngIf="f['studentId']?.touched && f['studentId']?.invalid" class="text-[#E8584A] text-[9px] mt-1 font-bold uppercase tracking-wider">Required</div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <!-- KYC -->
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">KYC Method</label>
+                    <div class="relative">
+                        <select formControlName="kycType" class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none appearance-none font-bold text-sm cursor-pointer">
+                            <option value="Aadhaar">Aadhaar Card</option>
+                            <option value="PAN">PAN Card</option>
+                            <option value="DriverLicense">Driver's License</option>
+                            <option value="Other">Other ID</option>
+                        </select>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">ID Number</label>
+                    <input type="text" formControlName="kycNumber" 
+                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium uppercase" />
+                    <div *ngIf="f['kycNumber'].touched && f['kycNumber'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Required
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── SECTION 3: FAMILY DETAILS ─── -->
+        <div *ngIf="selectedPlan?.policyType === 'Family'" class="bg-[#FDF4F0]/60 rounded-2xl p-7 border border-[#FDE4D8]">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-[#E8584A] shadow-sm">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-3-3.87" /><path d="M9 21v-2a4 4 0 0 1 4-4h4" />
+                            <circle cx="15" cy="9" r="4" /><path d="M1 21v-2a4 4 0 0 1 4-4h2" />
+                            <circle cx="5" cy="7" r="4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-extrabold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">Co-Travellers</h3>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Family Coverage</p>
+                    </div>
+                </div>
+                <button type="button" (click)="addDependent()" 
+                    class="px-5 py-2 rounded-xl bg-[#E8584A] text-[10px] font-bold text-white uppercase tracking-widest hover:bg-[#d4483b] transition-all shadow-md active:scale-95">
+                    + Add
+                </button>
+            </div>
+            
+            <div formArrayName="dependents" class="space-y-4">
+                <div *ngFor="let dep of dependents.controls; let i=index" [formGroupName]="i" 
+                     class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                    <div>
+                        <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Relation</label>
+                        <select formControlName="Relationship" class="w-full px-3 py-2 border-2 border-gray-50 rounded-xl text-xs font-bold outline-none focus:border-[#E8584A]">
+                            <option value="Spouse">Spouse</option>
+                            <option value="Child">Child</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">FullName</label>
+                        <input type="text" formControlName="Name" class="w-full px-3 py-2 border-2 border-gray-50 rounded-xl text-xs font-semibold outline-none focus:border-[#E8584A]" />
+                        <div *ngIf="dep.get('Name')?.touched && dep.get('Name')?.invalid" class="text-red-500 text-[8px] font-bold mt-1 uppercase tracking-wider">Required</div>
+                    </div>
+                    <div class="flex gap-3 items-end">
+                        <div class="flex-1">
+                            <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Age</label>
+                            <input type="number" formControlName="Age" class="w-full px-3 py-2 border-2 border-gray-50 rounded-xl text-xs font-bold outline-none focus:border-[#E8584A]" />
+                            <div *ngIf="dep.get('Age')?.touched && dep.get('Age')?.invalid" class="text-red-500 text-[8px] font-bold mt-1 uppercase tracking-wider">Required</div>
+                        </div>
+                        <button type="button" (click)="removeDependent(i)" 
+                            class="w-9 h-9 rounded-xl bg-red-50 text-[#E8584A] hover:bg-[#E8584A] hover:text-white transition-all flex items-center justify-center shrink-0">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="dependents.length === 0" class="text-center py-10 border-2 border-dashed border-gray-200 bg-white/50 rounded-2xl">
+                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-loose">No family members added.<br/><span class="text-[9px] opacity-70">Click + Add to include travellers.</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── SECTION 4: SECURITY VERIFICATION ─── -->
+        <div class="relative bg-white rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-9 h-9 rounded-xl bg-[#FDF4F0] flex items-center justify-center text-[#E8584A] shadow-sm">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-extrabold text-[#111] tracking-tight" style="font-family: 'Poppins', sans-serif;">Verification</h3>
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Security Uploads</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- KYC Doc -->
-                <div class="border rounded-xl p-3 bg-gray-50">
-                    <label class="block text-xs font-bold text-gray-700 mb-2">KYC Document *</label>
-                    <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onFileSelected($event, 'kyc')"
-                        class="text-xs w-full cursor-pointer" />
+                <div class="group">
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">ID Proof *</label>
+                    <div class="relative bg-gray-50/50 rounded-2xl p-5 border-2 border-dashed border-gray-100 transition-all hover:border-[#E8584A] hover:bg-white group-active:scale-95">
+                        <input type="file" (change)="onFileSelected($event, 'kyc')"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                        <div class="flex flex-col items-center gap-2.5 text-center pointer-events-none">
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-white" [ngClass]="kycFile ? 'bg-[#22c55e] border-none shadow-lg' : 'border border-gray-100'">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" [attr.stroke]="kycFile ? 'white' : '#E8584A'" stroke-width="2.5">
+                                    <path d="M20 6L9 17l-5-5" *ngIf="kycFile" /><path d="M12 5v14M5 12h14" *ngIf="!kycFile" />
+                                </svg>
+                            </div>
+                            <span class="text-[10px] font-bold text-gray-700 truncate max-w-full uppercase tracking-tighter">
+                                {{ kycFile ? kycFile.name : 'Upload' }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Passport Doc -->
-                <div class="border rounded-xl p-3 bg-gray-50">
-                    <label class="block text-xs font-bold text-gray-700 mb-2">Passport Document *</label>
-                    <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onFileSelected($event, 'passport')"
-                        class="text-xs w-full cursor-pointer" />
+                <div class="group">
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-3">Passport Copy *</label>
+                    <div class="relative bg-gray-50/50 rounded-2xl p-5 border-2 border-dashed border-gray-100 transition-all hover:border-[#E8584A] hover:bg-white group-active:scale-95">
+                        <input type="file" (change)="onFileSelected($event, 'passport')"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                        <div class="flex flex-col items-center gap-2.5 text-center pointer-events-none">
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-white" [ngClass]="passportFile ? 'bg-[#22c55e] border-none shadow-lg' : 'border border-gray-100'">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" [attr.stroke]="passportFile ? 'white' : '#E8584A'" stroke-width="2.5">
+                                    <path d="M20 6L9 17l-5-5" *ngIf="passportFile" /><path d="M12 5v14M5 12h14" *ngIf="!passportFile" />
+                                </svg>
+                            </div>
+                            <span class="text-[10px] font-bold text-gray-700 truncate max-w-full uppercase tracking-tighter">
+                                {{ passportFile ? passportFile.name : 'Upload' }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Other Doc -->
-                <div class="border rounded-xl p-3 bg-gray-50">
-                    <label class="block text-xs font-bold text-gray-700 mb-2">Other Document (Optional)</label>
-                    <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onFileSelected($event, 'other')"
-                        class="text-xs w-full cursor-pointer" />
+                <!-- Extras -->
+                <div class="group">
+                    <label class="block text-[11px] font-bold uppercase tracking-widest mb-3" [ngClass]="selectedPlan?.policyType === 'Student' ? 'text-[#E8584A]' : 'text-gray-500'">
+                        {{ selectedPlan?.policyType === 'Student' ? 'Student Doc *' : 'Optional' }}
+                    </label>
+                    <div class="relative bg-gray-50/50 rounded-2xl p-5 border-2 border-dashed border-gray-100 transition-all hover:border-[#E8584A] hover:bg-white group-active:scale-95">
+                        <input type="file" (change)="onFileSelected($event, selectedPlan?.policyType === 'Student' ? 'universityLetter' : 'other')"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                        <div class="flex flex-col items-center gap-2.5 text-center pointer-events-none">
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-white" [ngClass]="otherFile ? 'bg-[#22c55e] border-none shadow-lg' : 'border border-gray-100'">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" [attr.stroke]="otherFile ? 'white' : '#E8584A'" stroke-width="2.5">
+                                    <path d="M20 6L9 17l-5-5" *ngIf="otherFile" /><path d="M12 5v14M5 12h14" *ngIf="!otherFile" />
+                                </svg>
+                            </div>
+                            <span class="text-[10px] font-bold text-gray-700 truncate max-w-full uppercase tracking-tighter">
+                                {{ otherFile ? otherFile.name : 'Selection' }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Actions -->
-        <div class="flex justify-end gap-3 pt-4 border-t mt-6">
-            <button type="button" (click)="close()"
-                class="px-6 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors">
-                Cancel
-            </button>
-            <button type="submit" [disabled]="isSubmitting"
-                class="px-6 py-3 rounded-xl font-bold bg-[#E8584A] text-white disabled:opacity-50 hover:bg-red-600 transition-colors flex items-center gap-2 shadow-[0_4px_14px_rgba(232,88,74,0.3)]">
-                <span *ngIf="isSubmitting"
-                    class="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                Submit Request
-            </button>
+        <!-- ─── FINAL ACTIONS ─── -->
+        <div class="flex items-center justify-between pt-8 border-t border-gray-100">
+            <div class="hidden md:flex items-center gap-3">
+                <div class="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                </div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Secured Transmission</p>
+            </div>
+            <div class="flex gap-4">
+                <button type="button" (click)="close()"
+                    class="px-6 py-3.5 rounded-2xl font-bold text-gray-400 uppercase tracking-widest text-[11px] hover:text-[#111] hover:bg-gray-50 transition-all">
+                    Discard
+                </button>
+                <button type="submit" [disabled]="isSubmitting"
+                    class="px-8 py-3.5 rounded-2xl font-bold bg-[#E8584A] text-white uppercase tracking-widest text-[12px] shadow-[0_12px_24px_rgba(232,88,74,0.3)] hover:shadow-none hover:translate-y-0.5 transition-all flex items-center gap-3 disabled:opacity-50">
+                    <span *ngIf="isSubmitting"
+                        class="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                    {{ isSubmitting ? 'Submitting...' : 'Send Request' }}
+                    <svg *ngIf="!isSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                </button>
+            </div>
         </div>
 
     </form>

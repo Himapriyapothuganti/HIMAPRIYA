@@ -1,10 +1,4 @@
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_Infrastructure.Tests
-D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.csproj.AssemblyReference.cache
-D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.GeneratedMSBuildEditorConfig.editorconfig
-D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.AssemblyInfoInputs.cache
-D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.AssemblyInfo.cs
-D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.csproj.CoreCompileInputs.cache
-D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.sourcelink.json
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\testhost.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\appsettings.Development.json
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\appsettings.json
@@ -155,6 +149,12 @@ D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Infras
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Infrastructure.pdb
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Application.pdb
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Domain.pdb
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.csproj.AssemblyReference.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.GeneratedMSBuildEditorConfig.editorconfig
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.AssemblyInfoInputs.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.AssemblyInfo.cs
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.csproj.CoreCompileInputs.cache
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.sourcelink.json
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastr.450EAD72.Up2Date
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\refint\Infrastructure.Tests.dll

@@ -15,6 +15,11 @@ namespace Application.DTOs
         public string PassportNumber { get; set; } = string.Empty;
         public string KycType { get; set; } = string.Empty;
         public string KycNumber { get; set; } = string.Empty;
+        
+        public string? Dependents { get; set; }
+        public string? UniversityName { get; set; }
+        public string? StudentId { get; set; }
+        public string? TripFrequency { get; set; }
     }
 
     public class PolicyRequestDocumentDTO
@@ -44,6 +49,11 @@ namespace Application.DTOs
         public string PassportNumber { get; set; } = string.Empty;
         public string KycType { get; set; } = string.Empty;
         public string KycNumber { get; set; } = string.Empty;
+
+        public string? Dependents { get; set; }
+        public string? UniversityName { get; set; }
+        public string? StudentId { get; set; }
+        public string? TripFrequency { get; set; }
         
         public string Status { get; set; } = string.Empty;
         public string? RejectionReason { get; set; }
@@ -81,5 +91,12 @@ namespace Application.DTOs
     {
         public int PolicyRequestId { get; set; }
         public string PaymentMethod { get; set; } = "Credit Card";
+    }
+
+    public class DependentDTO
+    {
+        public string Name { get; set; } = string.Empty;
+        public int Age { get; set; }
+        public string Relationship { get; set; } = string.Empty;
     }
 }

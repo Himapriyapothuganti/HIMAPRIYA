@@ -145,7 +145,7 @@
                                             fill="none" stroke="currentColor" stroke-width="2.5">
                                             <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                                             <polyline points="2 17 12 22 22 17"></polyline>
-                                            <polyline points="2 12 17 22 12"></polyline>
+                                            <polyline points="2 12 12 17 22 12"></polyline>
                                         </svg>
                                     </ng-container>
                                     {{ plan.planTier }}
@@ -261,160 +261,125 @@
 </div>
 
 <!-- ─── VIEW DETAILS MODAL ──────────────────────────────── -->
-<app-modal [isOpen]="isModalOpen" title="Plan Details" (closeModal)="closeDetails()">
+<app-modal [isOpen]="isModalOpen" title="Plan Details" (closeModal)="closeDetails()" maxWidthClass="max-w-3xl md:max-w-4xl">
     <div class="text-left" *ngIf="selectedPlan">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8">
-
-            <!-- LEFT: Plan info & coverage checklist -->
+        
+        <!-- 1. Header & Price Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 border-b border-gray-100 pb-5">
             <div>
-                <!-- Header -->
-                <div class="mb-5">
-                    <h3 class="text-[26px] font-extrabold text-[#111] mb-2 leading-tight">
-                        {{ selectedPlan.policyName }}
-                    </h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase border"
-                            [ngClass]="getTierBadgeClass(selectedPlan.planTier)">
-                            <ng-container [ngSwitch]="selectedPlan.planTier">
-                                <svg *ngSwitchCase="'Silver'" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
-                                    <circle cx="12" cy="8" r="7"></circle>
-                                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                                </svg>
-                                <svg *ngSwitchCase="'Gold'" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
-                                    <polygon
-                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                                    </polygon>
-                                </svg>
-                                <svg *ngSwitchCase="'Platinum'" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
-                                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                                    <polyline points="2 17 12 22 22 17"></polyline>
-                                    <polyline points="2 12 17 22 12"></polyline>
-                                </svg>
-                            </ng-container>
-                            {{ selectedPlan.planTier }}
-                        </span>
-                        <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase"
-                            style="background: #FDE8E0; color: #E8584A;">{{ selectedPlan.policyType }}</span>
-                    </div>
-                </div>
-
-                <!-- Key Metrics -->
-                <div class="grid grid-cols-2 gap-3 mb-5 rounded-2xl p-4" style="background: #F8F7F5;">
-                    <div>
-                        <div class="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-0.5">Coverage
-                            Limit</div>
-                        <div class="text-[16px] font-extrabold text-[#111]">₹{{ selectedPlan.coverageLimit |
-                            number:'1.0-0' }}</div>
-                    </div>
-                    <div>
-                        <div class="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-0.5">Duration
-                        </div>
-                        <div class="text-[16px] font-extrabold text-[#111]">{{ selectedPlan.tenure }} Days</div>
-                    </div>
-                    <div>
-                        <div class="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-0.5">Claim
-                            Limit</div>
-                        <div class="text-[16px] font-extrabold text-[#111]">₹{{ selectedPlan.claimLimit | number:'1.0-0'
-                            }}</div>
-                    </div>
-                    <div>
-                        <div class="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 mb-0.5">Zone
-                        </div>
-                        <div class="text-[14px] font-extrabold text-[#111] whitespace-normal break-words">{{
-                            selectedPlan.destinationZone }}</div>
-                    </div>
-                </div>
-
-                <!-- Price -->
-                <div class="flex items-baseline gap-2 mb-5 px-4 py-3 rounded-2xl" style="background: #FDE8E0;">
-                    <span class="text-[11px] font-bold text-[#E8584A] uppercase tracking-widest">Starting from</span>
-                    <span class="text-[26px] font-extrabold"
-                        style="font-family: 'Poppins', sans-serif; color: #E8584A;">
-                        ₹{{ selectedPlan.basePremium | number:'1.0-0' }}
-                    </span>
-                    <span class="text-[13px] font-bold text-[#E8584A]/60">/trip</span>
-                </div>
-
-                <!-- Coverage items checklist -->
-                <div>
-                    <div class="text-[11px] font-extrabold uppercase tracking-widest text-gray-400 mb-3">Coverage
-                        Highlights</div>
-                    <div class="flex flex-wrap gap-2">
-                        <span *ngFor="let item of getCoverageList(selectedPlan.coverageDetails)"
-                            class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-[#E8584A]"
-                            style="background: #FDF4F0; border: 1px solid rgba(232,88,74,0.12);">
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#E8584A"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase border"
+                        [ngClass]="getTierBadgeClass(selectedPlan.planTier)">
+                        <ng-container [ngSwitch]="selectedPlan.planTier">
+                            <svg *ngSwitchCase="'Silver'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                             </svg>
-                            {{ item }}
-                        </span>
+                            <svg *ngSwitchCase="'Gold'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            <svg *ngSwitchCase="'Platinum'" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </ng-container>
+                        {{ selectedPlan.planTier }}
+                    </span>
+                    <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase"
+                        style="background: #FDE8E0; color: #E8584A;">{{ selectedPlan.policyType }}</span>
+                </div>
+                <h3 class="text-[30px] font-extrabold text-[#111] leading-tight" style="font-family: 'Poppins', sans-serif;">
+                    {{ selectedPlan.policyName }}
+                </h3>
+            </div>
+            
+            <div class="mt-4 md:mt-0 text-left md:text-right">
+                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Premium per trip</div>
+                <div class="text-[34px] font-extrabold leading-none" style="font-family: 'Poppins', sans-serif; color: #E8584A;">
+                    ₹{{ selectedPlan.basePremium | number:'1.0-0' }}
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Flexible Key Metrics Row -->
+        <div class="flex flex-wrap md:flex-nowrap gap-6 md:gap-8 mb-8 bg-[#F8F7F5] rounded-2xl p-6 border border-gray-100/50">
+            <div class="flex-1 min-w-[120px]">
+                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Coverage Limit</div>
+                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight">₹{{ selectedPlan.coverageLimit | number:'1.0-0' }}</div>
+            </div>
+            <div class="hidden md:block w-px bg-gray-200/50"></div>
+            <div class="flex-1 min-w-[120px]">
+                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Claim Limit</div>
+                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight">₹{{ selectedPlan.claimLimit | number:'1.0-0' }}</div>
+            </div>
+            <div class="hidden md:block w-px bg-gray-200/50"></div>
+            <div class="flex-1 min-w-[120px]">
+                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Max Duration</div>
+                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight">{{ selectedPlan.tenure }} Days</div>
+            </div>
+            <div class="hidden md:block w-px bg-gray-200/50"></div>
+            <div class="flex-1 min-w-[120px]">
+                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Valid Zone</div>
+                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis" title="{{ selectedPlan.destinationZone }}">{{ selectedPlan.destinationZone }}</div>
+            </div>
+        </div>
+
+        <!-- 3. Coverage Details (Split View) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+            <!-- Included -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center bg-green-100">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </div>
+                    <span class="text-[14px] font-extrabold text-[#16a34a] uppercase tracking-wider">What's Covered</span>
+                </div>
+                <div class="space-y-2">
+                    <div *ngFor="let item of getCoverageList(selectedPlan.coverageDetails)"
+                        class="flex items-start gap-3 py-1.5 text-[14px] font-medium text-gray-800 leading-snug">
+                        <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        <span>{{ item }}</span>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Included / Excluded -->
-            <div class="mt-8 md:mt-0">
-                <!-- Included -->
-                <div class="mb-5">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-6 h-6 rounded-full flex items-center justify-center" style="background: #dcfce7;">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a"
-                                stroke-width="3">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                        </div>
-                        <span class="text-[13px] font-extrabold text-[#16a34a] uppercase tracking-wider">What's
-                            Covered</span>
+            <!-- Excluded -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center bg-red-100">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="3">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
                     </div>
-                    <div class="space-y-1.5">
-                        <div *ngFor="let item of getIncludedItems(selectedPlan.planTier)"
-                            class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-semibold text-green-800"
-                            style="background: #f0fdf4; border: 1px solid #bbf7d0;">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a"
-                                stroke-width="2.5">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                            {{ item }}
-                        </div>
-                    </div>
+                    <span class="text-[14px] font-extrabold text-red-600 uppercase tracking-wider">Not Covered</span>
                 </div>
-
-                <!-- Excluded -->
-                <div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-6 h-6 rounded-full flex items-center justify-center" style="background: #fee2e2;">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626"
-                                stroke-width="3">
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                        </div>
-                        <span class="text-[13px] font-extrabold text-red-600 uppercase tracking-wider">Not
-                            Covered</span>
+                <div class="space-y-2">
+                    <div *ngFor="let item of getCoverageList(selectedPlan.exclusionDetails)"
+                        class="flex items-start gap-3 py-1.5 text-[14px] font-medium text-gray-600 leading-snug">
+                        <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                        <span>{{ item }}</span>
                     </div>
-                    <div class="space-y-1.5">
-                        <div *ngFor="let item of getExcludedItems(selectedPlan.planTier)"
-                            class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-semibold text-red-700"
-                            style="background: #fff5f5; border: 1px solid #fecaca;">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626"
-                                stroke-width="2.5">
-                                <line x1="18" y1="6" x2="6" y2="18" />
-                                <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            {{ item }}
-                        </div>
+                    <div *ngIf="getCoverageList(selectedPlan.exclusionDetails).length === 0" class="text-[13px] text-gray-500 italic py-2">
+                        No specific exclusions defined. standard terms apply.
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Footer Actions -->
-        <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-8 pt-6"
-            style="border-top: 1px solid #f3f3f3;">
+        <!-- 4. Footer Actions -->
+        <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-10 pt-6 border-t border-gray-100">
             <button (click)="closeDetails()"
                 class="px-6 py-3.5 rounded-2xl font-bold text-[14px] text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-colors outline-none">
                 Close
@@ -435,7 +400,7 @@
             </ng-template>
             <ng-template #canRequestModal>
                 <button (click)="openRequestModal(selectedPlan)"
-                    class="px-6 py-3.5 rounded-2xl font-bold text-[14px] bg-[#FDE8E0] text-[#E8584A] hover:bg-[#FBD9CD] transition-colors border border-[#E8584A]/30">
+                    class="px-8 py-3.5 rounded-2xl font-bold text-[14px] bg-[#E8584A] text-white hover:bg-[#d4483a] transition-colors shadow-lg shadow-red-500/20">
                     Request Agent
                 </button>
             </ng-template>

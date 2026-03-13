@@ -106,7 +106,7 @@ export class PolicyRequestDetail implements OnInit {
     });
   }
 
-  downloadDocument(docId: number) {
+  viewDocument(docId: number) {
     const req = this.request();
     if (!req) return;
     const doc = req.documents.find(d => d.policyRequestDocumentId === docId);
@@ -114,18 +114,15 @@ export class PolicyRequestDetail implements OnInit {
 
     this.policyRequestService.downloadDocument(doc.fileUrl).subscribe({
       next: (blob: Blob) => {
-        const downloadUrl = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = doc.fileName;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(downloadUrl);
-        document.body.removeChild(a);
+        const fileUrl = window.URL.createObjectURL(blob);
+        window.open(fileUrl, '_blank');
+        
+        // Clean up memory after a short delay
+        setTimeout(() => window.URL.revokeObjectURL(fileUrl), 60000);
       },
       error: (err) => {
-        console.error('Download failed', err);
-        alert('Failed to download document.');
+        console.error('Failed to load document', err);
+        alert('Failed to load document for viewing.');
       }
     });
   }

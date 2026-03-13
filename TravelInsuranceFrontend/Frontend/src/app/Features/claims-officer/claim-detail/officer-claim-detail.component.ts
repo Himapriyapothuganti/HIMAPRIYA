@@ -194,12 +194,21 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
                   </svg>
                 </button>
                 <h4 class="text-sm font-bold text-[#111] mb-4">Confirm Approval Amount</h4>
+                
+                <!-- NEW SUGGESTED PAYOUT BOX -->
+                <div class="mb-4 p-4 bg-blue-50 border border-blue-100 rounded-xl" *ngIf="claim().suggestedPayout > 0">
+                  <p class="text-[13px] text-blue-800 font-medium">
+                    <span class="block mb-1">Max Eligible Payout: <strong>{{ claim().suggestedPayout | currency:'INR':'symbol':'1.0-0' }}</strong></span>
+                    <span *ngIf="claim().deductibleApplied > 0" class="text-blue-600 block text-xs">Deductible Applied: <strong>{{ claim().deductibleApplied | currency:'INR':'symbol':'1.0-0' }}</strong></span>
+                  </p>
+                </div>
+
                 <div class="space-y-4">
                   <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Approved Amount (₹)</label>
                     <div class="relative">
                       <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-gray-500">₹</span>
-                      <input type="number" [(ngModel)]="approvedAmountForm" placeholder="0"
+                      <input type="number" [(ngModel)]="approvedAmountForm" placeholder="0" [max]="claim().suggestedPayout > 0 ? claim().suggestedPayout : claim().claimedAmount"
                              class="w-full pl-8 pr-4 py-3 bg-white border border-gray-200 rounded-xl font-bold text-[#111] focus:ring-2 focus:ring-[#E8584A]/20 focus:border-[#E8584A] outline-none transition-all">
                     </div>
                   </div>
@@ -301,10 +310,12 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
                       <p class="text-xs text-blue-500 font-bold uppercase tracking-wider mt-0.5">{{ doc.fileType || 'Document' }}</p>
                     </div>
                   </div>
-                  <button (click)="download(doc.fileUrl, doc.fileName)"
-                     class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:border-blue-200 transition-colors flex-shrink-0">
+                  <button (click)="viewDocument(doc.fileUrl, doc.fileName)" title="View Document"
+                     class="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:border-blue-200 transition-colors flex-shrink-0 cursor-pointer">
+                    <!-- Eye Icon for View -->
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
                     </svg>
                   </button>
                 </div>
@@ -389,6 +400,12 @@ export class OfficerClaimDetailComponent implements OnInit {
 
   openAction(actionName: string) {
     this.activeAction.set(actionName);
+    if (actionName === 'approve' && this.claim()) {
+      this.approvedAmountForm = this.claim().suggestedPayout > 0 ? this.claim().suggestedPayout : this.claim().claimedAmount;
+    } else {
+      this.approvedAmountForm = 0;
+      this.rejectionReasonForm = '';
+    }
   }
 
   submitAction(actionType: string) {
@@ -401,6 +418,11 @@ export class OfficerClaimDetailComponent implements OnInit {
 
     switch (actionType) {
       case 'approve':
+        if (this.approvedAmountForm > this.claim().suggestedPayout) {
+          alert(`Cannot approve more than the system-calculated limit of ₹${this.claim().suggestedPayout}`);
+          this.isProcessing.set(false);
+          return;
+        }
         submitObs = this.claimsService.reviewClaim(id, {
           isApproved: true,
           approvedAmount: this.approvedAmountForm
@@ -455,22 +477,19 @@ export class OfficerClaimDetailComponent implements OnInit {
     }
   }
 
-  download(url: string, fileName: string) {
+  viewDocument(url: string, fileName: string) {
     if (!url) return;
     this.claimsService.downloadDocument(url).subscribe({
       next: (blob: Blob) => {
-        const downloadUrl = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(downloadUrl);
-        document.body.removeChild(a);
+        const fileUrl = window.URL.createObjectURL(blob);
+        window.open(fileUrl, '_blank');
+        
+        // Clean up memory after a short delay since we opened it in a new tab
+        setTimeout(() => window.URL.revokeObjectURL(fileUrl), 60000);
       },
       error: (err) => {
-        console.error('Download failed', err);
-        alert('Failed to download document.');
+        console.error('Failed to load document', err);
+        alert('Failed to load document for viewing.');
       }
     });
   }

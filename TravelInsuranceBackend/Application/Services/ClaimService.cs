@@ -58,10 +58,27 @@ namespace Application.Services
             if (dto.IncidentDate.Date > DateTime.Now.Date)
                 throw new Exception("Incident date cannot be in the future.");
 
-            //  Validation Check 4: Is claimed amount within the product's claim limit?
             var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
-            if (dto.ClaimedAmount > product.ClaimLimit)
-                throw new Exception($"Claimed amount exceeds the claim limit of {product.ClaimLimit}.");
+
+            // Validation Check 4: Is the claim type valid for the plan tier?
+            var silverTypes = new[] { "Emergency Medical", "Dental", "Hospital Cash", "Personal Accident" };
+            var goldTypes = silverTypes.Concat(new[] { "Baggage Loss", "Baggage Delay", "Flight Cancellation", "Trip Cancellation", "Loss of Passport", "Flight Delay", "Emergency Hotel" }).ToArray();
+            var platinumTypes = goldTypes.Concat(new[] { "Pre-existing Disease", "Personal Liability", "Missed Connection", "Hijack Distress", "Emergency Cash" }).ToArray();
+
+            bool isEligible = product.PlanTier switch
+            {
+                "Silver" => silverTypes.Contains(dto.ClaimType),
+                "Gold" => goldTypes.Contains(dto.ClaimType),
+                "Platinum" => true, // Platinum covers everything
+                _ => true // Default to true for unsupported tiers (graceful degradation)
+            };
+
+            if (!isEligible)
+                throw new Exception($"The claim type '{dto.ClaimType}' is not covered under your {product.PlanTier} plan.");
+
+            // Validation Check 5: Is claimed amount > 0 ?
+            if (dto.ClaimedAmount <= 0)
+                throw new Exception($"Claimed amount must be greater than zero.");
 
             //  Find the Claims Officer with the fewest active claims
             // This ensures work is distributed fairly among all available officers
@@ -192,6 +209,7 @@ namespace Application.Services
         public async Task<ClaimResponseDTO> ReviewClaimAsync(int claimId, string officerId, ReviewClaimDTO dto)
         {
             var claim = await _claimRepo.GetByIdAsync(claimId);
+            var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
 
             if (claim.ClaimsOfficerId != officerId)
                 throw new Exception("You are not assigned to this claim.");
@@ -204,8 +222,14 @@ namespace Application.Services
                 if (dto.ApprovedAmount == null || dto.ApprovedAmount <= 0)
                     throw new Exception("Approved amount is required when approving a claim.");
 
-                // Note: The ApprovedAmount might be less than ClaimedAmount if the officer 
-                // determines the claim exceeds policy coverage limits or lacks sufficient evidence.
+                var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
+                var payoutCalc = CalculateSuggestedPayout(claim, product);
+
+                if (dto.ApprovedAmount > payoutCalc.SuggestedPayout)
+                {
+                    throw new Exception($"Approved amount {dto.ApprovedAmount} exceeds the system maximum calculated payout limit of {payoutCalc.SuggestedPayout} for {claim.ClaimType} claims under this plan.");
+                }
+
                 claim.ApprovedAmount = dto.ApprovedAmount;
                 claim.Status = ClaimStatus.Approved;
             }
@@ -221,7 +245,6 @@ namespace Application.Services
             claim.ReviewedAt = DateTime.UtcNow;
             var updated = await _claimRepo.UpdateAsync(claim);
 
-            var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
             var claimOfficer = await _userManager.FindByIdAsync(officerId);
             
             if (dto.IsApproved)
@@ -347,6 +370,9 @@ namespace Application.Services
                 FileUrl = $"https://localhost:7161/api/Claim/document/{d.ClaimDocumentId}"
             }).ToList();
 
+            var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
+            var payoutCalc = CalculateSuggestedPayout(claim, product);
+
             return new ClaimResponseDTO
             {
                 ClaimId = claim.ClaimId,
@@ -362,11 +388,42 @@ namespace Application.Services
                 ApprovedAmount = claim.ApprovedAmount,
                 Status = claim.Status.ToString(),
                 RejectionReason = claim.RejectionReason,
+                SuggestedPayout = payoutCalc.SuggestedPayout,
+                DeductibleApplied = payoutCalc.DeductibleApplied,
                 SubmittedAt = claim.SubmittedAt,
                 ReviewedAt = claim.ReviewedAt,
                 IncidentDate = claim.IncidentDate,
                 Documents = documents
             };
+        }
+
+        private (decimal SuggestedPayout, decimal DeductibleApplied) CalculateSuggestedPayout(Claim claim, PolicyProduct product)
+        {
+            var claimType = claim.ClaimType;
+            var requested = claim.ClaimedAmount;
+
+            var result = claimType switch
+            {
+                "Emergency Medical" => (Math.Max(0, Math.Min(requested, product.CoverageLimit) - 8300), 8300m),
+                "Dental" => (Math.Max(0, Math.Min(requested, 24900m) - 12450m), 12450m),
+                "Hospital Cash" => (Math.Min(requested, 6225m), 0m),
+                "Personal Accident" => (Math.Min(requested, 415000m), 0m),
+                "Baggage Loss" => (Math.Min(requested, 16600m), 0m),
+                "Baggage Delay" => (Math.Min(requested, 20750m), 0m),
+                "Flight Cancellation" => (Math.Min(requested, 8300m), 0m),
+                "Trip Cancellation" => (Math.Max(0, Math.Min(requested, 8300m) - 4150m), 4150m),
+                "Loss of Passport" => (Math.Min(requested, 16600m), 0m),
+                "Flight Delay" => (Math.Min(requested, 8300m), 0m),
+                "Emergency Hotel" => (Math.Max(0, Math.Min(requested, 83000m) - 8300m), 8300m),
+                "Personal Liability" => (Math.Min(requested, 830000m), 0m),
+                "Missed Connection" => (Math.Min(requested, 41500m), 0m),
+                "Emergency Cash" => (Math.Min(requested, 41500m), 0m),
+                "Pre-existing Disease" => (Math.Max(0, Math.Min(requested, product.CoverageLimit * 0.03m) - 8300m), 8300m),
+                "Hijack Distress" => (Math.Min(requested, 8300m), 0m),
+                _ => (Math.Min(requested, product.ClaimLimit), 0m)
+            };
+
+            return result;
         }
     }
 }

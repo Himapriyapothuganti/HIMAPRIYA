@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Application.Services
 {
@@ -109,9 +110,30 @@ namespace Application.Services
                 }
             }
 
+            int effectiveAge = dto.TravellerAge;
+            int memberCount = 1;
+
+            if (product.PolicyType == "Family" && !string.IsNullOrWhiteSpace(dto.Dependents))
+            {
+                try
+                {
+                    var dependents = JsonSerializer.Deserialize<List<DependentDTO>>(dto.Dependents);
+                    if (dependents != null && dependents.Any())
+                    {
+                        var maxDependentAge = dependents.Max(d => d.Age);
+                        if (maxDependentAge > effectiveAge)
+                        {
+                            effectiveAge = maxDependentAge; // Age loading based on OLDEST member
+                        }
+                        memberCount += dependents.Count; // Traveller + dependents
+                    }
+                }
+                catch { } // Default fallback
+            }
+
             // 6. Calculate Premium & Risk
-            var premiumAmount = CalculatePremium(product.BasePremium, days, dto.TravellerAge);
-            var risk = CalculateRiskScore(dto.TravellerAge, dto.Destination, days, product.PlanTier);
+            var premiumAmount = CalculatePremium(product.BasePremium, days, effectiveAge, product.PolicyType, memberCount);
+            var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
 
             // 7. Create Request
             var request = new PolicyRequest
@@ -127,6 +149,12 @@ namespace Application.Services
                 PassportNumber = dto.PassportNumber,
                 KycType = dto.KycType,
                 KycNumber = dto.KycNumber,
+                
+                Dependents = dto.Dependents,
+                UniversityName = dto.UniversityName,
+                StudentId = dto.StudentId,
+                TripFrequency = dto.TripFrequency,
+
                 CalculatedPremium = premiumAmount,
                 Status = "Pending",
                 RequestedAt = DateTime.UtcNow,
@@ -229,12 +257,34 @@ namespace Application.Services
             }
         }
 
-        private static decimal CalculatePremium(decimal basePremium, int days, int age)
+        private static decimal CalculatePremium(decimal basePremium, int days, int age, string policyType, int memberCount)
         {
-            var premium = basePremium * (days / 30m);
-            if (age > 60) premium *= 1.3m;
-            else if (age > 40) premium *= 1.1m;
-            return Math.Round(premium, 2);
+            decimal ageLoading = 1.0m;
+            if (age > 60) ageLoading = 1.3m;
+            else if (age > 40) ageLoading = 1.1m;
+
+            if (policyType == "Multi-Trip" || policyType == "Student")
+            {
+                // Fixed annual premium, no days calc
+                return Math.Round(basePremium * ageLoading, 2);
+            }
+            
+            decimal daysRatio = days / 30m;
+
+            if (policyType == "Family")
+            {
+                decimal multiplier = 1.0m;
+                if (memberCount == 2) multiplier = 1.5m;
+                else if (memberCount == 3) multiplier = 1.8m;
+                else if (memberCount == 4) multiplier = 2.0m;
+                else if (memberCount == 5) multiplier = 2.2m;
+                else if (memberCount >= 6) multiplier = 2.5m;
+
+                return Math.Round(basePremium * daysRatio * ageLoading * multiplier, 2);
+            }
+            
+            // Single Trip
+            return Math.Round(basePremium * daysRatio * ageLoading, 2);
         }
 
         private static (int Total, int Age, int Destination, int Duration, int Tier, string Level) CalculateRiskScore(int age, string destination, int days, string planTier)

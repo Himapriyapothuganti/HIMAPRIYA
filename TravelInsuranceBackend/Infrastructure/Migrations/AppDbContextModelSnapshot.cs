@@ -327,6 +327,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ExclusionDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PlanTier")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -370,6 +374,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CustomerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Dependents")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Destination")
                         .IsRequired()
@@ -428,11 +435,20 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TravellerAge")
                         .HasColumnType("int");
 
                     b.Property<string>("TravellerName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TripFrequency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UniversityName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PolicyRequestId");

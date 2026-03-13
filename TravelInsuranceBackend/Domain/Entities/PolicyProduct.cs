@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +14,7 @@ namespace Domain.Entities
         public string PolicyType { get; set; } = string.Empty;  // Single Trip / Multi-Trip / Family / Student
         public string PlanTier { get; set; } = string.Empty;    // Silver / Gold / Premium
         public string CoverageDetails { get; set; } = string.Empty;
+        public string ExclusionDetails { get; set; } = string.Empty;
         public decimal CoverageLimit { get; set; }
         public decimal BasePremium { get; set; }
         public int Tenure { get; set; }                         // in days

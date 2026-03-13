@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -127,162 +127,190 @@ namespace Infrastructure.Data
             }
 
             // ── Seed Policy Products ───────────────────────
-            if (!await context.PolicyProducts.AnyAsync())
+            if (await context.PolicyProducts.AnyAsync())
             {
-                var products = new List<PolicyProduct>
-                {
-                    // ── SINGLE TRIP ───────────────────────
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Silver Single Trip",
-                        PolicyType      = "Single Trip",
-                        PlanTier        = "Silver",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport",
-                        CoverageLimit   = 500000,
-                        ClaimLimit      = 250000,
-                        BasePremium     = 299,
-                        Tenure          = 30,
-                        DestinationZone = "Asia",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Gold Single Trip",
-                        PolicyType      = "Single Trip",
-                        PlanTier        = "Gold",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance",
-                        CoverageLimit   = 1000000,
-                        ClaimLimit      = 500000,
-                        BasePremium     = 499,
-                        Tenure          = 30,
-                        DestinationZone = "Asia,Europe,Schengen",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Platinum Single Trip",
-                        PolicyType      = "Single Trip",
-                        PlanTier        = "Platinum",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage, Daily Hospital Cash Allowance, Emergency Hotel Extension",
-                        CoverageLimit   = 2500000,
-                        ClaimLimit      = 1250000,
-                        BasePremium     = 999,
-                        Tenure          = 30,
-                        DestinationZone = "Worldwide",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-
-                    // ── MULTI TRIP ────────────────────────
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Silver Multi Trip",
-                        PolicyType      = "Multi-Trip",
-                        PlanTier        = "Silver",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport, Unlimited Trips Per Year",
-                        CoverageLimit   = 500000,
-                        ClaimLimit      = 250000,
-                        BasePremium     = 2999,
-                        Tenure          = 365,
-                        DestinationZone = "Asia",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Gold Multi Trip",
-                        PolicyType      = "Multi-Trip",
-                        PlanTier        = "Gold",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Unlimited Trips Per Year",
-                        CoverageLimit   = 1000000,
-                        ClaimLimit      = 500000,
-                        BasePremium     = 4999,
-                        Tenure          = 365,
-                        DestinationZone = "Asia,Europe,Schengen",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Platinum Multi Trip",
-                        PolicyType      = "Multi-Trip",
-                        PlanTier        = "Platinum",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Hijack Distress Allowance, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage, Daily Hospital Cash Allowance, Unlimited Trips Per Year",
-                        CoverageLimit   = 2500000,
-                        ClaimLimit      = 1250000,
-                        BasePremium     = 7999,
-                        Tenure          = 365,
-                        DestinationZone = "Worldwide",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-
-                    // ── FAMILY ────────────────────────────
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Silver Family",
-                        PolicyType      = "Family",
-                        PlanTier        = "Silver",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation, Personal Accident, Loss of Passport (2 Adults + 2 Children)",
-                        CoverageLimit   = 500000,
-                        ClaimLimit      = 250000,
-                        BasePremium     = 999,
-                        Tenure          = 30,
-                        DestinationZone = "Asia",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Gold Family",
-                        PolicyType      = "Family",
-                        PlanTier        = "Gold",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>4hrs), Missed Flight Connection, Emergency Dental Treatment (2 Adults + 2 Children)",
-                        CoverageLimit   = 1000000,
-                        ClaimLimit      = 500000,
-                        BasePremium     = 1999,
-                        Tenure          = 30,
-                        DestinationZone = "Asia,Europe,Schengen",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Platinum Family",
-                        PolicyType      = "Family",
-                        PlanTier        = "Platinum",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Trip Cancellation & Interruption, Personal Accident, Loss of Passport, Baggage Loss & Delay, Flight Delay (>2hrs), Missed Flight Connection, Emergency Dental Treatment, Adventure Sports Coverage, Pre-existing Conditions, COVID-19 Coverage (2 Adults + 2 Children)",
-                        CoverageLimit   = 2500000,
-                        ClaimLimit      = 1250000,
-                        BasePremium     = 3499,
-                        Tenure          = 30,
-                        DestinationZone = "Worldwide",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    },
-
-                    // ── STUDENT ───────────────────────────
-                    new PolicyProduct
-                    {
-                        PolicyName      = "Platinum Student",
-                        PolicyType      = "Student",
-                        PlanTier        = "Platinum",
-                        CoverageDetails = "Medical Expenses & Hospitalization, Emergency Medical Evacuation, Repatriation of Remains, Study Interruption, Sponsor Protection, Bail Bond, Baggage Loss & Delay, Personal Accident, Pre-existing Conditions, COVID-19 Coverage, University Requirements Coverage (Age 16-35)",
-                        CoverageLimit   = 5000000,
-                        ClaimLimit      = 2500000,
-                        BasePremium     = 15000,
-                        Tenure          = 365,
-                        DestinationZone = "Worldwide",
-                        Status          = PolicyProductStatus.Available,
-                        CreatedAt       = DateTime.UtcNow
-                    }
-                };
-
-                await context.PolicyProducts.AddRangeAsync(products);
+                context.PolicyProducts.RemoveRange(context.PolicyProducts);
                 await context.SaveChangesAsync();
             }
+
+            var products = new List<PolicyProduct>
+            {
+                // ── SINGLE TRIP ─────────────────────────────────────
+                new PolicyProduct
+                {
+                    PolicyName      = "Silver Single Trip",
+                    PolicyType      = "Single Trip",
+                    PlanTier        = "Silver",
+                    BasePremium     = 1198,
+                    CoverageLimit   = 4150000,
+                    ClaimLimit      = 2075000,
+                    Tenure          = 30,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses (Upto Base Sum Insured, $100 deductible), Dental Expenses ($300 max, $150 deductible), Hospital Cash ($15/day max 5 days, 48hrs waiting), Personal Accident - $5000, Personal Accident Common Carrier - $5000",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Gold Single Trip",
+                    PolicyType      = "Single Trip",
+                    PlanTier        = "Gold",
+                    BasePremium     = 1495,
+                    CoverageLimit   = 8300000,
+                    ClaimLimit      = 4150000,
+                    Tenure          = 30,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Silver Plan Benefits Included, Loss of Checked-in Baggage - $200, Delay of Checked-in Baggage - $250 (12hrs waiting), Theft of Baggage - $100 ($100 deductible), Flight Cancellation - $100, Trip Cancellation - $100 ($50 deductible), Loss of Passport - $200, Flight Delay - $100 (6hrs waiting), Trip Curtailment - $100 ($50 deductible), Emergency Hotel Accommodation - $1000 ($100 deductible)",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses, Extreme Sports without Add-on",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Platinum Single Trip",
+                    PolicyType      = "Single Trip",
+                    PlanTier        = "Platinum",
+                    BasePremium     = 2063,
+                    CoverageLimit   = 41500000,
+                    ClaimLimit      = 20750000,
+                    Tenure          = 30,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Gold Plan Benefits Included, Pre-Existing Disease Coverage (3% of base up to $10000), Loss of International Driving License, No Claim Discount, Personal Liability - $10000, Missed Flight Connection - $500, Hijack Distress Allowance - $100/day, Trip Delay - $100, Emergency Cash Assistance - $500",
+                    ExclusionDetails = "Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+
+                // ── MULTI TRIP ──────────────────────────────────────
+                new PolicyProduct
+                {
+                    PolicyName      = "Silver Multi Trip",
+                    PolicyType      = "Multi-Trip",
+                    PlanTier        = "Silver",
+                    BasePremium     = 2189,
+                    CoverageLimit   = 4150000,
+                    ClaimLimit      = 2075000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses (Upto Base Sum Insured, $100 deductible), Dental Expenses ($300 max, $150 deductible), Hospital Cash ($15/day max 5 days, 48hrs waiting), Personal Accident - $5000, Personal Accident Common Carrier - $5000, Unlimited Trips Per Year (Max 30 days per trip)",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Gold Multi Trip",
+                    PolicyType      = "Multi-Trip",
+                    PlanTier        = "Gold",
+                    BasePremium     = 2730,
+                    CoverageLimit   = 8300000,
+                    ClaimLimit      = 4150000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Silver Plan Benefits Included, Loss of Checked-in Baggage - $200, Delay of Checked-in Baggage - $250 (12hrs waiting), Theft of Baggage - $100, Flight Cancellation - $100, Trip Cancellation - $100, Loss of Passport - $200, Flight Delay - $100 (6hrs waiting), Emergency Hotel Accommodation - $1000, Unlimited Trips Per Year (Max 30 days per trip)",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Platinum Multi Trip",
+                    PolicyType      = "Multi-Trip",
+                    PlanTier        = "Platinum",
+                    BasePremium     = 3768,
+                    CoverageLimit   = 41500000,
+                    ClaimLimit      = 20750000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Gold Plan Benefits Included, Pre-Existing Disease Coverage (3% of base up to $10000), Personal Liability - $10000, Missed Flight Connection - $500, Hijack Distress Allowance - $100/day, Trip Delay - $100, Emergency Cash Assistance - $500, No Claim Discount, Unlimited Trips Per Year (Max 30 days per trip)",
+                    ExclusionDetails = "Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+
+                // ── FAMILY PLANS ────────────────────────────────────
+                new PolicyProduct
+                {
+                    PolicyName      = "Silver Family",
+                    PolicyType      = "Family",
+                    PlanTier        = "Silver",
+                    BasePremium     = 1198,
+                    CoverageLimit   = 4150000,
+                    ClaimLimit      = 2075000,
+                    Tenure          = 30,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses (Upto Base Sum Insured, $100 deductible), Dental Expenses ($300 max, $150 deductible), Hospital Cash ($15/day max 5 days, 48hrs waiting), Personal Accident - $5000 per person, Personal Accident Common Carrier - $5000, Covers up to 6 members (Max 2 Adults up to 60 yrs + Children up to 21 yrs)",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Gold Family",
+                    PolicyType      = "Family",
+                    PlanTier        = "Gold",
+                    BasePremium     = 1495,
+                    CoverageLimit   = 8300000,
+                    ClaimLimit      = 4150000,
+                    Tenure          = 30,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Silver Plan Benefits Included, Loss of Checked-in Baggage - $200, Delay of Checked-in Baggage - $250, Theft of Baggage - $100, Flight Cancellation - $100, Trip Cancellation - $100, Loss of Passport - $200, Flight Delay - $100 (6hrs waiting), Emergency Hotel Accommodation - $1000, Covers up to 6 members (Max 2 Adults up to 60 yrs + Children up to 21 yrs)",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Platinum Family",
+                    PolicyType      = "Family",
+                    PlanTier        = "Platinum",
+                    BasePremium     = 2063,
+                    CoverageLimit   = 41500000,
+                    ClaimLimit      = 20750000,
+                    Tenure          = 30,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Gold Plan Benefits Included, Pre-Existing Disease Coverage, Personal Liability - $10000, Missed Flight Connection - $500, Hijack Distress Allowance, Trip Delay - $100, Emergency Cash Assistance - $500, Covers up to 6 members (Max 2 Adults up to 60 yrs + Children up to 21 yrs)",
+                    ExclusionDetails = "Self-inflicted Injuries, War or Civil Unrest, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+
+                // ── STUDENT PLANS ───────────────────────────────────
+                new PolicyProduct
+                {
+                    PolicyName      = "Silver Student",
+                    PolicyType      = "Student",
+                    PlanTier        = "Silver",
+                    BasePremium     = 11500,
+                    CoverageLimit   = 8300000,
+                    ClaimLimit      = 4150000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses (Upto Base Sum Insured, $100 deductible), Dental Expenses ($300, $150 deductible), Medical Evacuation and Repatriation, Study Interruption, Sponsor Protection, Bail Bond, Compassionate Visit, Loss and Delay of Checked-in Baggage, Loss of Passport and Documents, Personal Accident - $5000, Age: 16-35 years only",
+                    ExclusionDetails = "Pre-existing Conditions, Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Platinum Student",
+                    PolicyType      = "Student",
+                    PlanTier        = "Platinum",
+                    BasePremium     = 24800,
+                    CoverageLimit   = 41500000,
+                    ClaimLimit      = 20750000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "All Silver Student Benefits Included, High Medical Coverage - $500000, University Requirements Coverage, Mental Health Coverage, Personal Liability - $10000, Hijack Distress Allowance, COVID-19 Coverage, Emergency Cash Assistance - $500, Age: 16-35 years only",
+                    ExclusionDetails = "Self-inflicted Injuries, War or Civil Unrest, Alcohol or Drug Related Incidents, Cosmetic Surgery, Pregnancy Related Expenses",
+                    CreatedAt       = DateTime.UtcNow
+                }
+            };
+
+            await context.PolicyProducts.AddRangeAsync(products);
+            await context.SaveChangesAsync();
         }
 
         public static object SeedAsync(

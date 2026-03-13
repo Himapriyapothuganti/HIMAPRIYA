@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
@@ -224,6 +224,7 @@ namespace Application.Services
                 PolicyType = p.PolicyType,
                 PlanTier = p.PlanTier,
                 CoverageDetails = p.CoverageDetails,
+                ExclusionDetails = p.ExclusionDetails,
                 CoverageLimit = p.CoverageLimit,
                 BasePremium = p.BasePremium,
                 Tenure = p.Tenure,
@@ -258,7 +259,12 @@ namespace Application.Services
                 TravellerName = policy.TravellerName,
                 TravellerAge = policy.TravellerAge,
                 PassportNumber = policy.PassportNumber,
+                KycType = policy.KycType,
+                KycNumber = policy.KycNumber,
+
                 PremiumAmount = policy.PremiumAmount,
+                CoverageLimit = product.CoverageLimit,
+                ClaimLimit = product.ClaimLimit,
                 StartDate = policy.StartDate,
                 EndDate = policy.EndDate,
                 Status = policy.Status.ToString(),

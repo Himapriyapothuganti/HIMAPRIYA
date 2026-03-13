@@ -21,6 +21,11 @@ namespace Domain.Entities
         public string KycType { get; set; } = string.Empty;
         public string KycNumber { get; set; } = string.Empty;
 
+        public string? Dependents { get; set; }
+        public string? UniversityName { get; set; }
+        public string? StudentId { get; set; }
+        public string? TripFrequency { get; set; }
+
         // Risk Assessment
         public int RiskScore { get; set; }
         public int RiskAgeScore { get; set; }

@@ -982,6 +982,18 @@
                   "KycNumber": {
                     "type": "string"
                   },
+                  "Dependents": {
+                    "type": "string"
+                  },
+                  "UniversityName": {
+                    "type": "string"
+                  },
+                  "StudentId": {
+                    "type": "string"
+                  },
+                  "TripFrequency": {
+                    "type": "string"
+                  },
                   "kycFile": {
                     "type": "string",
                     "format": "binary"
@@ -1022,6 +1034,18 @@
                   "style": "form"
                 },
                 "KycNumber": {
+                  "style": "form"
+                },
+                "Dependents": {
+                  "style": "form"
+                },
+                "UniversityName": {
+                  "style": "form"
+                },
+                "StudentId": {
+                  "style": "form"
+                },
+                "TripFrequency": {
                   "style": "form"
                 },
                 "kycFile": {
@@ -1223,6 +1247,10 @@
           "coverageDetails": {
             "minLength": 1,
             "type": "string"
+          },
+          "exclusionDetails": {
+            "type": "string",
+            "nullable": true
           },
           "coverageLimit": {
             "type": "number",

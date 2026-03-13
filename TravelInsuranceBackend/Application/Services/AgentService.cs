@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
@@ -133,6 +133,8 @@ namespace Application.Services
                 KycNumber = policy.KycNumber,
 
                 PremiumAmount = policy.PremiumAmount,
+                CoverageLimit = product.CoverageLimit,
+                ClaimLimit = product.ClaimLimit,
                 StartDate = policy.StartDate,
                 EndDate = policy.EndDate,
                 Status = policy.Status.ToString(),

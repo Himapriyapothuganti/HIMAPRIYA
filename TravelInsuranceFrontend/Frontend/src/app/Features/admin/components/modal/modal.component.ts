@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div class="fixed inset-0 bg-black/40 backdrop-blur-sm" (click)="closeModal.emit()"></div>
-      <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg relative z-10 flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-200">
+      <div [ngClass]="['bg-white rounded-3xl shadow-2xl w-full relative z-10 flex flex-col max-h-[90vh] animate-in fade-in zoom-in duration-200', maxWidthClass]">
         <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-gray-100">
           <h3 class="text-xl font-bold text-[#111]" style="font-family: 'Poppins', sans-serif;">{{ title }}</h3>
@@ -27,5 +27,6 @@ import { CommonModule } from '@angular/common';
 export class Modal {
   @Input() isOpen = false;
   @Input() title = '';
+  @Input() maxWidthClass = 'max-w-lg';
   @Output() closeModal = new EventEmitter<void>();
 }
