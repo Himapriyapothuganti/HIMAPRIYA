@@ -512,6 +512,22 @@
   },
   {
     "ContainingType": "API.Controllers.PolicyController",
+    "Method": "GetInvoice",
+    "RelativePath": "api/Policy/{policyId}/invoice",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "policyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyController",
     "Method": "GetAllPolicies",
     "RelativePath": "api/Policy/all",
     "HttpMethod": "GET",
@@ -589,6 +605,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.PolicyController",
+    "Method": "RecommendPlan",
+    "RelativePath": "api/Policy/recommend",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Application.DTOs.RecommendationRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API.Controllers.PolicyRequestController",
     "Method": "SubmitRequest",
     "RelativePath": "api/PolicyRequest",
@@ -596,6 +628,102 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "PolicyProductId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Destination",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "TravellerName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TravellerAge",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PassportNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "KycType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "KycNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Dependents",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UniversityName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StudentId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TripFrequency",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "kycFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "passportFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "otherFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyRequestController",
+    "Method": "UpdateRequest",
+    "RelativePath": "api/PolicyRequest/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
       {
         "Name": "PolicyProductId",
         "Type": "System.Int32",
@@ -703,6 +831,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PolicyRequestController",
+    "Method": "ProcessDocument",
+    "RelativePath": "api/PolicyRequest/process-ocr",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {

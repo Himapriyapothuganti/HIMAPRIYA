@@ -56,3 +56,7 @@ D:\HIMAPRIYA\TravelInsuranceBackend\Application\obj\Debug\net8.0\refint\Applicat
 D:\HIMAPRIYA\TravelInsuranceBackend\Application\obj\Debug\net8.0\Application.pdb
 D:\HIMAPRIYA\TravelInsuranceBackend\Application\obj\Debug\net8.0\Application.genruntimeconfig.cache
 D:\HIMAPRIYA\TravelInsuranceBackend\Application\obj\Debug\net8.0\ref\Application.dll
+d:\HIMAPRIYA\TravelInsuranceBackend\Application\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
+d:\HIMAPRIYA\TravelInsuranceBackend\Application\bin\Debug\net8.0\x86\tesseract50.dll
+d:\HIMAPRIYA\TravelInsuranceBackend\Application\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
+d:\HIMAPRIYA\TravelInsuranceBackend\Application\bin\Debug\net8.0\x64\tesseract50.dll

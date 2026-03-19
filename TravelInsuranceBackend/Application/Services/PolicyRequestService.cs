@@ -67,6 +67,16 @@ namespace Application.Services
             if (hasDuplicateRequest)
                 throw new Exception("You already have a pending or approved request for this plan.");
 
+            // 1.5. Age Eligibility Check
+            if (product.PolicyType == "Student" && dto.TravellerAge > 35)
+            {
+                throw new Exception("Student plans are only available for travellers aged 35 and below.");
+            }
+            if (product.PolicyType == "Single Trip" && dto.TravellerAge > 99) // Realistic cap
+            {
+                throw new Exception("Traveller age exceeds the maximum limit for this plan.");
+            }
+
 
             // 2. Validate Dates
             if (dto.StartDate < DateTime.UtcNow.Date)
@@ -132,7 +142,7 @@ namespace Application.Services
             }
 
             // 6. Calculate Premium & Risk
-            var premiumAmount = CalculatePremium(product.BasePremium, days, effectiveAge, product.PolicyType, memberCount);
+            var premiumAmount = CalculatePremium(product.BasePremium, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
             var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
 
             // 7. Create Request
@@ -257,16 +267,28 @@ namespace Application.Services
             }
         }
 
-        private static decimal CalculatePremium(decimal basePremium, int days, int age, string policyType, int memberCount)
+        private static decimal GetDestinationMultiplier(string destination)
+        {
+            var destLower = (destination ?? "").ToLower();
+            if (destLower.Contains("asia")) return 1.0m;
+            if (destLower.Contains("europe")) return 1.2m;
+            if (destLower.Contains("usa") || destLower.Contains("aus") || destLower.Contains("canada")) return 1.5m;
+            if (destLower.Contains("worldwide")) return 1.8m;
+            return 1.0m; // Default
+        }
+
+        private static decimal CalculatePremium(decimal basePremium, int days, int age, string policyType, int memberCount, string destination)
         {
             decimal ageLoading = 1.0m;
             if (age > 60) ageLoading = 1.3m;
             else if (age > 40) ageLoading = 1.1m;
 
+            decimal destMultiplier = GetDestinationMultiplier(destination);
+
             if (policyType == "Multi-Trip" || policyType == "Student")
             {
-                // Fixed annual premium, no days calc
-                return Math.Round(basePremium * ageLoading, 2);
+                // Fixed annual premium, no days calc, but apply loading/multiplier
+                return Math.Round(basePremium * ageLoading * destMultiplier, 2);
             }
             
             decimal daysRatio = days / 30m;
@@ -280,11 +302,11 @@ namespace Application.Services
                 else if (memberCount == 5) multiplier = 2.2m;
                 else if (memberCount >= 6) multiplier = 2.5m;
 
-                return Math.Round(basePremium * daysRatio * ageLoading * multiplier, 2);
+                return Math.Round(basePremium * daysRatio * ageLoading * multiplier * destMultiplier, 2);
             }
             
             // Single Trip
-            return Math.Round(basePremium * daysRatio * ageLoading, 2);
+            return Math.Round(basePremium * daysRatio * ageLoading * destMultiplier, 2);
         }
 
         private static (int Total, int Age, int Destination, int Duration, int Tier, string Level) CalculateRiskScore(int age, string destination, int days, string planTier)
@@ -292,11 +314,12 @@ namespace Application.Services
             int ageScore = age <= 30 ? 0 : (age <= 40 ? 10 : (age <= 55 ? 20 : 30));
             
             int destScore = 0;
-            var destLower = destination.ToLower();
+            var destLower = (destination ?? "").ToLower();
             if (destLower.Contains("asia")) destScore = 5;
             else if (destLower.Contains("europe")) destScore = 15;
-            else if (destLower.Contains("usa") || destLower.Contains("aus")) destScore = 20;
-            else if (destLower.Contains("worldwide")) destScore = 30;
+            else if (destLower.Contains("usa") || destLower.Contains("aus") || destLower.Contains("canada")) destScore = 25;
+            else if (destLower.Contains("worldwide")) destScore = 40;
+            else destScore = 10; // Default unknown
 
             int durationScore = days <= 7 ? 0 : (days <= 15 ? 5 : (days <= 30 ? 10 : 20));
 
@@ -396,6 +419,114 @@ namespace Application.Services
 
             var fileBytes = await System.IO.File.ReadAllBytesAsync(document.FilePath);
             return (fileBytes, document.FileType, document.FileName);
+        }
+
+        public async Task<PolicyRequestResponseDTO> UpdateRequestAsync(int requestId, string customerId, CreatePolicyRequestDTO dto, IFormFile? kycFile, IFormFile? passportFile, IFormFile? otherFile)
+        {
+            // 1. Fetch and Validate
+            var request = await _requestRepo.GetByIdAsync(requestId);
+            if (request == null) throw new Exception("Request not found.");
+            if (request.CustomerId != customerId) throw new Exception("Unauthorized.");
+            if (request.Status != "Rejected") throw new Exception("Only rejected requests can be updated.");
+
+            var product = await _productRepo.GetByIdAsync(dto.PolicyProductId);
+            if (product == null) throw new Exception("Product not found.");
+
+            // 2. Validate Dates
+            if (dto.StartDate < DateTime.UtcNow.Date)
+                throw new Exception("Start date cannot be in the past.");
+            if (dto.EndDate <= dto.StartDate)
+                throw new Exception("End date must be after start date.");
+
+            var days = (dto.EndDate - dto.StartDate).Days;
+            if (days > product.Tenure)
+                throw new Exception($"Trip duration exceeds plan limit of {product.Tenure} days.");
+
+            // 3. KYC Validation
+            ValidateKyc(dto.KycType, dto.KycNumber);
+
+            // 3.5 Age Eligibility Check
+            if (product.PolicyType == "Student" && dto.TravellerAge > 35)
+            {
+                throw new Exception("Student plans are only available for travellers aged 35 and below.");
+            }
+            if (product.PolicyType == "Single Trip" && dto.TravellerAge > 99)
+            {
+                throw new Exception("Traveller age exceeds the maximum limit for this plan.");
+            }
+
+            // 4. Update Details
+            request.Destination = dto.Destination;
+            request.StartDate = dto.StartDate;
+            request.EndDate = dto.EndDate;
+            request.TravellerName = dto.TravellerName;
+            request.TravellerAge = dto.TravellerAge;
+            request.PassportNumber = dto.PassportNumber;
+            request.KycType = dto.KycType;
+            request.KycNumber = dto.KycNumber;
+            request.Dependents = dto.Dependents;
+            request.UniversityName = dto.UniversityName;
+            request.StudentId = dto.StudentId;
+            request.TripFrequency = dto.TripFrequency;
+
+            // 5. Recalculate
+            int effectiveAge = dto.TravellerAge;
+            int memberCount = 1;
+
+            if (product.PolicyType == "Family" && !string.IsNullOrWhiteSpace(dto.Dependents))
+            {
+                try
+                {
+                    var dependents = JsonSerializer.Deserialize<List<DependentDTO>>(dto.Dependents);
+                    if (dependents != null && dependents.Any())
+                    {
+                        var maxDependentAge = dependents.Max(d => d.Age);
+                        if (maxDependentAge > effectiveAge) effectiveAge = maxDependentAge;
+                        memberCount += dependents.Count;
+                    }
+                }
+                catch { }
+            }
+
+            request.CalculatedPremium = CalculatePremium(product.BasePremium, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
+            var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
+            
+            request.RiskScore = risk.Total;
+            request.RiskAgeScore = risk.Age;
+            request.RiskDestinationScore = risk.Destination;
+            request.RiskDurationScore = risk.Duration;
+            request.RiskTierScore = risk.Tier;
+            request.RiskLevel = risk.Level;
+
+            // 6. Reset Status
+            request.Status = "Pending";
+            request.RejectionReason = null;
+            request.ReviewedAt = null;
+            request.RequestedAt = DateTime.UtcNow; // Updated time
+
+            await _requestRepo.UpdateAsync(request);
+
+            // 7. Handle Files
+            if (kycFile != null && kycFile.Length > 0)
+                await SaveDocumentAsync(requestId, kycFile, "KYC");
+            
+            if (passportFile != null && passportFile.Length > 0)
+                await SaveDocumentAsync(requestId, passportFile, "Passport");
+            
+            if (otherFile != null && otherFile.Length > 0)
+                await SaveDocumentAsync(requestId, otherFile, "Other");
+            
+            await _documentRepo.SaveChangesAsync();
+
+            // 8. Notify Agent
+            if (!string.IsNullOrEmpty(request.AgentId))
+            {
+                var customer = await _userManager.FindByIdAsync(customerId);
+                var agentMessage = $"Rejected request for {request.PolicyProduct?.PolicyName} has been resubmitted by {customer?.FullName ?? "the Customer"}.";
+                await _notificationService.CreateNotificationAsync(request.AgentId, agentMessage, "PolicyRequestResubmitted");
+            }
+
+            return await MapToCustomerResponse(request);
         }
 
         private async Task<PolicyRequestResponseDTO> MapToCustomerResponse(PolicyRequest req)

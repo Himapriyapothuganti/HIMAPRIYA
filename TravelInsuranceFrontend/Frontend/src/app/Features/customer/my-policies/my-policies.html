@@ -170,6 +170,13 @@
                     </button>
 
 
+                    <button *ngIf="policy.status === 'Active' || policy.status === 'Expired'" 
+                        (click)="viewInvoice(policy.policyId)"
+                        class="bg-white border-2 border-gray-200 text-gray-600 px-6 py-3 rounded-2xl font-bold text-[15px] hover:border-black hover:text-black transition-colors flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        Invoice
+                    </button>
+
                     <button *ngIf="policy.status === 'Active'" routerLink="/customer/my-claims"
                         class="bg-white border-2 border-[#E8584A] text-[#E8584A] px-6 py-3 rounded-2xl font-bold text-[15px] hover:bg-[#E8584A] hover:text-white transition-colors">
                         Submit Claim
@@ -225,3 +232,6 @@
     </div>
 
 </div>
+
+<app-policy-invoice *ngIf="isInvoiceVisible" [invoice]="selectedInvoice" (closeEvent)="isInvoiceVisible = false">
+</app-policy-invoice>

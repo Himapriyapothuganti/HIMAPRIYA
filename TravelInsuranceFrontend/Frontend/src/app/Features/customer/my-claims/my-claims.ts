@@ -30,45 +30,28 @@ export class MyClaims implements OnInit {
   selectedPolicy: any = null;
   selectedClaimConfig: any = null;
 
-  CLAIM_TYPES: any = {
-    Silver: [
-      { type: 'Emergency Medical', maxINR: null, deductibleINR: 8300 },
-      { type: 'Dental', maxINR: 24900, deductibleINR: 12450 },
-      { type: 'Hospital Cash', maxINR: 6225, deductibleINR: 0 },
-      { type: 'Personal Accident', maxINR: 415000, deductibleINR: 0 },
-    ],
-    Gold: [
-      { type: 'Emergency Medical', maxINR: null, deductibleINR: 8300 },
-      { type: 'Dental', maxINR: 24900, deductibleINR: 12450 },
-      { type: 'Hospital Cash', maxINR: 6225, deductibleINR: 0 },
-      { type: 'Personal Accident', maxINR: 415000, deductibleINR: 0 },
-      { type: 'Baggage Loss', maxINR: 16600, deductibleINR: 0 },
-      { type: 'Baggage Delay', maxINR: 20750, deductibleINR: 0 },
-      { type: 'Flight Cancellation', maxINR: 8300, deductibleINR: 0 },
-      { type: 'Trip Cancellation', maxINR: 8300, deductibleINR: 4150 },
-      { type: 'Loss of Passport', maxINR: 16600, deductibleINR: 0 },
-      { type: 'Flight Delay', maxINR: 8300, deductibleINR: 0 },
-      { type: 'Emergency Hotel', maxINR: 83000, deductibleINR: 8300 },
-    ],
-    Platinum: [
-      { type: 'Emergency Medical', maxINR: null, deductibleINR: 8300 },
-      { type: 'Dental', maxINR: 24900, deductibleINR: 12450 },
-      { type: 'Hospital Cash', maxINR: 6225, deductibleINR: 0 },
-      { type: 'Personal Accident', maxINR: 415000, deductibleINR: 0 },
-      { type: 'Baggage Loss', maxINR: 16600, deductibleINR: 0 },
-      { type: 'Baggage Delay', maxINR: 20750, deductibleINR: 0 },
-      { type: 'Flight Cancellation', maxINR: 8300, deductibleINR: 0 },
-      { type: 'Trip Cancellation', maxINR: 8300, deductibleINR: 4150 },
-      { type: 'Loss of Passport', maxINR: 16600, deductibleINR: 0 },
-      { type: 'Flight Delay', maxINR: 8300, deductibleINR: 0 },
-      { type: 'Emergency Hotel', maxINR: 83000, deductibleINR: 8300 },
-      { type: 'Pre-existing Disease', maxINR: null, deductibleINR: 8300 },
-      { type: 'Personal Liability', maxINR: 830000, deductibleINR: 0 },
-      { type: 'Missed Connection', maxINR: 41500, deductibleINR: 0 },
-      { type: 'Hijack Distress', maxINR: 8300, deductibleINR: 0 },
-      { type: 'Emergency Cash', maxINR: 41500, deductibleINR: 0 },
-    ]
-  };
+  // Master list of main claim types
+  MASTER_CLAIM_TYPES: any[] = [
+    { type: 'Medical Claim', keywords: ['Medical Claim'], deductibleINR: 0 },
+    { type: 'Personal Accident Claim', keywords: ['Personal Accident'], maxINR: 415000, deductibleINR: 0 },
+    { type: 'Travel Claim', keywords: ['Travel Claim'], deductibleINR: 0 },
+    { type: 'Study Related Claim', keywords: ['Study Related Claim'], deductibleINR: 0 }
+  ];
+
+  // Auto-detection rules for Travel Claim sub-types
+  TRAVEL_SUBTYPES = [
+    { name: 'Baggage Loss', keywords: ['baggage', 'lost', 'missing'], maxINR: 16600 },
+    { name: 'Baggage Delay', keywords: ['baggage', 'delay', 'late'], maxINR: 20750 },
+    { name: 'Baggage Theft', keywords: ['baggage', 'stolen', 'theft'], maxINR: 8300 },
+    { name: 'Passport Loss', keywords: ['passport', 'document', 'lost'], maxINR: 16600 },
+    { name: 'Flight Cancellation', keywords: ['flight', 'cancel'], maxINR: 8300 },
+    { name: 'Flight Delay', keywords: ['flight', 'delay', 'late'], maxINR: 8300 },
+    { name: 'Missed Connection', keywords: ['missed', 'connection', 'flight'], maxINR: 41500 },
+    { name: 'Trip Cancellation', keywords: ['trip', 'cancel'], maxINR: 8300 },
+    { name: 'Emergency Hotel', keywords: ['hotel', 'accommodation'], maxINR: 83000 }
+  ];
+
+  detectedSubtype: any = null;
 
   constructor(
     private customerService: CustomerService,
@@ -84,14 +67,21 @@ export class MyClaims implements OnInit {
   }
 
   setupListeners() {
-    // When Policy changes, load the correct Claim Types based on Tier
+    // When Policy changes, dynamically filter Claim Types based on its CoverageDetails
     this.claimForm.get('policyId')?.valueChanges.subscribe(val => {
       this.selectedPolicy = this.activePolicies.find(p => p.policyId == val);
       if (this.selectedPolicy) {
-        const tier = this.selectedPolicy.planTier || 'Silver'; // Fallback
-        this.availableClaimTypes = this.CLAIM_TYPES[tier] || this.CLAIM_TYPES['Silver'];
-        this.claimForm.get('claimType')?.setValue(''); // Reset selected type
+        const coverageStr = (this.selectedPolicy.coverageDetails || '').toLowerCase();
+        
+        // Filter: Medical, Personal Accident, and Travel are for almost all
+        // Study Related is only if CoverageDetails includes it
+        this.availableClaimTypes = this.MASTER_CLAIM_TYPES.filter(config => 
+            config.keywords.some((kw: string) => coverageStr.includes(kw.toLowerCase()))
+        );
+
+        this.claimForm.get('claimType')?.setValue(''); 
         this.selectedClaimConfig = null;
+        this.detectedSubtype = null;
       }
     });
 
@@ -99,8 +89,40 @@ export class MyClaims implements OnInit {
     this.claimForm.get('claimType')?.valueChanges.subscribe(val => {
       if (this.availableClaimTypes.length > 0 && val) {
         this.selectedClaimConfig = this.availableClaimTypes.find(t => t.type === val);
+        this.detectSubtype();
       }
     });
+
+    // Auto-detect Travel Subtype while typing description
+    this.claimForm.get('description')?.valueChanges.subscribe(() => {
+        this.detectSubtype();
+    });
+  }
+
+  detectSubtype() {
+    const claimType = this.claimForm.get('claimType')?.value;
+    const description = (this.claimForm.get('description')?.value || '').toLowerCase();
+
+    if (claimType !== 'Travel Claim' || !description) {
+        this.detectedSubtype = null;
+        return;
+    }
+
+    let foundSubtype = null;
+    for (const sub of this.TRAVEL_SUBTYPES) {
+        // Multi-keyword check (e.g., baggage AND lost)
+        if (sub.keywords.every(kw => description.includes(kw))) {
+            foundSubtype = sub;
+            break;
+        }
+    }
+
+    if (!foundSubtype) {
+        // Fallback for no matches
+        this.detectedSubtype = { name: 'Travel General', maxINR: 83000 };
+    } else {
+        this.detectedSubtype = foundSubtype;
+    }
   }
 
 
@@ -209,6 +231,10 @@ export class MyClaims implements OnInit {
     formData.append('incidentDate', this.claimForm.get('incidentDate')?.value);
     formData.append('description', this.claimForm.get('description')?.value);
     formData.append('claimedAmount', this.claimForm.get('claimedAmount')?.value);
+
+    if (this.detectedSubtype) {
+        formData.append('travelSubtype', this.detectedSubtype.name);
+    }
 
     // Attach each uploaded document
     for (let i = 0; i < this.selectedFiles.length; i++) {

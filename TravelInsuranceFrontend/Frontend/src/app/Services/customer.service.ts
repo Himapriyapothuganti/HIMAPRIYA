@@ -33,6 +33,14 @@ export class CustomerService {
         return this.http.post<any>(`${this.apiUrl}/Policy/pay`, paymentData);
     }
 
+    getRecommendation(request: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/Policy/recommend`, request);
+    }
+
+    getInvoice(policyId: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/Policy/${policyId}/invoice`);
+    }
+
     // ── CLAIMS ───────────────────────────────────────
     getMyClaims(): Observable<any[]> {
         // GET request to fetch all claims submitted by the logged-in customer

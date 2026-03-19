@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +19,11 @@ namespace Application.Interfaces
 
         // Admin
         Task<List<PolicyResponseDTO>> GetAllPoliciesAsync();
+
+        // Recommendations
+        Task<RecommendationResponseDTO> GetSmartRecommendationAsync(RecommendationRequestDTO request);
+
+        // Invoices
+        Task<InvoiceDTO> GetInvoiceAsync(int policyId, string customerId);
     }
 }

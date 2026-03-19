@@ -938,10 +938,205 @@
         }
       }
     },
+    "/api/Policy/recommend": {
+      "post": {
+        "tags": [
+          "Policy"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendationRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendationRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendationRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Policy/{policyId}/invoice": {
+      "get": {
+        "tags": [
+          "Policy"
+        ],
+        "parameters": [
+          {
+            "name": "policyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/PolicyRequest": {
       "post": {
         "tags": [
           "PolicyRequest"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "PolicyProductId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Destination": {
+                    "type": "string"
+                  },
+                  "StartDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "EndDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "TravellerName": {
+                    "type": "string"
+                  },
+                  "TravellerAge": {
+                    "maximum": 120,
+                    "minimum": 1,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "PassportNumber": {
+                    "type": "string"
+                  },
+                  "KycType": {
+                    "type": "string"
+                  },
+                  "KycNumber": {
+                    "type": "string"
+                  },
+                  "Dependents": {
+                    "type": "string"
+                  },
+                  "UniversityName": {
+                    "type": "string"
+                  },
+                  "StudentId": {
+                    "type": "string"
+                  },
+                  "TripFrequency": {
+                    "type": "string"
+                  },
+                  "kycFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "passportFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "otherFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "PolicyProductId": {
+                  "style": "form"
+                },
+                "Destination": {
+                  "style": "form"
+                },
+                "StartDate": {
+                  "style": "form"
+                },
+                "EndDate": {
+                  "style": "form"
+                },
+                "TravellerName": {
+                  "style": "form"
+                },
+                "TravellerAge": {
+                  "style": "form"
+                },
+                "PassportNumber": {
+                  "style": "form"
+                },
+                "KycType": {
+                  "style": "form"
+                },
+                "KycNumber": {
+                  "style": "form"
+                },
+                "Dependents": {
+                  "style": "form"
+                },
+                "UniversityName": {
+                  "style": "form"
+                },
+                "StudentId": {
+                  "style": "form"
+                },
+                "TripFrequency": {
+                  "style": "form"
+                },
+                "kycFile": {
+                  "style": "form"
+                },
+                "passportFile": {
+                  "style": "form"
+                },
+                "otherFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PolicyRequest/{id}": {
+      "put": {
+        "tags": [
+          "PolicyRequest"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -1096,6 +1291,38 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PolicyRequest/process-ocr": {
+      "post": {
+        "tags": [
+          "PolicyRequest"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1351,6 +1578,32 @@
           "paymentMethod": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecommendationRequestDTO": {
+        "type": "object",
+        "properties": {
+          "destination": {
+            "type": "string",
+            "nullable": true
+          },
+          "durationDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "purpose": {
+            "type": "string",
+            "nullable": true
+          },
+          "budget": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -290,6 +290,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.24, )"
+            },
+            "Tesseract": {
+              "target": "Package",
+              "version": "[5.2.0, )"
             }
           },
           "imports": [

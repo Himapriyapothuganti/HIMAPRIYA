@@ -71,6 +71,10 @@ export class PolicyRequestService {
         return this.http.get<PolicyRequestResponse[]>(`${this.apiUrl}/PolicyRequest/my-requests`);
     }
 
+    updateRequest(id: number, formData: FormData): Observable<PolicyRequestResponse> {
+        return this.http.put<PolicyRequestResponse>(`${this.apiUrl}/PolicyRequest/${id}`, formData);
+    }
+
     payRequest(dto: PayPolicyRequestDTO): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/Policy/pay-request`, dto);
     }
@@ -91,5 +95,9 @@ export class PolicyRequestService {
 
     downloadDocument(documentUrl: string): Observable<Blob> {
         return this.http.get(documentUrl, { responseType: 'blob' });
+    }
+
+    processDocument(formData: FormData): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/PolicyRequest/process-ocr`, formData);
     }
 }

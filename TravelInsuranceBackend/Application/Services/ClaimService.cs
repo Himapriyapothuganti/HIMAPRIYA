@@ -61,20 +61,17 @@ namespace Application.Services
             var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
 
             // Validation Check 4: Is the claim type valid for the plan tier?
-            var silverTypes = new[] { "Emergency Medical", "Dental", "Hospital Cash", "Personal Accident" };
-            var goldTypes = silverTypes.Concat(new[] { "Baggage Loss", "Baggage Delay", "Flight Cancellation", "Trip Cancellation", "Loss of Passport", "Flight Delay", "Emergency Hotel" }).ToArray();
-            var platinumTypes = goldTypes.Concat(new[] { "Pre-existing Disease", "Personal Liability", "Missed Connection", "Hijack Distress", "Emergency Cash" }).ToArray();
+            var mainTypes = new[] { "Medical Claim", "Personal Accident Claim", "Travel Claim" };
+            var studentTypes = mainTypes.Concat(new[] { "Study Related Claim" }).ToArray();
 
-            bool isEligible = product.PlanTier switch
+            bool isEligible = product.PolicyType switch
             {
-                "Silver" => silverTypes.Contains(dto.ClaimType),
-                "Gold" => goldTypes.Contains(dto.ClaimType),
-                "Platinum" => true, // Platinum covers everything
-                _ => true // Default to true for unsupported tiers (graceful degradation)
+                "Student" => studentTypes.Contains(dto.ClaimType),
+                _ => mainTypes.Contains(dto.ClaimType)
             };
 
             if (!isEligible)
-                throw new Exception($"The claim type '{dto.ClaimType}' is not covered under your {product.PlanTier} plan.");
+                throw new Exception($"The claim type '{dto.ClaimType}' is not covered under your {product.PolicyType} plan.");
 
             // Validation Check 5: Is claimed amount > 0 ?
             if (dto.ClaimedAmount <= 0)
@@ -110,6 +107,7 @@ namespace Application.Services
                 Description = dto.Description,
                 ClaimedAmount = dto.ClaimedAmount,
                 IncidentDate = dto.IncidentDate,
+                TravelSubtype = dto.TravelSubtype,
                 Status = ClaimStatus.UnderReview,     // Default status when first submitted
                 ClaimsOfficerId = assignedOfficerId,  // Auto-assigned officer
                 SubmittedAt = DateTime.UtcNow
@@ -393,6 +391,7 @@ namespace Application.Services
                 SubmittedAt = claim.SubmittedAt,
                 ReviewedAt = claim.ReviewedAt,
                 IncidentDate = claim.IncidentDate,
+                TravelSubtype = claim.TravelSubtype,
                 Documents = documents
             };
         }
@@ -404,26 +403,41 @@ namespace Application.Services
 
             var result = claimType switch
             {
-                "Emergency Medical" => (Math.Max(0, Math.Min(requested, product.CoverageLimit) - 8300), 8300m),
-                "Dental" => (Math.Max(0, Math.Min(requested, 24900m) - 12450m), 12450m),
-                "Hospital Cash" => (Math.Min(requested, 6225m), 0m),
-                "Personal Accident" => (Math.Min(requested, 415000m), 0m),
-                "Baggage Loss" => (Math.Min(requested, 16600m), 0m),
-                "Baggage Delay" => (Math.Min(requested, 20750m), 0m),
-                "Flight Cancellation" => (Math.Min(requested, 8300m), 0m),
-                "Trip Cancellation" => (Math.Max(0, Math.Min(requested, 8300m) - 4150m), 4150m),
-                "Loss of Passport" => (Math.Min(requested, 16600m), 0m),
-                "Flight Delay" => (Math.Min(requested, 8300m), 0m),
-                "Emergency Hotel" => (Math.Max(0, Math.Min(requested, 83000m) - 8300m), 8300m),
-                "Personal Liability" => (Math.Min(requested, 830000m), 0m),
-                "Missed Connection" => (Math.Min(requested, 41500m), 0m),
-                "Emergency Cash" => (Math.Min(requested, 41500m), 0m),
-                "Pre-existing Disease" => (Math.Max(0, Math.Min(requested, product.CoverageLimit * 0.03m) - 8300m), 8300m),
-                "Hijack Distress" => (Math.Min(requested, 8300m), 0m),
+                "Medical Claim" => (Math.Min(requested, product.ClaimLimit), 0m),
+                "Personal Accident Claim" => (Math.Min(requested, 250000m), 0m),
+                "Study Related Claim" => (Math.Min(requested, product.PlanTier == "Platinum" ? 1000000m : 250000m), 0m),
+                "Travel Claim" => CalculateTravelSubtypePayout(claim, product),
                 _ => (Math.Min(requested, product.ClaimLimit), 0m)
             };
 
             return result;
+        }
+
+        private (decimal SuggestedPayout, decimal DeductibleApplied) CalculateTravelSubtypePayout(Claim claim, PolicyProduct product)
+        {
+            var requested = claim.ClaimedAmount;
+            var subtype = claim.TravelSubtype ?? "Travel General";
+            
+            // Override limit based on subtype
+            decimal sublimit = subtype switch
+            {
+                "Baggage Loss" => 15000m,
+                "Baggage Delay" => 10000m,
+                "Baggage Theft" => 5000m,
+                "Passport Loss" => 15000m,
+                "Flight Cancellation" => 10000m,
+                "Flight Delay" => 10000m,
+                "Missed Connection" => 50000m,
+                "Trip Cancellation" => 8000m,
+                "Emergency Hotel" => 75000m,
+                _ => product.PlanTier == "Platinum" ? 400000m : 75000m
+            };
+
+            // Global travel limit for the plan
+            decimal planGlobalTravelLimit = product.PlanTier == "Platinum" ? 400000m : 75000m;
+            decimal finalLimit = Math.Min(sublimit, planGlobalTravelLimit);
+
+            return (Math.Min(requested, finalLimit), 0m);
         }
     }
 }

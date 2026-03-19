@@ -6,11 +6,12 @@ import { PolicyRequestService } from '../../../Services/policy-request.service';
 import { Spinner } from '../../admin/components/spinner/spinner';
 import { Modal } from '../../admin/components/modal/modal.component';
 import { PolicyRequestModalComponent } from '../policy-request-modal/policy-request-modal.component';
+import { RecommendationModalComponent } from '../recommendation-modal/recommendation-modal.component';
 
 @Component({
   selector: 'app-browse-plans',
   standalone: true,
-  imports: [CommonModule, Spinner, Modal, PolicyRequestModalComponent],
+  imports: [CommonModule, Spinner, Modal, PolicyRequestModalComponent, RecommendationModalComponent],
   templateUrl: './browse-plans.html'
 })
 export class BrowsePlans implements OnInit {
@@ -26,6 +27,7 @@ export class BrowsePlans implements OnInit {
   selectedPlan: any = null;
 
   isRequestModalOpen = false;
+  isRecommendationModalOpen = false;
 
   // Filters
   activeFilter: string = 'All';
@@ -173,5 +175,17 @@ export class BrowsePlans implements OnInit {
   onRequestSubmitted(response: any) {
     // SUCCESS toast is handled by the PolicyRequestModal internally
     // We could navigate if we wanted to
+  }
+
+  openRecommendationModal() {
+    this.isRecommendationModalOpen = true;
+  }
+
+  onPlanSelected(productId: number) {
+    this.isRecommendationModalOpen = false;
+    const plan = this.products.find(p => p.policyProductId === productId);
+    if (plan) {
+      this.openRequestModal(plan);
+    }
   }
 }

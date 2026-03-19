@@ -1,4 +1,4 @@
-﻿using Domain.Enums;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +22,7 @@ namespace Domain.Entities
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ReviewedAt { get; set; }
         public DateTime IncidentDate { get; set; }
+        public string? TravelSubtype { get; set; }
 
         // Navigation properties
         public Policy Policy { get; set; } = null!;

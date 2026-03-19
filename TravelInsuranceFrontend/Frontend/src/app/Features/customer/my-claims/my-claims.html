@@ -226,19 +226,39 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                     class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
                     stroke="currentColor" stroke-width="2.5">
-                    <polyline points="6 9 12 15 18 9" />
                 </svg>
             </div>
-            
+
             <div *ngIf="selectedClaimConfig" class="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl">
-                <p class="text-[13px] text-blue-800 font-medium flex items-center gap-2">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="shrink-0" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    <span>
-                        <span *ngIf="selectedClaimConfig.maxINR">Max Limit: <strong>{{ selectedClaimConfig.maxINR | currency:'INR':'symbol':'1.0-0' }}</strong></span>
-                        <span *ngIf="!selectedClaimConfig.maxINR && selectedPolicy">Max Limit: <strong>Up to Base Sum Insured ({{ selectedPolicy.coverageLimit | currency:'INR':'symbol':'1.0-0' }})</strong></span>
-                        <span *ngIf="selectedClaimConfig.deductibleINR > 0" class="ml-2 pl-2 border-l border-blue-200">Deductible Applies: <strong>{{ selectedClaimConfig.deductibleINR | currency:'INR':'symbol':'1.0-0' }}</strong></span>
-                    </span>
-                </p>
+                <div class="text-[13px] text-blue-800 font-medium space-y-2">
+                    <p class="flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="shrink-0" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <span *ngIf="selectedClaimConfig.type === 'Medical Claim' && selectedPolicy">
+                            Medical Limit: <strong>{{ selectedPolicy.claimLimit | currency:'INR':'symbol':'1.0-0' }}</strong>
+                        </span>
+                        <span *ngIf="selectedClaimConfig.type === 'Personal Accident Claim'">
+                            Personal Accident Limit: <strong>₹2,50,000</strong>
+                        </span>
+                        <span *ngIf="selectedClaimConfig.type === 'Study Related Claim' && selectedPolicy">
+                            Study Related Limit: <strong>{{ selectedPolicy.planTier === 'Platinum' ? '₹10,00,000' : '₹2,50,000' }}</strong>
+                        </span>
+                        <span *ngIf="selectedClaimConfig.type === 'Travel Claim'">
+                            Total Travel Claim Limit: <strong>{{ selectedPolicy.planTier === 'Platinum' ? '₹4,00,000' : '₹75,000' }}</strong>
+                        </span>
+                    </p>
+                    
+                    <!-- Auto-Detection Info -->
+                    <div *ngIf="detectedSubtype" class="bg-white/60 p-2.5 rounded-lg border border-blue-200 mt-2 animate-fade-in">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-900">Detected Sub-type</span>
+                            <span class="bg-blue-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Automatic</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-1">
+                            <span class="text-[15px] font-bold text-[#111]">{{ detectedSubtype.name }}</span>
+                            <span class="text-[14px] font-extrabold text-blue-700">Limit: {{ detectedSubtype.maxINR | currency:'INR':'symbol':'1.0-0' }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div *ngIf="f['claimType'].touched && f['claimType'].invalid"
                 class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
@@ -286,23 +306,16 @@
                 </svg>
                 Provide a valid claim amount.
             </div>
-            <div *ngIf="selectedClaimConfig && selectedClaimConfig.maxINR && claimForm.get('claimedAmount')?.value > selectedClaimConfig.maxINR"
-                class="text-orange-600 text-[13px] mt-2 font-bold flex items-center gap-1 bg-orange-50 p-2.5 rounded-lg border border-orange-100">
+            
+            <!-- Warning for Sub-type Over-limit -->
+            <div *ngIf="detectedSubtype && claimForm.get('claimedAmount')?.value > detectedSubtype.maxINR"
+                class="text-orange-600 text-[13px] mt-2 font-bold flex items-center gap-1 bg-orange-50 p-2.5 rounded-lg border border-orange-100 animate-fade-in">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="shrink-0" stroke="currentColor" stroke-width="2.5">
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
                     <line x1="12" y1="9" x2="12" y2="13"/>
                     <line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
-                Warning: The claimed amount exceeds the maximum system payout.
-            </div>
-            <div *ngIf="selectedClaimConfig && !selectedClaimConfig.maxINR && selectedPolicy && claimForm.get('claimedAmount')?.value > selectedPolicy.coverageLimit"
-                class="text-orange-600 text-[13px] mt-2 font-bold flex items-center gap-1 bg-orange-50 p-2.5 rounded-lg border border-orange-100">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="shrink-0" stroke="currentColor" stroke-width="2.5">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    <line x1="12" y1="9" x2="12" y2="13"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                Warning: The claimed amount exceeds the base sum insured limit.
+                Warning: This claimed amount exceeds the limit for {{ detectedSubtype.name }}.
             </div>
         </div>
 

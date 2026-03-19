@@ -4,11 +4,12 @@ import { RouterModule, Router } from '@angular/router';
 import { CustomerService } from '../../../Services/customer.service';
 import { Spinner } from '../../admin/components/spinner/spinner';
 import { Toast } from '../../admin/components/toast/toast';
+import { InvoiceComponent } from '../invoice/invoice.component';
 
 @Component({
   selector: 'app-my-policies',
   standalone: true,
-  imports: [CommonModule, RouterModule, Spinner, Toast],
+  imports: [CommonModule, RouterModule, Spinner, Toast, InvoiceComponent],
   providers: [DatePipe],
   templateUrl: './my-policies.html'
 })
@@ -20,6 +21,9 @@ export class MyPolicies implements OnInit {
 
   activeTab: string = 'All';
   tabs = ['All', 'Active', 'PendingPayment', 'Expired'];
+
+  selectedInvoice: any = null;
+  isInvoiceVisible = false;
 
   constructor(
     private customerService: CustomerService,
@@ -90,5 +94,22 @@ export class MyPolicies implements OnInit {
 
   closeToast() {
     this.error = '';
+  }
+
+  viewInvoice(policyId: number) {
+    this.isLoading = true;
+    this.customerService.getInvoice(policyId).subscribe({
+      next: (invoice) => {
+        this.selectedInvoice = invoice;
+        this.isInvoiceVisible = true;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.error = "Could not load invoice data.";
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

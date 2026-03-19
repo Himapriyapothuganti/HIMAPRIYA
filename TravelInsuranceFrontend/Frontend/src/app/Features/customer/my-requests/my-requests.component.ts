@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PolicyRequestService, PolicyRequestResponse } from '../../../Services/policy-request.service';
 import { Spinner } from '../../admin/components/spinner/spinner';
+import { PolicyRequestModalComponent } from '../policy-request-modal/policy-request-modal.component';
 
 @Component({
     selector: 'app-my-requests',
     standalone: true,
-    imports: [CommonModule, FormsModule, Spinner],
+    imports: [CommonModule, FormsModule, Spinner, PolicyRequestModalComponent],
     templateUrl: './my-requests.component.html'
 })
 export class MyRequestsComponent implements OnInit {
@@ -18,6 +19,10 @@ export class MyRequestsComponent implements OnInit {
     requests = signal<PolicyRequestResponse[]>([]);
     isLoading = signal<boolean>(true);
     isPaying = signal<boolean>(false);
+
+    // Edit Modal State
+    isEditModalOpen = signal<boolean>(false);
+    editData = signal<PolicyRequestResponse | null>(null);
 
     // Payment confirmation state
     showPaymentModal = signal<boolean>(false);
@@ -65,6 +70,17 @@ export class MyRequestsComponent implements OnInit {
     closePayment() {
         this.showPaymentModal.set(false);
         this.selectedRequest.set(null);
+    }
+
+    openEdit(request: PolicyRequestResponse) {
+        if (request.status !== 'Rejected') return;
+        this.editData.set(request);
+        this.isEditModalOpen.set(true);
+    }
+
+    closeEdit() {
+        this.isEditModalOpen.set(false);
+        this.editData.set(null);
     }
 
     isFormValid(): boolean {

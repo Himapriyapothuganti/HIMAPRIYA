@@ -1,4 +1,4 @@
-﻿
+
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
@@ -74,6 +74,9 @@ namespace API
             builder.Services.AddScoped<IAgentService, AgentService>();
             builder.Services.AddScoped<IPolicyRequestService, PolicyRequestService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<IOcrService, TesseractOcrService>();
+            builder.Services.AddScoped<IGroqService, GroqService>();
+            builder.Services.AddHttpClient();
 
             // Add services to the container.
 
@@ -138,8 +141,8 @@ namespace API
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
             app.UseCors("AllowAll");
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();

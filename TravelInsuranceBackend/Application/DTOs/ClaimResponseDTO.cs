@@ -27,6 +27,7 @@ namespace Application.DTOs
         public DateTime SubmittedAt { get; set; }
         public DateTime? ReviewedAt { get; set; }
         public DateTime IncidentDate { get; set; }
+        public string? TravelSubtype { get; set; }
         // ── Documents ─────────────────────────────────────
         public List<ClaimDocumentDTO> Documents { get; set; } = new();
     }

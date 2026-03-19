@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs
@@ -24,5 +24,7 @@ namespace Application.DTOs
 
         [Required]
         public DateTime IncidentDate { get; set; }
+
+        public string? TravelSubtype { get; set; }
     }
 }
