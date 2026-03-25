@@ -142,7 +142,7 @@ namespace Application.Services
             }
 
             // 6. Calculate Premium & Risk
-            var premiumAmount = CalculatePremium(product.BasePremium, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
+            var premiumAmount = CalculatePremium(product.BasePremium, product.Tenure, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
             var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
 
             // 7. Create Request
@@ -277,7 +277,7 @@ namespace Application.Services
             return 1.0m; // Default
         }
 
-        private static decimal CalculatePremium(decimal basePremium, int days, int age, string policyType, int memberCount, string destination)
+        private static decimal CalculatePremium(decimal basePremium, int tenure, int days, int age, string policyType, int memberCount, string destination)
         {
             decimal ageLoading = 1.0m;
             if (age > 60) ageLoading = 1.3m;
@@ -291,8 +291,10 @@ namespace Application.Services
                 return Math.Round(basePremium * ageLoading * destMultiplier, 2);
             }
             
-            decimal daysRatio = days / 30m;
+            // Pro-rate based on plan's tenure (e.g. 30 for Single Trip, 365 for Student)
+            decimal daysRatio = days / (decimal)tenure;
 
+            decimal calculated;
             if (policyType == "Family")
             {
                 decimal multiplier = 1.0m;
@@ -302,11 +304,16 @@ namespace Application.Services
                 else if (memberCount == 5) multiplier = 2.2m;
                 else if (memberCount >= 6) multiplier = 2.5m;
 
-                return Math.Round(basePremium * daysRatio * ageLoading * multiplier * destMultiplier, 2);
+                calculated = basePremium * daysRatio * ageLoading * multiplier * destMultiplier;
             }
-            
-            // Single Trip
-            return Math.Round(basePremium * daysRatio * ageLoading * destMultiplier, 2);
+            else 
+            {
+                // Single Trip
+                calculated = basePremium * daysRatio * ageLoading * destMultiplier;
+            }
+
+            // Ensure we never charge less than the base premium
+            return Math.Round(Math.Max(calculated, basePremium), 2);
         }
 
         private static (int Total, int Age, int Destination, int Duration, int Tier, string Level) CalculateRiskScore(int age, string destination, int days, string planTier)
@@ -488,7 +495,7 @@ namespace Application.Services
                 catch { }
             }
 
-            request.CalculatedPremium = CalculatePremium(product.BasePremium, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
+            request.CalculatedPremium = CalculatePremium(product.BasePremium, product.Tenure, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
             var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
             
             request.RiskScore = risk.Total;

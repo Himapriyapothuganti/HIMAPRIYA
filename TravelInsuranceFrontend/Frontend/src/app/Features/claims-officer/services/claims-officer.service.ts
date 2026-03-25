@@ -43,6 +43,12 @@ export class ClaimsOfficerService {
             .pipe(finalize(() => this.isLoading.set(false)));
     }
 
+    analyzeClaim(id: number): Observable<any> {
+        this.isLoading.set(true);
+        return this.http.post<any>(`${this.apiUrl}/${id}/analyze`, {}, { headers: this.getHeaders() })
+            .pipe(finalize(() => this.isLoading.set(false)));
+    }
+
     processPayment(id: number): Observable<any> {
         this.isLoading.set(true);
         return this.http.put<any>(`${this.apiUrl}/${id}/process-payment`, {}, { headers: this.getHeaders() })

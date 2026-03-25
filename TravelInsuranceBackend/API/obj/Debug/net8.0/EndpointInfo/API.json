@@ -494,6 +494,9 @@
                   "IncidentDate": {
                     "type": "string",
                     "format": "date-time"
+                  },
+                  "TravelSubtype": {
+                    "type": "string"
                   }
                 }
               },
@@ -514,6 +517,9 @@
                   "style": "form"
                 },
                 "IncidentDate": {
+                  "style": "form"
+                },
+                "TravelSubtype": {
                   "style": "form"
                 }
               }
@@ -683,6 +689,29 @@
     },
     "/api/Claim/{claimId}/close": {
       "put": {
+        "tags": [
+          "Claim"
+        ],
+        "parameters": [
+          {
+            "name": "claimId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Claim/{claimId}/analyze": {
+      "post": {
         "tags": [
           "Claim"
         ],
@@ -927,37 +956,6 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PayPolicyRequestDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Policy/recommend": {
-      "post": {
-        "tags": [
-          "Policy"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendationRequestDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendationRequestDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendationRequestDTO"
               }
             }
           }
@@ -1578,32 +1576,6 @@
           "paymentMethod": {
             "minLength": 1,
             "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RecommendationRequestDTO": {
-        "type": "object",
-        "properties": {
-          "destination": {
-            "type": "string",
-            "nullable": true
-          },
-          "durationDays": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "age": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "purpose": {
-            "type": "string",
-            "nullable": true
-          },
-          "budget": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

@@ -117,8 +117,8 @@ export class PolicyRequestModalComponent implements OnChanges {
             return;
         }
 
-        // Single Trip and Family Plans are PER-TRIP (calculated on 30-day base)
-        const daysRatio = days / 30;
+        // Single Trip and Family Plans are PER-TRIP (calculated on plan's tenure base)
+        const daysRatio = days / this.selectedPlan.tenure;
 
         if (this.selectedPlan.policyType === 'Family') {
             const memberCount = 1 + ((this.requestForm.get('dependents') as FormArray)?.length || 0);
@@ -129,10 +129,10 @@ export class PolicyRequestModalComponent implements OnChanges {
             else if (memberCount === 5) multiplier = 2.2;
             else if (memberCount >= 6) multiplier = 2.5;
 
-            this.estimatedPremium = Math.round(basePremium * daysRatio * ageLoading * multiplier);
+            this.estimatedPremium = Math.max(Math.round(basePremium * daysRatio * ageLoading * multiplier), basePremium);
         } else {
             // Single Trip
-            this.estimatedPremium = Math.round(basePremium * daysRatio * ageLoading);
+            this.estimatedPremium = Math.max(Math.round(basePremium * daysRatio * ageLoading), basePremium);
         }
     }
 

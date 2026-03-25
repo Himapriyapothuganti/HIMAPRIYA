@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Repositories;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,8 +24,7 @@ namespace Infrastructure.Repositories
 
         public async Task<Domain.Entities.Claim> GetByIdAsync(int id)
         {
-            return await _context.Claims.FindAsync(id)
-                   ?? throw new Exception("Claim not found.");
+            return await _context.Claims.FindAsync(id);
         }
 
         public async Task<List<Domain.Entities.Claim>> GetAllAsync()

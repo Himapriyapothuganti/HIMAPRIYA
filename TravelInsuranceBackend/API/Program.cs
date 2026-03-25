@@ -76,6 +76,7 @@ namespace API
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddScoped<IOcrService, TesseractOcrService>();
             builder.Services.AddScoped<IGroqService, GroqService>();
+            builder.Services.AddScoped<IVertexAiService, VertexAiService>();
             builder.Services.AddHttpClient();
 
             // Add services to the container.

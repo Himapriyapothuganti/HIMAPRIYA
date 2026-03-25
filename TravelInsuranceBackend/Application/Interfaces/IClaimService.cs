@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,7 @@ namespace Application.Interfaces
         Task<ClaimResponseDTO> RequestDocumentsAsync(int claimId, string officerId, RequestDocumentDTO dto);
         Task<ClaimResponseDTO> ProcessPaymentAsync(int claimId, string officerId);
         Task<ClaimResponseDTO> CloseClaimAsync(int claimId, string officerId);
+        Task<ClaimResponseDTO> AnalyzeClaimAsync(int claimId, string officerId);
 
         // Admin
         Task<List<ClaimResponseDTO>> GetAllClaimsAsync();

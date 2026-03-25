@@ -17,6 +17,7 @@ namespace Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IClaimDocumentRepository _claimDocumentRepo; 
         private readonly INotificationService _notificationService;
+        private readonly IVertexAiService _vertexAiService;
 
         public ClaimService(
             IClaimRepository claimRepo,
@@ -25,7 +26,8 @@ namespace Application.Services
             IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
             IClaimDocumentRepository claimDocumentRepo,
-            INotificationService notificationService)  
+            INotificationService notificationService,
+            IVertexAiService vertexAiService)  
         {
             _claimRepo = claimRepo;
             _policyRepo = policyRepo;
@@ -34,6 +36,7 @@ namespace Application.Services
             _userManager = userManager;
             _claimDocumentRepo = claimDocumentRepo;  
             _notificationService = notificationService;
+            _vertexAiService = vertexAiService;
         }
 
         // ── SUBMIT CLAIM (Customer) ───────────────────────
@@ -117,6 +120,7 @@ namespace Application.Services
             var created = await _claimRepo.CreateAsync(claim);
 
             // ── Save Uploaded Documents ───────────────────
+            var savedFilePaths = new List<string>();
             if (dto.Documents != null && dto.Documents.Any())
             {
                 var uploadFolder = Path.Combine("wwwroot", "claims", created.ClaimId.ToString());
@@ -138,6 +142,7 @@ namespace Application.Services
 
                         var fileName = $"{Guid.NewGuid()}{extension}";
                         var filePath = Path.Combine(uploadFolder, fileName);
+                        savedFilePaths.Add(filePath);
 
                         using var stream = new FileStream(filePath, FileMode.Create);
                         await file.CopyToAsync(stream);
@@ -155,6 +160,32 @@ namespace Application.Services
                 }
 
                 await _claimDocumentRepo.SaveChangesAsync();
+
+                // ── Trigger Vertex AI Summarization ───────────
+                try
+                {
+                    var claimCustomer = await _userManager.FindByIdAsync(customerId);
+                    var claimPolicy = await _policyRepo.GetByIdAsync(dto.PolicyId);
+                    var claimData = new {
+                        created.ClaimId,
+                        created.ClaimType,
+                        created.Description,
+                        created.ClaimedAmount,
+                        created.IncidentDate,
+                        created.Status,
+                        CustomerName = claimCustomer?.FullName ?? "Unknown",
+                        PolicyNumber = claimPolicy?.PolicyNumber ?? "Unknown"
+                    };
+                    var jsonString = System.Text.Json.JsonSerializer.Serialize(claimData);
+                    
+                    var summary = await _vertexAiService.AnalyzeClaimAsync(jsonString, savedFilePaths);
+                    created.AiSummary = summary;
+                    await _claimRepo.UpdateAsync(created);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Vertex AI Summarization failed: {ex.Message}");
+                }
             }
 
             var customer = await _userManager.FindByIdAsync(customerId);
@@ -323,6 +354,39 @@ namespace Application.Services
             return await MapToClaimResponse(updated);
         }
 
+        // ── ANALYZE CLAIM AI (Claims Officer) ──────────────
+        public async Task<ClaimResponseDTO> AnalyzeClaimAsync(int claimId, string officerId)
+        {
+            var claim = await _claimRepo.GetByIdAsync(claimId);
+            if (claim.ClaimsOfficerId != officerId)
+                throw new Exception("You are not assigned to this claim.");
+
+            var customer = await _userManager.FindByIdAsync(claim.CustomerId);
+            var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
+
+            var claimData = new {
+                claim.ClaimId,
+                claim.ClaimType,
+                claim.Description,
+                claim.ClaimedAmount,
+                claim.IncidentDate,
+                claim.Status,
+                CustomerName = customer?.FullName ?? "Unknown Claimant",
+                PolicyNumber = policy?.PolicyNumber ?? "Unknown Policy"
+            };
+            var jsonString = System.Text.Json.JsonSerializer.Serialize(claimData);
+            
+            // Get attached documents
+            var documents = await _claimDocumentRepo.GetByClaimIdAsync(claimId);
+            var filePaths = documents.Select(d => d.FilePath).ToList();
+            
+            var summary = await _vertexAiService.AnalyzeClaimAsync(jsonString, filePaths);
+            claim.AiSummary = summary;
+            
+            var updated = await _claimRepo.UpdateAsync(claim);
+            return await MapToClaimResponse(updated);
+        }
+
         // ── GET ALL CLAIMS (Admin) ─────────────────────────
         public async Task<List<ClaimResponseDTO>> GetAllClaimsAsync()
         {
@@ -355,6 +419,21 @@ namespace Application.Services
                            ? await _userManager.FindByIdAsync(claim.ClaimsOfficerId)
                            : null;
             var policy = await _policyRepo.GetByIdAsync(claim.PolicyId);
+            if (policy == null)
+            {
+                return new ClaimResponseDTO
+                {
+                    ClaimId = claim.ClaimId,
+                    PolicyNumber = "Orphaned Policy",
+                    CustomerId = claim.CustomerId,
+                    CustomerName = customer?.FullName ?? "Unknown",
+                    ClaimType = claim.ClaimType,
+                    Description = claim.Description,
+                    ClaimedAmount = claim.ClaimedAmount,
+                    Status = claim.Status.ToString(),
+                    SubmittedAt = claim.SubmittedAt
+                };
+            }
 
             // ── Get documents ─────────────────────────────
             var docs = await _claimDocumentRepo.GetByClaimIdAsync(claim.ClaimId);
@@ -369,7 +448,9 @@ namespace Application.Services
             }).ToList();
 
             var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
-            var payoutCalc = CalculateSuggestedPayout(claim, product);
+            var payoutCalc = product != null 
+                ? CalculateSuggestedPayout(claim, product)
+                : (SuggestedPayout: 0m, DeductibleApplied: 0m);
 
             return new ClaimResponseDTO
             {
@@ -392,6 +473,7 @@ namespace Application.Services
                 ReviewedAt = claim.ReviewedAt,
                 IncidentDate = claim.IncidentDate,
                 TravelSubtype = claim.TravelSubtype,
+                AiSummary = claim.AiSummary,
                 Documents = documents
             };
         }

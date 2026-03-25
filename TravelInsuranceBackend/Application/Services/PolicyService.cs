@@ -14,22 +14,19 @@ namespace Application.Services
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPolicyRequestRepository _requestRepo;
-        private readonly IGroqService _groqService;
 
         public PolicyService(
             IPolicyProductRepository productRepo,
             IPolicyRepository policyRepo,
             IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
-            IPolicyRequestRepository requestRepo,
-            IGroqService groqService)
+            IPolicyRequestRepository requestRepo)
         {
             _productRepo = productRepo;
             _policyRepo = policyRepo;
             _userRepo = userRepo;
             _userManager = userManager;
             _requestRepo = requestRepo;
-            _groqService = groqService;
         }
 
         // ── GET AVAILABLE POLICY PRODUCTS ─────────────────
@@ -203,37 +200,6 @@ namespace Application.Services
             foreach (var p in policies)
                 result.Add(await MapToPolicyResponse(p));
             return result;
-        }
-
-        // ── GET SMART RECOMMENDATION ──────────────────────
-        public async Task<RecommendationResponseDTO> GetSmartRecommendationAsync(RecommendationRequestDTO request)
-        {
-            var allProducts = await _productRepo.GetAllAsync();
-            var availableProducts = allProducts
-                .Where(p => p.Status == PolicyProductStatus.Available)
-                .Select(p => new PolicyProductResponseDTO
-                {
-                    PolicyProductId = p.PolicyProductId,
-                    PolicyName = p.PolicyName,
-                    PolicyType = p.PolicyType,
-                    PlanTier = p.PlanTier,
-                    CoverageDetails = p.CoverageDetails,
-                    CoverageLimit = p.CoverageLimit,
-                    BasePremium = p.BasePremium,
-                    DestinationZone = p.DestinationZone
-                }).ToList();
-
-            if (!availableProducts.Any())
-                throw new Exception("No active insurance plans available at the moment.");
-
-            // Use Groq AI for real-time recommendation
-            var recommendation = await _groqService.GetRecommendationAsync(request, availableProducts);
-
-            // Ensure the premium is calculated correctly on our side for consistency
-            var product = availableProducts.First(p => p.PolicyProductId == recommendation.PolicyProductId);
-            recommendation.EstimatedPremium = CalculatePremium(product.BasePremium, request.DurationDays, request.Age);
-
-            return recommendation;
         }
 
         // ── GET INVOICE ──────────────────────────────────

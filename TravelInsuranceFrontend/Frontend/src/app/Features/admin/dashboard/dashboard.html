@@ -162,39 +162,23 @@
             <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Top 5 by Revenue</span>
         </div>
 
-        <!-- Bar Chart Section -->
-        <div class="mb-10 px-2">
-            <div class="flex gap-4">
-                <!-- Y-Axis Labels -->
-                <div class="flex flex-col justify-between h-56 pb-8 pt-2 text-[10px] font-bold text-gray-400 w-12 text-right">
-                    <div *ngFor="let marker of scaleMarkers">₹{{ (marker >= 1000 ? (marker/1000 | number:'1.1-1') + 'k' : marker) }}</div>
-                </div>
-
-                <!-- Chart Area -->
-                <div class="flex-1 relative h-56">
-                    <!-- Grid Lines -->
-                    <div class="absolute inset-x-0 top-2 bottom-8 flex flex-col justify-between pointer-events-none">
-                        <div class="h-px bg-gray-50 w-full" *ngFor="let marker of scaleMarkers"></div>
-                    </div>
-
-                    <!-- Bars -->
-                    <div class="absolute inset-x-0 top-2 bottom-8 flex items-end justify-between gap-4 px-4 overflow-visible">
-                        <div *ngFor="let agent of agentChart" class="flex-1 flex flex-col items-center group relative h-full justify-end">
-                            <!-- Tooltip -->
-                            <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all bg-gray-900 text-white text-[10px] py-1 px-2 rounded font-bold z-10 whitespace-nowrap shadow-xl">
-                                {{ agent.name }}: ₹{{ agent.revenue | number }}
-                            </div>
-                            <!-- Bar -->
-                            <div class="w-full max-w-[44px] rounded-t-lg transition-all duration-1000 ease-out cursor-pointer hover:opacity-80 shadow-sm"
-                                 [style.height.%]="agent.height"
-                                 [style.background]="'linear-gradient(to top, #E8584A, #F07A6E)'"
-                                 style="display:block; min-height: 2px;">
-                            </div>
-                            <!-- Label (Absolute Pos) -->
-                            <div class="absolute top-full pt-3 w-full text-center">
-                                <span class="text-[10px] font-bold text-gray-500 truncate block">{{ agent.name.split(' ')[0] }}</span>
-                            </div>
+        <!-- Horizontal Bar Chart Section -->
+        <div class="space-y-6 mb-10 px-2">
+            <div *ngFor="let agent of agentChart" class="group">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-[#E8584A] font-bold text-xs ring-1 ring-gray-100 group-hover:bg-[#E8584A] group-hover:text-white transition-all duration-300">
+                            {{ agent.name.charAt(0) }}
                         </div>
+                        <span class="text-sm font-bold text-gray-700 group-hover:text-[#111] transition-colors">
+                            {{ agent.name }}
+                        </span>
+                    </div>
+                    <span class="text-sm font-black text-[#E8584A]">₹{{ agent.revenue | number:'1.0-0' }}</span>
+                </div>
+                <div class="relative h-3 w-full bg-gray-50 rounded-full overflow-hidden ring-1 ring-inset ring-gray-100">
+                    <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-[#E8584A] via-[#F07A6E] to-[#FCA5A5] rounded-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(232,88,74,0.25)] bar-animation"
+                         [style.width.%]="agent.width">
                     </div>
                 </div>
             </div>

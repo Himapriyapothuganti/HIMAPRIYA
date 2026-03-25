@@ -33,10 +33,6 @@ export class CustomerService {
         return this.http.post<any>(`${this.apiUrl}/Policy/pay`, paymentData);
     }
 
-    getRecommendation(request: any): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/Policy/recommend`, request);
-    }
-
     getInvoice(policyId: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/Policy/${policyId}/invoice`);
     }

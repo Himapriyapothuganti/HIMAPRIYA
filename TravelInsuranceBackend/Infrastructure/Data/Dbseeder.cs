@@ -127,28 +127,24 @@ namespace Infrastructure.Data
             }
 
             // ── Seed Policy Products ───────────────────────
-            if (await context.PolicyProducts.AnyAsync())
-            {
-                context.PolicyProducts.RemoveRange(context.PolicyProducts);
-                await context.SaveChangesAsync();
-            }
+            var existingProducts = await context.PolicyProducts.ToDictionaryAsync(p => p.PolicyName);
 
             var products = new List<PolicyProduct>
             {
-                // ── SINGLE TRIP PLANS ──────────────────────────────────────
+                // ── SINGLE TRIP PLANS ──────────────────────────────────────────────
                 new PolicyProduct
                 {
                     PolicyName      = "Silver Single Trip",
                     PolicyType      = "Single Trip",
                     PlanTier        = "Silver",
-                    BasePremium     = 1200,
-                    CoverageLimit   = 2500000, 
+                    BasePremium     = 2500,
+                    CoverageLimit   = 2500000,
                     ClaimLimit      = 2500000,
                     Tenure          = 30,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident",
-                    ExclusionDetails = "Travel Claim,Pre-existing Conditions,Baggage Loss or Delay,Flight Cancellation or Delay,Trip Cancellation,Loss of Passport,Personal Liability,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Extreme Sports,Alcohol or Drug Related Incidents",
+                    CoverageDetails = "Emergency Medical Expenses, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Pregnancy",
                     CreatedAt       = DateTime.UtcNow
                 },
                 new PolicyProduct
@@ -156,14 +152,14 @@ namespace Infrastructure.Data
                     PolicyName      = "Gold Single Trip",
                     PolicyType      = "Single Trip",
                     PlanTier        = "Gold",
-                    BasePremium     = 2300,
-                    CoverageLimit   = 7500000, 
+                    BasePremium     = 5500,
+                    CoverageLimit   = 7500000,
                     ClaimLimit      = 7500000,
                     Tenure          = 30,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim",
-                    ExclusionDetails = "Pre-existing Conditions,Personal Liability,Missed Flight Connection,Hijack Distress Allowance,Emergency Cash Assistance,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Extreme Sports,Alcohol or Drug Related Incidents",
+                    CoverageDetails = "Emergency Medical Expenses, Trip Cancellation, Baggage Loss, Flight Delay, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Pregnancy",
                     CreatedAt       = DateTime.UtcNow
                 },
                 new PolicyProduct
@@ -171,78 +167,31 @@ namespace Infrastructure.Data
                     PolicyName      = "Platinum Single Trip",
                     PolicyType      = "Single Trip",
                     PlanTier        = "Platinum",
-                    BasePremium     = 4500,
-                    CoverageLimit   = 20000000, 
+                    BasePremium     = 12500,
+                    CoverageLimit   = 20000000,
                     ClaimLimit      = 20000000,
                     Tenure          = 30,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim",
-                    ExclusionDetails = "War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Intentional Criminal Acts,Nuclear or Radiation Hazards,Alcohol or Drug Related Incidents",
+                    CoverageDetails = "Emergency Medical Expenses, Trip Cancellation, Baggage Loss, Flight Delay, Medical Evacuation, Personal Liability, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Pregnancy",
                     CreatedAt       = DateTime.UtcNow
                 },
 
-                // ── MULTI TRIP PLANS ──────────────────────────────────────
-                new PolicyProduct
-                {
-                    PolicyName      = "Silver Multi Trip",
-                    PolicyType      = "Multi-Trip",
-                    PlanTier        = "Silver",
-                    BasePremium     = 3200,
-                    CoverageLimit   = 2500000,
-                    ClaimLimit      = 2500000,
-                    Tenure          = 365,
-                    DestinationZone = "Worldwide",
-                    Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident",
-                    ExclusionDetails = "Travel Claim,Pre-existing Conditions,Baggage Loss or Delay,Flight Cancellation or Delay,Trip Cancellation,Loss of Passport,Personal Liability,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Extreme Sports,Alcohol or Drug Related Incidents,Trips Exceeding 30 Days",
-                    CreatedAt       = DateTime.UtcNow
-                },
-                new PolicyProduct
-                {
-                    PolicyName      = "Gold Multi Trip",
-                    PolicyType      = "Multi-Trip",
-                    PlanTier        = "Gold",
-                    BasePremium     = 5700,
-                    CoverageLimit   = 7500000,
-                    ClaimLimit      = 7500000,
-                    Tenure          = 365,
-                    DestinationZone = "Worldwide",
-                    Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim",
-                    ExclusionDetails = "Pre-existing Conditions,Personal Liability,Missed Flight Connection,Hijack Distress Allowance,Emergency Cash Assistance,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Extreme Sports,Alcohol or Drug Related Incidents,Trips Exceeding 30 Days",
-                    CreatedAt       = DateTime.UtcNow
-                },
-                new PolicyProduct
-                {
-                    PolicyName      = "Platinum Multi Trip",
-                    PolicyType      = "Multi-Trip",
-                    PlanTier        = "Platinum",
-                    BasePremium     = 11500,
-                    CoverageLimit   = 20000000,
-                    ClaimLimit      = 20000000,
-                    Tenure          = 365,
-                    DestinationZone = "Worldwide",
-                    Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim",
-                    ExclusionDetails = "War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Intentional Criminal Acts,Nuclear or Radiation Hazards,Alcohol or Drug Related Incidents,Trips Exceeding 30 Days",
-                    CreatedAt       = DateTime.UtcNow
-                },
-
-                // ── FAMILY PLANS ────────────────────────────────────
+                // ── FAMILY PLANS ───────────────────────────────────────────────────
                 new PolicyProduct
                 {
                     PolicyName      = "Silver Family",
                     PolicyType      = "Family",
                     PlanTier        = "Silver",
-                    BasePremium     = 1200,
+                    BasePremium     = 4500,
                     CoverageLimit   = 2500000,
                     ClaimLimit      = 2500000,
                     Tenure          = 30,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident",
-                    ExclusionDetails = "Travel Claim,Pre-existing Conditions,Baggage Loss or Delay,Flight Cancellation or Delay,Trip Cancellation,Loss of Passport,Personal Liability,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Extreme Sports,Alcohol or Drug Related Incidents,Members Above Age 60,Children Above Age 21",
+                    CoverageDetails = "Emergency Medical Expenses, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Pregnancy, Members Above 60",
                     CreatedAt       = DateTime.UtcNow
                 },
                 new PolicyProduct
@@ -250,14 +199,14 @@ namespace Infrastructure.Data
                     PolicyName      = "Gold Family",
                     PolicyType      = "Family",
                     PlanTier        = "Gold",
-                    BasePremium     = 2200,
+                    BasePremium     = 8500,
                     CoverageLimit   = 7500000,
                     ClaimLimit      = 7500000,
                     Tenure          = 30,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim",
-                    ExclusionDetails = "Pre-existing Conditions,Personal Liability,Missed Flight Connection,Hijack Distress Allowance,Emergency Cash Assistance,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Extreme Sports,Alcohol or Drug Related Incidents,Members Above Age 60,Children Above Age 21",
+                    CoverageDetails = "Emergency Medical Expenses, Trip Cancellation, Baggage Loss, Flight Delay, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Pregnancy, Members Above 65",
                     CreatedAt       = DateTime.UtcNow
                 },
                 new PolicyProduct
@@ -265,31 +214,31 @@ namespace Infrastructure.Data
                     PolicyName      = "Platinum Family",
                     PolicyType      = "Family",
                     PlanTier        = "Platinum",
-                    BasePremium     = 4500,
+                    BasePremium     = 18000,
                     CoverageLimit   = 20000000,
                     ClaimLimit      = 20000000,
                     Tenure          = 30,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim",
-                    ExclusionDetails = "War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Intentional Criminal Acts,Nuclear or Radiation Hazards,Alcohol or Drug Related Incidents,Members Above Age 60,Children Above Age 21",
+                    CoverageDetails = "Emergency Medical Expenses, Trip Cancellation, Baggage Loss, Flight Delay, Medical Evacuation, Personal Liability, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Pregnancy, Members Above 70",
                     CreatedAt       = DateTime.UtcNow
                 },
 
-                // ── STUDENT PLANS ───────────────────────────────────
+                // ── STUDENT PLANS ─────────────────────────────────────────────────
                 new PolicyProduct
                 {
                     PolicyName      = "Silver Student",
                     PolicyType      = "Student",
                     PlanTier        = "Silver",
-                    BasePremium     = 20000,
+                    BasePremium     = 35000,
                     CoverageLimit   = 7500000,
                     ClaimLimit      = 7500000,
                     Tenure          = 365,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim,Study Related Claim",
-                    ExclusionDetails = "Pre-existing Conditions,University Requirements Coverage,Mental Health Coverage,Personal Liability,Hijack Distress Allowance,War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Alcohol or Drug Related Incidents,Students Below Age 16 Not Eligible,Students Above Age 35 Not Eligible",
+                    CoverageDetails = "Emergency Medical Expenses, Tuition Protection",
+                    ExclusionDetails = "Pre-existing Conditions, Pregnancy, Students Below 16 or Above 35",
                     CreatedAt       = DateTime.UtcNow
                 },
                 new PolicyProduct
@@ -297,19 +246,87 @@ namespace Infrastructure.Data
                     PolicyName      = "Platinum Student",
                     PolicyType      = "Student",
                     PlanTier        = "Platinum",
-                    BasePremium     = 55000,
+                    BasePremium     = 85000,
                     CoverageLimit   = 20000000,
                     ClaimLimit      = 20000000,
                     Tenure          = 365,
                     DestinationZone = "Worldwide",
                     Status          = PolicyProductStatus.Available,
-                    CoverageDetails = "Medical Claim,Personal Accident,Travel Claim,Study Related Claim",
-                    ExclusionDetails = "War or Civil Unrest,Self-inflicted Injuries,Cosmetic Surgery,Pregnancy and Childbirth,Intentional Criminal Acts,Alcohol or Drug Related Incidents,Students Below Age 16 Not Eligible,Students Above Age 35 Not Eligible",
+                    CoverageDetails = "Emergency Medical Expenses, Tuition Protection, Baggage Loss, Trip Cancellation, Medical Evacuation",
+                    ExclusionDetails = "Pre-existing Conditions, Pregnancy, Students Below 16 or Above 40",
+                    CreatedAt       = DateTime.UtcNow
+                },
+
+                // ── MULTI-TRIP PLANS ──────────────────────────────────────────────
+                new PolicyProduct
+                {
+                    PolicyName      = "Silver Multi Trip",
+                    PolicyType      = "Multi-Trip",
+                    PlanTier        = "Silver",
+                    BasePremium     = 8500,
+                    CoverageLimit   = 2500000,
+                    ClaimLimit      = 2500000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Trips > 30 Days",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Gold Multi Trip",
+                    PolicyType      = "Multi-Trip",
+                    PlanTier        = "Gold",
+                    BasePremium     = 15000,
+                    CoverageLimit   = 7500000,
+                    ClaimLimit      = 7500000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses, Trip Cancellation, Baggage Loss, Flight Delay, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Trips > 45 Days",
+                    CreatedAt       = DateTime.UtcNow
+                },
+                new PolicyProduct
+                {
+                    PolicyName      = "Platinum Multi Trip",
+                    PolicyType      = "Multi-Trip",
+                    PlanTier        = "Platinum",
+                    BasePremium     = 32000,
+                    CoverageLimit   = 20000000,
+                    ClaimLimit      = 20000000,
+                    Tenure          = 365,
+                    DestinationZone = "Worldwide",
+                    Status          = PolicyProductStatus.Available,
+                    CoverageDetails = "Emergency Medical Expenses, Trip Cancellation, Baggage Loss, Flight Delay, Medical Evacuation, Personal Liability, Loss of Passport",
+                    ExclusionDetails = "Pre-existing Diseases, Adventure Sports, Trips > 60 Days",
                     CreatedAt       = DateTime.UtcNow
                 }
             };
 
-            await context.PolicyProducts.AddRangeAsync(products);
+            foreach (var p in products)
+            {
+                if (existingProducts.TryGetValue(p.PolicyName, out var existing))
+                {
+                    // Update existing
+                    existing.BasePremium = p.BasePremium;
+                    existing.CoverageLimit = p.CoverageLimit;
+                    existing.ClaimLimit = p.ClaimLimit;
+                    existing.CoverageDetails = p.CoverageDetails;
+                    existing.ExclusionDetails = p.ExclusionDetails;
+                    existing.DestinationZone = p.DestinationZone;
+                    existing.PlanTier = p.PlanTier;
+                    existing.Tenure = p.Tenure;
+                    existing.Status = p.Status;
+                }
+                else
+                {
+                    // Add new
+                    await context.PolicyProducts.AddAsync(p);
+                }
+            }
+
             await context.SaveChangesAsync();
         }
 

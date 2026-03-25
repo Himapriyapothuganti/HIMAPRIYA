@@ -166,3 +166,9 @@ d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x86\te
 d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x64\tesseract50.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Tesseract.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Google.Apis.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Google.Apis.Auth.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Google.Apis.Core.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\System.CodeDom.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\System.Management.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll

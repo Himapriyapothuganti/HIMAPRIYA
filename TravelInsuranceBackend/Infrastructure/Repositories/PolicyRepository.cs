@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +21,7 @@ namespace Infrastructure.Repositories
 
         public async Task<Policy> GetByIdAsync(int id)
         {
-            return await _context.Policies.FindAsync(id)
-                   ?? throw new Exception("Policy not found.");
+            return await _context.Policies.FindAsync(id);
         }
 
         public async Task<List<Policy>> GetAllAsync()

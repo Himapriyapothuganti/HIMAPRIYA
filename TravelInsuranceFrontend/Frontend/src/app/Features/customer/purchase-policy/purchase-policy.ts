@@ -151,8 +151,8 @@ export class PurchasePolicy implements OnInit {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
       if (diffDays > 0) {
-        // Assume base premium covers an initial 30-day block. Pro-rate for extended travel.
-        premium = premium * (diffDays / 30);
+        // Pro-rate based on the policy's defined base tenure (e.g. 30 days for Single Trip, 365 for Student)
+        premium = premium * (diffDays / this.product.tenure);
       }
     }
 

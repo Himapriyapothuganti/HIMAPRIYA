@@ -87,20 +87,11 @@ export class Dashboard implements OnInit {
       this.agentChart = sortedAgents.map((a: any) => ({
         name: a.agentName,
         revenue: a.totalPremiumCollected || 0,
-        height: ((a.totalPremiumCollected || 0) / scaleMax) * 100
+        width: ((a.totalPremiumCollected || 0) / scaleMax) * 100
       }));
 
-      // Generate 4 scale markers (e.g., 0, 33%, 66%, 100% of scaleMax)
-      this.scaleMarkers = [
-        Math.round(scaleMax),
-        Math.round(scaleMax * 0.66),
-        Math.round(scaleMax * 0.33),
-        0
-      ];
     }
   }
-
-  scaleMarkers: number[] = [];
 
   calculateOffsets(segments: any[], total: number) {
     let currentOffset = 0;

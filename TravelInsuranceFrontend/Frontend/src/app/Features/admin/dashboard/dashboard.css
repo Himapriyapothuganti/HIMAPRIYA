@@ -1,0 +1,8 @@
+@keyframes growRight {
+    from { width: 0; }
+    to { width: var(--target-width); }
+}
+
+.bar-animation {
+    animation: growRight 1s ease-out forwards;
+}

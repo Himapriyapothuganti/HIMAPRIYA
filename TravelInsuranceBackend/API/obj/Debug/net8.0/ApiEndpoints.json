@@ -299,6 +299,22 @@
   },
   {
     "ContainingType": "API.Controllers.ClaimController",
+    "Method": "AnalyzeClaim",
+    "RelativePath": "api/Claim/{claimId}/analyze",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "claimId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.ClaimController",
     "Method": "CloseClaim",
     "RelativePath": "api/Claim/{claimId}/close",
     "HttpMethod": "PUT",
@@ -454,6 +470,11 @@
         "Name": "IncidentDate",
         "Type": "System.DateTime",
         "IsRequired": false
+      },
+      {
+        "Name": "TravelSubtype",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -599,22 +620,6 @@
       {
         "Name": "dto",
         "Type": "Application.DTOs.CreatePolicyDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.PolicyController",
-    "Method": "RecommendPlan",
-    "RelativePath": "api/Policy/recommend",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "Application.DTOs.RecommendationRequestDTO",
         "IsRequired": true
       }
     ],

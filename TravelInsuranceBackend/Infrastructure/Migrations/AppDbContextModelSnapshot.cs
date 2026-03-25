@@ -109,6 +109,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimId"));
 
+                    b.Property<string>("AiSummary")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal?>("ApprovedAmount")
                         .HasColumnType("decimal(18,2)");
 
@@ -147,6 +150,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TravelSubtype")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClaimId");
 

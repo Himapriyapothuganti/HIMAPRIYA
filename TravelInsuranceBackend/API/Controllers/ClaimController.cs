@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -163,6 +163,23 @@ namespace API.Controllers
                 var officerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
                                 ?? throw new Exception("User not found.");
                 var result = await _claimService.CloseClaimAsync(claimId, officerId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("{claimId}/analyze")]
+        [Authorize(Roles = "ClaimsOfficer")]
+        public async Task<IActionResult> AnalyzeClaim(int claimId)
+        {
+            try
+            {
+                var officerId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                                ?? throw new Exception("User not found.");
+                var result = await _claimService.AnalyzeClaimAsync(claimId, officerId);
                 return Ok(result);
             }
             catch (Exception ex)

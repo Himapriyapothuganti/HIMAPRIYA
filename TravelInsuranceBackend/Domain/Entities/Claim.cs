@@ -23,6 +23,7 @@ namespace Domain.Entities
         public DateTime? ReviewedAt { get; set; }
         public DateTime IncidentDate { get; set; }
         public string? TravelSubtype { get; set; }
+        public string? AiSummary { get; set; }
 
         // Navigation properties
         public Policy Policy { get; set; } = null!;

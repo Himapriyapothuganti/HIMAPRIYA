@@ -34,25 +34,6 @@
                 Browse comprehensive travel plans grouped by coverage type — find exactly what you need.
             </p>
 
-            <!-- ✨ Smart Recommendation Banner -->
-            <div (click)="openRecommendationModal()" 
-                class="mt-8 p-6 bg-gradient-to-r from-black to-slate-800 rounded-3xl cursor-pointer hover:scale-[1.02] transition-all group relative overflow-hidden shadow-2xl">
-                <div class="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#E8584A]/20 to-transparent pointer-events-none"></div>
-                <div class="relative z-10 flex items-center justify-between">
-                    <div>
-                        <div class="inline-flex items-center gap-2 bg-[#E8584A] text-white text-[10px] font-black uppercase px-3 py-1 rounded-full mb-3 tracking-widest">AI Suggestion</div>
-                        <h3 class="text-2xl font-black text-white mb-1">Not sure which plan to choose?</h3>
-                        <p class="text-slate-400 text-sm">Let our Smart Recommendation tool find the best cover for your trip.</p>
-                    </div>
-                    <div class="hidden sm:flex items-center gap-4">
-                        <div class="text-right">
-                            <p class="text-[#E8584A] font-black text-xl leading-tight">FREE ⭐</p>
-                            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">AI Analysis</p>
-                        </div>
-                        <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-2xl group-hover:rotate-12 transition-transform">🎯</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Filter Chips -->
@@ -281,149 +262,220 @@
 </div>
 
 <!-- ─── VIEW DETAILS MODAL ──────────────────────────────── -->
-<app-modal [isOpen]="isModalOpen" title="Plan Details" (closeModal)="closeDetails()" maxWidthClass="max-w-3xl md:max-w-4xl">
-    <div class="text-left" *ngIf="selectedPlan">
-        
-        <!-- 1. Header & Price Bar -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 border-b border-gray-100 pb-5">
-            <div>
-                <div class="flex flex-wrap gap-2 mb-3">
-                    <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase border"
-                        [ngClass]="getTierBadgeClass(selectedPlan.planTier)">
-                        <ng-container [ngSwitch]="selectedPlan.planTier">
-                            <svg *ngSwitchCase="'Silver'" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
-                                <circle cx="12" cy="8" r="7"></circle>
-                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                            </svg>
-                            <svg *ngSwitchCase="'Gold'" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                            </svg>
-                            <svg *ngSwitchCase="'Platinum'" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" class="inline-block mr-1">
-                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                                <polyline points="2 17 12 22 22 17"></polyline>
-                                <polyline points="2 12 12 17 22 12"></polyline>
-                            </svg>
-                        </ng-container>
-                        {{ selectedPlan.planTier }}
-                    </span>
-                    <span class="px-3 py-1.5 rounded-full text-[11px] font-extrabold uppercase"
-                        style="background: #FDE8E0; color: #E8584A;">{{ selectedPlan.policyType }}</span>
-                </div>
-                <h3 class="text-[30px] font-extrabold text-[#111] leading-tight" style="font-family: 'Poppins', sans-serif;">
-                    {{ selectedPlan.policyName }}
-                </h3>
+<app-modal [isOpen]="isModalOpen" title="" (closeModal)="closeDetails()" maxWidthClass="max-w-2xl md:max-w-4xl">
+    <div class="text-left overflow-hidden" *ngIf="selectedPlan">
+
+        <!-- 1. Luxury Header Section -->
+        <div class="relative -mx-6 -mt-6 mb-8 p-8 overflow-hidden">
+            <!-- Background Gradient & Pattern -->
+            <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/world-map.png')]"
+                [style.backgroundColor]="selectedPlan.planTier === 'Gold' ? '#F59E0B' : selectedPlan.planTier === 'Platinum' ? '#E8584A' : '#6B7280'">
             </div>
-            
-            <div class="mt-4 md:mt-0 text-left md:text-right">
-                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Premium per trip</div>
-                <div class="text-[34px] font-extrabold leading-none" style="font-family: 'Poppins', sans-serif; color: #E8584A;">
-                    ₹{{ selectedPlan.basePremium | number:'1.0-0' }}
+            <div class="absolute inset-0 z-0 bg-gradient-to-br transition-all duration-700" [ngClass]="{
+                    'from-[#FDE68A] via-[#F59E0B] to-[#D97706]': selectedPlan.planTier === 'Gold',
+                    'from-[#FCA5A5] via-[#E8584A] to-[#B91C1C]': selectedPlan.planTier === 'Platinum',
+                    'from-[#D1D5DB] via-[#6B7280] to-[#374151]': selectedPlan.planTier === 'Silver'
+                }" style="opacity: 0.92;"></div>
+
+            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span
+                            class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-white text-black shadow-lg">
+                            {{ selectedPlan.planTier }} TIER
+                        </span>
+                        <span
+                            class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-black/20 text-white backdrop-blur-md">
+                            {{ selectedPlan.policyType }}
+                        </span>
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-black text-white leading-tight drop-shadow-sm"
+                        style="font-family: 'Poppins', sans-serif;">
+                        {{ selectedPlan.policyName }}
+                    </h3>
+                </div>
+
+                <div
+                    class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-5 text-white min-w-[180px] shadow-2xl">
+                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Total Premium</div>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-4xl font-black">₹{{ selectedPlan.basePremium | number:'1.0-0' }}</span>
+                        <span class="text-xs font-bold opacity-60">/trip</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. Flexible Key Metrics Row -->
-        <div class="flex flex-wrap md:flex-nowrap gap-6 md:gap-8 mb-8 bg-[#F8F7F5] rounded-2xl p-6 border border-gray-100/50">
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Coverage Limit</div>
-                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight">₹{{ selectedPlan.coverageLimit | number:'1.0-0' }}</div>
+        <!-- 2. Interactive Feature Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 px-2">
+            <!-- Coverage Card -->
+            <div class="premium-card group transition-all duration-500 hover:scale-[1.03]">
+                <div class="icon-box bg-blue-50 text-blue-500 group-hover:bg-blue-500 group-hover:text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <p class="card-label">Coverage Limit</p>
+                <h5 class="card-value">₹{{ (selectedPlan.coverageLimit / 1000000) | number:'1.1-1' }}M</h5>
             </div>
-            <div class="hidden md:block w-px bg-gray-200/50"></div>
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Claim Limit</div>
-                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight">₹{{ selectedPlan.claimLimit | number:'1.0-0' }}</div>
+
+            <!-- Claim Card -->
+            <div class="premium-card group transition-all duration-500 hover:scale-[1.03]">
+                <div class="icon-box bg-emerald-50 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <p class="card-label">Claim Max</p>
+                <h5 class="card-value">₹{{ (selectedPlan.claimLimit / 1000000) | number:'1.1-1' }}M</h5>
             </div>
-            <div class="hidden md:block w-px bg-gray-200/50"></div>
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Max Duration</div>
-                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight">{{ selectedPlan.tenure }} Days</div>
+
+            <!-- Duration Card -->
+            <div class="premium-card group transition-all duration-500 hover:scale-[1.03]">
+                <div class="icon-box bg-purple-50 text-purple-500 group-hover:bg-purple-500 group-hover:text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                <p class="card-label">Max Duration</p>
+                <h5 class="card-value">{{ selectedPlan.tenure }} Days</h5>
             </div>
-            <div class="hidden md:block w-px bg-gray-200/50"></div>
-            <div class="flex-1 min-w-[120px]">
-                <div class="text-[10px] font-extrabold text-gray-400 mb-1.5 tracking-widest uppercase">Valid Zone</div>
-                <div class="text-[16px] xl:text-[18px] font-extrabold text-[#111] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis" title="{{ selectedPlan.destinationZone }}">{{ selectedPlan.destinationZone }}</div>
+
+            <!-- Zone Card -->
+            <div class="premium-card group transition-all duration-500 hover:scale-[1.03]">
+                <div class="icon-box bg-orange-50 text-orange-500 group-hover:bg-orange-500 group-hover:text-white">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
+                    </svg>
+                </div>
+                <p class="card-label">Valid Zone</p>
+                <h5 class="card-value break-words">{{ selectedPlan.destinationZone }}</h5>
             </div>
         </div>
 
-        <!-- 3. Coverage Details (Split View) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-            <!-- Included -->
-            <div>
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-6 h-6 rounded-full flex items-center justify-center bg-green-100">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3">
+        <!-- 3. Dynamic Coverage Split -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4">
+            <!-- Inclusions: The "Yes" List -->
+            <div
+                class="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 border border-gray-100 shadow-sm overflow-hidden relative">
+                <div class="absolute top-0 right-0 p-8 opacity-5">
+
+                </div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div
+                        class="w-10 h-10 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
                             <polyline points="20 6 9 17 4 12" />
                         </svg>
                     </div>
-                    <span class="text-[14px] font-extrabold text-[#16a34a] uppercase tracking-wider">What's Covered</span>
+                    <h4 class="text-sm font-black uppercase tracking-widest text-[#111]">Included Highlights</h4>
                 </div>
-                <div class="space-y-2">
-                    <div *ngFor="let item of getCoverageList(selectedPlan.coverageDetails)"
-                        class="flex items-start gap-3 py-1.5 text-[14px] font-medium text-gray-800 leading-snug">
-                        <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        <span>{{ item }}</span>
+                <div class="space-y-3 relative z-10">
+                    <div *ngFor="let item of getCoverageList(selectedPlan.coverageDetails); let i = index"
+                        class="flex items-start gap-3 py-2 animate-in slide-in-from-left duration-500"
+                        [style.animationDelay]="i * 100 + 'ms'">
+                        <!-- High Contrast Inclusion Badge -->
+                        <div
+                            class="mt-0.5 w-6 h-6 rounded-lg bg-[#22c55e] flex items-center justify-center text-white flex-shrink-0 shadow-sm">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </div>
+                        <span class="text-[15px] font-semibold text-gray-700 leading-snug">{{ item }}</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Excluded -->
-            <div>
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-6 h-6 rounded-full flex items-center justify-center bg-red-100">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="3">
+            <!-- Exclusions: The "No" List -->
+            <div
+                class="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 border border-gray-100 shadow-sm overflow-hidden relative">
+                <div class="absolute top-0 right-0 p-8 opacity-5">
+
+                </div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-600">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
                             <line x1="18" y1="6" x2="6" y2="18" />
                             <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </div>
-                    <span class="text-[14px] font-extrabold text-red-600 uppercase tracking-wider">Not Covered</span>
+                    <h4 class="text-sm font-black uppercase tracking-widest text-[#111]">Key Exclusions</h4>
                 </div>
-                <div class="space-y-2">
-                    <div *ngFor="let item of getCoverageList(selectedPlan.exclusionDetails)"
-                        class="flex items-start gap-3 py-1.5 text-[14px] font-medium text-gray-600 leading-snug">
-                        <svg class="mt-0.5 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5">
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
-                        <span>{{ item }}</span>
+                <div class="space-y-3 relative z-10">
+                    <div *ngFor="let item of getCoverageList(selectedPlan.exclusionDetails); let i = index"
+                        class="flex items-start gap-3 py-2 animate-in slide-in-from-right duration-500"
+                        [style.animationDelay]="i * 100 + 'ms'">
+                        <!-- High Contrast Exclusion Badge -->
+                        <div
+                            class="mt-0.5 w-6 h-6 rounded-lg bg-[#ef4444] flex items-center justify-center text-white flex-shrink-0 shadow-sm">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                        </div>
+                        <span class="text-[15px] font-semibold text-gray-500 leading-snug">{{ item }}</span>
                     </div>
-                    <div *ngIf="getCoverageList(selectedPlan.exclusionDetails).length === 0" class="text-[13px] text-gray-500 italic py-2">
-                        No specific exclusions defined. standard terms apply.
+                    <div *ngIf="getCoverageList(selectedPlan.exclusionDetails).length === 0"
+                        class="text-sm italic text-gray-400 py-4">
+                        Standard policy terms and conditions apply.
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. Footer Actions -->
-        <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-10 pt-6 border-t border-gray-100">
-            <button (click)="closeDetails()"
-                class="px-6 py-3.5 rounded-2xl font-bold text-[14px] text-gray-500 hover:text-[#111] hover:bg-gray-100 transition-colors outline-none">
-                Close
-            </button>
-            <ng-container *ngIf="ownedProductIds.has(selectedPlan.policyProductId); else checkRequestedModal">
-                <button disabled
-                    class="px-6 py-3.5 rounded-2xl font-bold text-[14px] bg-gray-100 text-gray-500 border border-gray-300 cursor-not-allowed">
-                    Policy Active
+        <!-- 4. Floating Action Footer -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-6 border-t border-gray-100">
+            <div class="text-gray-400 text-xs font-medium flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Secure and instant processing
+            </div>
+
+            <div class="flex gap-3 w-full sm:w-auto">
+                <button (click)="closeDetails()"
+                    class="flex-1 sm:flex-none px-8 py-3.5 rounded-2xl font-bold text-sm text-gray-500 hover:bg-gray-50 transition-all">
+                    Dismiss
                 </button>
-            </ng-container>
-            <ng-template #checkRequestedModal>
-                <ng-container *ngIf="requestedProductIds.has(selectedPlan.policyProductId); else canRequestModal">
+
+                <ng-container *ngIf="ownedProductIds.has(selectedPlan.policyProductId); else checkRequestedModal">
                     <button disabled
-                        class="px-6 py-3.5 rounded-2xl font-bold text-[14px] bg-orange-100 text-orange-500 border border-orange-300 cursor-not-allowed">
-                        Request Pending
+                        class="flex-1 sm:flex-none px-10 py-3.5 rounded-2xl font-black text-sm bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed uppercase tracking-widest">
+                        Already Active
                     </button>
                 </ng-container>
-            </ng-template>
-            <ng-template #canRequestModal>
-                <button (click)="openRequestModal(selectedPlan)"
-                    class="px-8 py-3.5 rounded-2xl font-bold text-[14px] bg-[#E8584A] text-white hover:bg-[#d4483a] transition-colors shadow-lg shadow-red-500/20">
-                    Request Agent
-                </button>
-            </ng-template>
+                <ng-template #checkRequestedModal>
+                    <ng-container *ngIf="requestedProductIds.has(selectedPlan.policyProductId); else canRequestModal">
+                        <button disabled
+                            class="flex-1 sm:flex-none px-10 py-3.5 rounded-2xl font-black text-sm bg-orange-50 text-orange-400 border border-orange-100 cursor-not-allowed uppercase tracking-widest animate-pulse">
+                            Pending Approval
+                        </button>
+                    </ng-container>
+                </ng-template>
+                <ng-template #canRequestModal>
+                    <button (click)="openRequestModal(selectedPlan)"
+                        class="flex-1 sm:flex-none px-12 py-4 rounded-2xl font-black text-sm bg-[#E8584A] text-white hover:bg-[#D4483A] hover:scale-105 active:scale-95 transition-all shadow-[0_10px_30px_rgba(232,88,74,0.3)] uppercase tracking-widest">
+                        Request Agent
+                    </button>
+                </ng-template>
+            </div>
         </div>
     </div>
 </app-modal>
@@ -432,7 +484,3 @@
 <app-policy-request-modal [isOpen]="isRequestModalOpen" [selectedPlan]="selectedPlan" (closeModal)="closeRequestModal()"
     (requestSubmitted)="onRequestSubmitted($event)">
 </app-policy-request-modal>
-
-<app-recommendation-modal *ngIf="isRecommendationModalOpen" (closeEvent)="isRecommendationModalOpen = false"
-    (selectPlan)="onPlanSelected($event)">
-</app-recommendation-modal>

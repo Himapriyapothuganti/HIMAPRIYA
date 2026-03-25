@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,14 +21,12 @@ namespace Infrastructure.Repositories
 
         public async Task<ApplicationUser> GetByIdAsync(string id)
         {
-            return await _userManager.FindByIdAsync(id)
-                   ?? throw new Exception("User not found.");
+            return await _userManager.FindByIdAsync(id);
         }
 
         public async Task<ApplicationUser> GetByEmailAsync(string email)
         {
-            return await _userManager.FindByEmailAsync(email)
-                   ?? throw new Exception("User not found.");
+            return await _userManager.FindByEmailAsync(email);
         }
 
         public async Task<List<ApplicationUser>> GetAllAsync()

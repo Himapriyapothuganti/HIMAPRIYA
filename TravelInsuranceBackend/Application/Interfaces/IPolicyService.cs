@@ -20,9 +20,6 @@ namespace Application.Interfaces
         // Admin
         Task<List<PolicyResponseDTO>> GetAllPoliciesAsync();
 
-        // Recommendations
-        Task<RecommendationResponseDTO> GetSmartRecommendationAsync(RecommendationRequestDTO request);
-
         // Invoices
         Task<InvoiceDTO> GetInvoiceAsync(int policyId, string customerId);
     }

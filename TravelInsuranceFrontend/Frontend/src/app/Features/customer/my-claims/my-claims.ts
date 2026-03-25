@@ -32,7 +32,7 @@ export class MyClaims implements OnInit {
 
   // Master list of main claim types
   MASTER_CLAIM_TYPES: any[] = [
-    { type: 'Medical Claim', keywords: ['Medical Claim'], deductibleINR: 0 },
+    { type: 'Medical Claim', keywords: ['Medical Claim', 'Medical Expenses'], deductibleINR: 0 },
     { type: 'Personal Accident Claim', keywords: ['Personal Accident'], maxINR: 415000, deductibleINR: 0 },
     { type: 'Travel Claim', keywords: ['Travel Claim'], deductibleINR: 0 },
     { type: 'Study Related Claim', keywords: ['Study Related Claim'], deductibleINR: 0 }
