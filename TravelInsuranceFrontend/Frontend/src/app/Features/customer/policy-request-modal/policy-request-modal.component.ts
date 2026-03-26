@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { PolicyRequestService } from '../../../Services/policy-request.service';
@@ -10,6 +10,8 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { Modal } from '../../admin/components/modal/modal.component';
 import { Toast } from '../../admin/components/toast/toast';
 
+declare var google: any;
+
 @Component({
     selector: 'app-policy-request-modal',
     standalone: true,
@@ -17,6 +19,11 @@ import { Toast } from '../../admin/components/toast/toast';
     templateUrl: './policy-request-modal.component.html'
 })
 export class PolicyRequestModalComponent implements OnChanges {
+    @ViewChild('mapContainer') mapElement!: ElementRef;
+    @ViewChild('destinationInput') inputElement!: ElementRef;
+
+    private map: any;
+    private autocomplete: any;
     @Input() isOpen = false;
     @Input() selectedPlan: any = null;
     @Input() editData: any = null; // New input for edit mode
@@ -155,6 +162,104 @@ export class PolicyRequestModalComponent implements OnChanges {
         if (changes['editData'] && this.editData) {
             this.patchFormForEdit();
         }
+
+        if (changes['isOpen'] && this.isOpen) {
+            // Short delay to ensure modal is rendered and animations are ready
+            setTimeout(() => this.initGoogleMaps(), 400);
+        }
+    }
+
+    initGoogleMaps() {
+        if (typeof google === 'undefined' || !this.mapElement || !this.inputElement) return;
+
+        // Initialize Map in World View
+        const mapOptions = {
+            center: { lat: 20, lng: 0 },
+            zoom: 2,
+            mapTypeId: 'roadmap',
+            disableDefaultUI: true,
+            gestureHandling: 'cooperative',
+            styles: [
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text.fill",
+                    "stylers": [{ "color": "#7c93a3" }, { "lightness": "-10" }]
+                },
+                {
+                    "featureType": "administrative.country",
+                    "elementType": "geometry.stroke",
+                    "stylers": [{ "color": "#E8584A" }, { "weight": "0.5" }, { "opacity": "0.2" }]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry.fill",
+                    "stylers": [{ "color": "#f5f5f5" }, { "lightness": "0" }]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [{ "color": "#e9e9e9" }, { "lightness": "17" }]
+                }
+            ]
+        };
+
+        try {
+            this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+            // Initialize Autocomplete
+            this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement, {
+                types: ['(cities)']
+            });
+
+            // Bind Autocomplete to Map
+            this.autocomplete.addListener('place_changed', () => {
+                const place = this.autocomplete.getPlace();
+                if (!place.geometry || !place.geometry.location) return;
+
+                // 1. Update Form Value
+                this.requestForm.patchValue({ destination: place.formatted_address || place.name });
+
+                // 2. Trigger Cinematic Zoom
+                this.zoomToLocation(place.geometry.location);
+            });
+        } catch (e) {
+            console.error("Google Maps Initialization Failed:", e);
+        }
+    }
+
+    zoomToLocation(location: any) {
+        if (!this.map) return;
+
+        // Start from a neutral zoom to create the "pan" effect
+        this.map.panTo(location);
+        
+        // Custom Step-wise zoom animation for "Cinematic" feel
+        let currentZoom = 2;
+        const targetZoom = 12;
+        
+        const zoomInterval = setInterval(() => {
+            if (currentZoom >= targetZoom) {
+                clearInterval(zoomInterval);
+            } else {
+                currentZoom++;
+                this.map.setZoom(currentZoom);
+            }
+        }, 120); 
+        
+        // Add a premium marker
+        new google.maps.Marker({
+            position: location,
+            map: this.map,
+            animation: google.maps.Animation.DROP,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: "#E8584A",
+                fillOpacity: 1,
+                strokeWeight: 2,
+                strokeColor: "#FFFFFF",
+            }
+        });
     }
 
     patchFormForEdit() {

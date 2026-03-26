@@ -119,9 +119,26 @@
                 <!-- Destination -->
                 <div class="md:col-span-2">
                     <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2">Destination City/Country</label>
-                    <input type="text" formControlName="destination" 
-                        class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium placeholder-gray-400"
-                        placeholder="e.g. Paris, France" />
+                    <div class="relative group">
+                        <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#E8584A] transition-colors">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <input #destinationInput type="text" formControlName="destination" 
+                            class="w-full pl-11 pr-4 py-3 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-sm font-medium placeholder-gray-400"
+                            placeholder="Search destination..." />
+                    </div>
+
+                    <!-- Cinematic Map Container -->
+                    <div class="relative mt-4 group">
+                        <div #mapContainer class="w-full h-48 rounded-2xl border-2 border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.04)] bg-gray-100 overflow-hidden transition-all duration-700 group-hover:border-[#E8584A]/30 group-hover:shadow-[0_15px_40px_rgba(232,88,74,0.1)]">
+                        </div>
+                        <!-- World Overlay Badge (Visible when zoomed out) -->
+                        <div class="absolute top-4 left-4 px-3 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-gray-100 pointer-events-none flex items-center gap-2 animate-in fade-in zoom-in duration-500">
+                           <span class="w-2 h-2 rounded-full bg-[#E8584A] animate-pulse"></span>
+                           <span class="text-[9px] font-black uppercase tracking-widest text-gray-600">Global Coverage Search</span>
+                        </div>
+                    </div>
+
                     <div *ngIf="f['destination'].touched && f['destination'].invalid" class="text-red-500 text-[10px] mt-1.5 font-bold flex items-center gap-1 uppercase tracking-wide">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                         Destination is required

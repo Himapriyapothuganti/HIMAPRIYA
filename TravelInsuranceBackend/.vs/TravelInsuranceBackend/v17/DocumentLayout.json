@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\interfaces\\igroqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\igroqservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -55,19 +51,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "IGroqService.cs",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Interfaces\\IGroqService.cs",
-              "RelativeDocumentMoniker": "Application\\Interfaces\\IGroqService.cs",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Interfaces\\IGroqService.cs",
-              "RelativeToolTip": "Application\\Interfaces\\IGroqService.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAwwAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-23T03:56:28.367Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "IAdminService.cs",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Interfaces\\IAdminService.cs",
               "RelativeDocumentMoniker": "Application\\Interfaces\\IAdminService.cs",
@@ -79,7 +62,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Application.csproj",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
               "RelativeDocumentMoniker": "Application\\Application.csproj",
@@ -91,7 +74,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "API.Tests.csproj",
               "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\API.Tests.csproj",
               "RelativeDocumentMoniker": "API.Tests\\API.Tests.csproj",
