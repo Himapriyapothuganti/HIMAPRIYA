@@ -9,7 +9,7 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <div class="space-y-6 animate-fade-in pb-12 overflow-x-hidden font-sans">
+    <div class="space-y-6 animate-fade-in pb-12 overflow-x-hidden" style="font-family: 'Poppins', sans-serif;">
       
       <!-- Header Area -->
       <div class="flex items-center justify-between">
@@ -23,8 +23,8 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
           <div>
             <h2 class="text-2xl font-bold text-[#111] tracking-tight font-poppins flex items-center gap-3">
               Claim #{{ claim()?.id || claim()?.claimId || '...' }}
-              <span *ngIf="claim()" class="px-3 py-1 rounded-full text-sm font-bold tracking-normal" [ngClass]="getStatusBadgeClass(claim().status)">
-                {{ claim().status }}
+              <span *ngIf="claim()" class="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider whitespace-nowrap inline-block" [ngClass]="getStatusBadgeClass(claim().status)">
+                {{ formatStatus(claim().status) }}
               </span>
             </h2>
             <p class="text-gray-500 mt-1 text-sm font-medium">Review claim details and process accordingly.</p>
@@ -49,7 +49,7 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
               <div>
                 <p class="text-[10px] font-black text-gray-400 uppercase tracking-[4px] mb-2">Primary Claim Context</p>
                 <h3 class="text-2xl font-black text-[#111] font-poppins">{{ claim().claimType || 'General Insurance' }} Claim</h3>
-                <p class="text-gray-400 text-xs font-bold mt-1">Submitted on {{ claim().submittedDate | date:'dd MMM yyyy' }}</p>
+                <p class="text-gray-400 text-xs font-bold mt-1">Submitted on {{ claim().submittedAt | date:'dd MMM yyyy' }}</p>
               </div>
               <div class="px-6 py-4 bg-[#FDF4F0] border border-[#E8584A]/10 rounded-3xl">
                 <p class="text-[10px] font-black text-[#E8584A] uppercase tracking-[3px] mb-1">Total Claimed</p>
@@ -237,7 +237,9 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
                   </div>
                   <div>
                     <h3 class="text-2xl font-black text-[#111] font-poppins">Official Determination</h3>
-                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-[4px] mt-2">Current Status: {{ claim().status }}</p>
+                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-[4px] mt-2 flex items-center gap-2">
+                       Current Status: <span class="text-slate-900 border-b-2 border-slate-200 pb-0.5">{{ formatStatus(claim().status) }}</span>
+                    </p>
                   </div>
                 </div>
 
@@ -477,17 +479,6 @@ export class OfficerClaimDetailComponent implements OnInit {
     });
   }
 
-  getStatusBadgeClass(status: string): string {
-    switch (status) {
-      case 'UnderReview': return 'bg-blue-50 text-blue-600';
-      case 'PendingDocuments': return 'bg-yellow-50 text-yellow-600';
-      case 'Approved': return 'bg-green-50 text-green-600';
-      case 'PaymentProcessed': return 'bg-purple-50 text-purple-600';
-      case 'Rejected': return 'bg-red-50 text-red-600';
-      case 'Closed': return 'bg-gray-100 text-gray-600';
-      default: return 'bg-gray-100 text-gray-600';
-    }
-  }
 
   viewDocument(url: string, fileName: string) {
     if (!url) return;
@@ -504,5 +495,23 @@ export class OfficerClaimDetailComponent implements OnInit {
         alert('Failed to load document for viewing.');
       }
     });
+  }
+
+  getStatusBadgeClass(status: string): string {
+    switch (status) {
+      case 'UnderReview': return 'bg-blue-50 text-blue-600 border border-blue-100';
+      case 'PendingDocuments': return 'bg-yellow-50 text-yellow-600 border border-yellow-100';
+      case 'Approved': return 'bg-emerald-50 text-emerald-600 border border-emerald-100';
+      case 'PaymentProcessed': return 'bg-purple-50 text-purple-600 border border-purple-100';
+      case 'Rejected': return 'bg-rose-50 text-rose-600 border border-rose-100';
+      case 'Closed': return 'bg-gray-50 text-gray-500 border border-gray-200';
+      default: return 'bg-gray-50 text-gray-500 border border-gray-200';
+    }
+  }
+
+  formatStatus(status: string): string {
+    if (!status) return 'Unknown';
+    // Convert CamelCase to Space Case (e.g., UnderReview -> Under Review)
+    return status.replace(/([A-Z])/g, ' $1').trim();
   }
 }

@@ -9,7 +9,7 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <div class="space-y-6 animate-fade-in pb-12 font-sans">
+    <div class="space-y-6 animate-fade-in pb-12" style="font-family: 'Poppins', sans-serif;">
       <!-- Header -->
       <div class="flex items-end justify-between">
         <div>
@@ -80,11 +80,11 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
                   <span *ngIf="!claim.approvedAmount || claim.approvedAmount === 0">—</span>
                 </td>
                 <td class="py-4 px-6">
-                  <span class="px-2.5 py-1 rounded-full text-xs font-bold" [ngClass]="getStatusBadgeClass(claim.status)">
-                    {{ claim.status }}
+                  <span class="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider whitespace-nowrap inline-block" [ngClass]="getStatusBadgeClass(claim.status)">
+                    {{ formatStatus(claim.status) }}
                   </span>
                 </td>
-                <td class="py-4 px-6 text-sm text-gray-500">{{ claim.submittedDate | date:'dd MMM yyyy' }}</td>
+                <td class="py-4 px-6 text-sm text-gray-500">{{ claim.submittedAt | date:'dd MMM yyyy' }}</td>
                 <td class="py-4 px-6 text-right">
                   <button [routerLink]="['/officer/claims', claim.id || claim.claimId]" 
                           class="px-4 py-1.5 rounded-lg text-sm font-bold text-white bg-[#E8584A] hover:bg-[#C94035] transition-colors shadow-sm">
@@ -171,13 +171,18 @@ export class OfficerClaimsComponent implements OnInit {
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
-      case 'UnderReview': return 'bg-blue-50 text-blue-600';
-      case 'PendingDocuments': return 'bg-yellow-50 text-yellow-600';
-      case 'Approved': return 'bg-green-50 text-green-600';
-      case 'PaymentProcessed': return 'bg-purple-50 text-purple-600';
-      case 'Rejected': return 'bg-red-50 text-red-600';
-      case 'Closed': return 'bg-gray-100 text-gray-600';
-      default: return 'bg-gray-100 text-gray-600';
+      case 'UnderReview': return 'bg-blue-50 text-blue-600 border border-blue-100';
+      case 'PendingDocuments': return 'bg-yellow-50 text-yellow-600 border border-yellow-100';
+      case 'Approved': return 'bg-emerald-50 text-emerald-600 border border-emerald-100';
+      case 'PaymentProcessed': return 'bg-purple-50 text-purple-600 border border-purple-100';
+      case 'Rejected': return 'bg-rose-50 text-rose-600 border border-rose-100';
+      case 'Closed': return 'bg-gray-50 text-gray-500 border border-gray-200';
+      default: return 'bg-gray-50 text-gray-500 border border-gray-200';
     }
+  }
+
+  formatStatus(status: string): string {
+    if (!status) return 'Unknown';
+    return status.replace(/([A-Z])/g, ' $1').trim();
   }
 }
