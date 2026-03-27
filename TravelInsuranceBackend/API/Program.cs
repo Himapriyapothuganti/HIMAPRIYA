@@ -74,7 +74,6 @@ namespace API
             builder.Services.AddScoped<IAgentService, AgentService>();
             builder.Services.AddScoped<IPolicyRequestService, PolicyRequestService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
-            builder.Services.AddScoped<IOcrService, TesseractOcrService>();
             builder.Services.AddScoped<IGroqService, GroqService>();
             builder.Services.AddScoped<IVertexAiService, VertexAiService>();
             builder.Services.AddHttpClient();

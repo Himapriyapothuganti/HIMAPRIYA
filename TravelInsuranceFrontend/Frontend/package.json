@@ -39,6 +39,7 @@
     "@angular/build": "^21.0.4",
     "@angular/cli": "^21.0.4",
     "@angular/compiler-cli": "^21.0.0",
+    "@ngx-env/builder": "^21.0.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/jasmine": "^6.0.0",
     "jasmine-core": "^6.1.0",

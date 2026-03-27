@@ -2,10 +2,6 @@ import { Component, Input, Output, EventEmitter, inject, OnChanges, SimpleChange
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { PolicyRequestService } from '../../../Services/policy-request.service';
-import * as pdfjsLib from 'pdfjs-dist';
-
-// Configure PDF.js worker
-(pdfjsLib as any).GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.5.207/pdf.worker.min.js`;
 
 import { Modal } from '../../admin/components/modal/modal.component';
 import { Toast } from '../../admin/components/toast/toast';
@@ -35,7 +31,6 @@ export class PolicyRequestModalComponent implements OnChanges {
 
     requestForm: FormGroup;
     isSubmitting = false;
-    loading = false;
 
     error: string | null = null;
     success: string | null = null;
@@ -158,7 +153,7 @@ export class PolicyRequestModalComponent implements OnChanges {
         if (changes['selectedPlan'] && this.selectedPlan && !this.editData) {
             this.setupDynamicForm();
         }
-        
+
         if (changes['editData'] && this.editData) {
             this.patchFormForEdit();
         }
@@ -232,11 +227,11 @@ export class PolicyRequestModalComponent implements OnChanges {
 
         // Start from a neutral zoom to create the "pan" effect
         this.map.panTo(location);
-        
+
         // Custom Step-wise zoom animation for "Cinematic" feel
         let currentZoom = 2;
         const targetZoom = 12;
-        
+
         const zoomInterval = setInterval(() => {
             if (currentZoom >= targetZoom) {
                 clearInterval(zoomInterval);
@@ -244,8 +239,8 @@ export class PolicyRequestModalComponent implements OnChanges {
                 currentZoom++;
                 this.map.setZoom(currentZoom);
             }
-        }, 120); 
-        
+        }, 120);
+
         // Add a premium marker
         new google.maps.Marker({
             position: location,
@@ -265,7 +260,7 @@ export class PolicyRequestModalComponent implements OnChanges {
     patchFormForEdit() {
         // Ensure dynamic controls exist first
         this.setupDynamicForm();
-        
+
         // Patch main fields
         this.requestForm.patchValue({
             destination: this.editData.destination,
@@ -291,14 +286,15 @@ export class PolicyRequestModalComponent implements OnChanges {
                     depArray.push(this.fb.group({
                         Name: [d.Name, Validators.required],
                         Age: [d.Age, [Validators.required, Validators.min(1)]],
-                        Relationship: [d.Relationship, Validators.required]
+                        Relationship: [d.Relationship, Validators.required],
+                        OtherRelationship: [d.OtherRelationship || '']
                     }));
                 });
             } catch (e) {
                 console.error('Error parsing dependents', e);
             }
         }
-        
+
         this.calculatePreviewPremium();
     }
 
@@ -319,7 +315,7 @@ export class PolicyRequestModalComponent implements OnChanges {
             const dependentsArray = this.fb.array([]);
             this.requestForm.addControl('dependents', dependentsArray);
         }
-        
+
         this.calculatePreviewPremium();
     }
 
@@ -331,7 +327,8 @@ export class PolicyRequestModalComponent implements OnChanges {
         return this.fb.group({
             Name: ['', Validators.required],
             Age: ['', [Validators.required, Validators.min(1)]],
-            Relationship: ['Spouse', Validators.required]
+            Relationship: ['Spouse', Validators.required],
+            OtherRelationship: ['']
         });
     }
 
@@ -351,162 +348,11 @@ export class PolicyRequestModalComponent implements OnChanges {
         const file = event.target.files[0];
         if (file) {
             if (type === 'kyc') this.kycFile = file;
-            if (type === 'passport') {
-                this.passportFile = file;
-                this.processPassportDocument(file);
-            }
+            if (type === 'passport') this.passportFile = file;
             if (type === 'other' || type === 'universityLetter') this.otherFile = file;
         }
     }
 
-    async processPassportDocument(file: File) {
-        this.loading = true;
-        this.error = null;
-
-        if (file.type === 'application/pdf') {
-            await this.handlePdfProcessing(file);
-        } else if (file.type.startsWith('image/')) {
-            this.handleBackendOcr(file);
-        }
-    }
-
-    async handlePdfProcessing(file: File) {
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            let fullText = '';
-            let hasSelectableText = false;
-
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                const textContent = await page.getTextContent();
-                const pageText = textContent.items.map((item: any) => item.str).join(' ');
-                if (pageText.trim().length > 0) {
-                    hasSelectableText = true;
-                    fullText += pageText + ' ';
-                }
-            }
-
-            if (hasSelectableText) {
-                console.log('PDF contains selectable text. Extracting...');
-                this.parseAndAutofill(fullText);
-                this.loading = false;
-            } else {
-                console.log('PDF appears to be a scan. Rendering first page to image for OCR...');
-                await this.renderPdfPageToImage(pdf, file.name);
-            }
-        } catch (err) {
-            console.error('Error parsing PDF:', err);
-            this.handleBackendOcr(file);
-        }
-    }
-
-    async renderPdfPageToImage(pdf: any, originalFileName: string) {
-        try {
-            const page = await pdf.getPage(1);
-            const viewport = page.getViewport({ scale: 2.0 }); // Higher scale for better OCR
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            if (!context) throw new Error('Could not get canvas context');
-
-            await page.render({ canvasContext: context, viewport }).promise;
-
-            canvas.toBlob(async (blob) => {
-                if (blob) {
-                    const renderedFile = new File([blob], originalFileName.replace('.pdf', '.png'), { type: 'image/png' });
-                    this.handleBackendOcr(renderedFile);
-                } else {
-                    this.error = 'Failed to process scanned PDF.';
-                    this.loading = false;
-                }
-            }, 'image/png');
-        } catch (err) {
-            console.error('Error rendering PDF page:', err);
-            this.error = 'Failed to render PDF for OCR.';
-            this.loading = false;
-        }
-    }
-
-    handleBackendOcr(file: File) {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        this.policyRequestService.processDocument(formData).subscribe({
-            next: (res: any) => {
-                if (res.success) {
-                    this.autofillFromData(res);
-                }
-                this.loading = false;
-            },
-            error: (err: any) => {
-                console.error('OCR Error:', err);
-                this.loading = false;
-            }
-        });
-    }
-
-    parseAndAutofill(text: string) {
-        const data: any = { success: true };
-
-        // 1. Passport Number: Starts with a letter followed by 7-8 digits
-        const passportRegex = /([A-PR-WYZ][1-9][0-9]{7})|([A-Z][0-9]{7,8})/i;
-        const passportMatch = text.match(passportRegex);
-        if (passportMatch) data.documentNumber = passportMatch[0].toUpperCase();
-
-        // 2. Date of Birth: Common formats like 15/02/1990, 15 FEB 1990
-        const dobRegex = /(\d{1,2}[-/\s](?:[A-Z]{3}|\d{1,2})[-/\s]\d{4})/i;
-        const dobMatch = text.match(dobRegex);
-        if (dobMatch) data.dateOfBirth = dobMatch[0];
-
-        // 3. Name Extraction (Digital PDFs)
-        // Look for Surname and Given Names specifically
-        const surnameRegex = /(?:SURNAME|NAME)[\s:]+([A-Z\s]+)/i;
-        const givenNamesRegex = /(?:GIVEN NAMES)[\s:]+([A-Z\s]+)/i;
-        
-        const surnameMatch = text.match(surnameRegex);
-        const givenNamesMatch = text.match(givenNamesRegex);
-
-        if (surnameMatch || givenNamesMatch) {
-            let full = "";
-            if (givenNamesMatch) full += givenNamesMatch[1].trim();
-            if (surnameMatch) full += " " + surnameMatch[1].trim();
-            data.fullName = full.trim();
-        } else {
-            // Fallback: Just look for a large uppercase string
-            const fallbackNameRegex = /([A-Z]{3,}\s[A-Z]{3,}(?:\s[A-Z]{3,})?)/;
-            const fallbackMatch = text.match(fallbackNameRegex);
-            if (fallbackMatch) data.fullName = fallbackMatch[0].trim();
-        }
-
-        this.autofillFromData(data);
-    }
-
-    autofillFromData(data: any) {
-        if (data.fullName) this.requestForm.patchValue({ travellerName: data.fullName });
-        if (data.documentNumber) this.requestForm.patchValue({ passportNumber: data.documentNumber });
-        
-        if (data.dateOfBirth) {
-            const date = new Date(data.dateOfBirth);
-            if (!isNaN(date.getTime())) {
-                // Calculate age
-                const today = new Date();
-                let age = today.getFullYear() - date.getFullYear();
-                const m = today.getMonth() - date.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
-                    age--;
-                }
-                this.requestForm.patchValue({ travellerAge: age });
-            }
-        }
-
-        if (data.fullName || data.documentNumber) {
-            this.success = 'Extracted details from passport!';
-            setTimeout(() => this.success = null, 3000);
-        }
-    }
 
     submitRequest() {
         if (this.requestForm.invalid) {
@@ -547,7 +393,7 @@ export class PolicyRequestModalComponent implements OnChanges {
         if (this.passportFile) formData.append('passportFile', this.passportFile);
         if (this.otherFile) formData.append('otherFile', this.otherFile);
 
-        const request$ = this.editData 
+        const request$ = this.editData
             ? this.policyRequestService.updateRequest(this.editData.policyRequestId, formData)
             : this.policyRequestService.submitRequest(formData);
 

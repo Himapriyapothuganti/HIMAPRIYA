@@ -18,6 +18,7 @@ namespace Application.Tests.Services
         private readonly Mock<IUserRepository>           _userRepoMock         = new();
         private readonly Mock<IClaimDocumentRepository>  _claimDocRepoMock     = new();
         private readonly Mock<INotificationService>      _notificationServiceMock = new();
+        private readonly Mock<IVertexAiService>         _vertexAiServiceMock  = new();
         private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
 
         public ClaimServiceTests()
@@ -31,7 +32,7 @@ namespace Application.Tests.Services
             new(_claimRepoMock.Object, _policyRepoMock.Object,
                 _productRepoMock.Object, _userRepoMock.Object,
                 _userManagerMock.Object, _claimDocRepoMock.Object,
-                _notificationServiceMock.Object);
+                _notificationServiceMock.Object, _vertexAiServiceMock.Object);
 
         private Claim BuildClaim(string officerId, ClaimStatus status) => new()
         {

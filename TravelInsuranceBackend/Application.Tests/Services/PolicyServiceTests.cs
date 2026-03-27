@@ -15,7 +15,6 @@ namespace Application.Tests.Services
         private readonly Mock<IPolicyRepository>        _policyRepoMock  = new();
         private readonly Mock<IUserRepository>          _userRepoMock    = new();
         private readonly Mock<IPolicyRequestRepository> _requestRepoMock = new();
-        private readonly Mock<IGroqService>             _groqServiceMock = new();
         private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
 
         public PolicyServiceTests()
@@ -27,7 +26,7 @@ namespace Application.Tests.Services
 
         private PolicyService CreateService() =>
             new(_productRepoMock.Object, _policyRepoMock.Object,
-                _userRepoMock.Object,   _userManagerMock.Object, _requestRepoMock.Object, _groqServiceMock.Object);
+                _userRepoMock.Object,   _userManagerMock.Object, _requestRepoMock.Object);
 
         [Fact]
         public async Task GetAvailableProducts_ReturnsOnlyAvailableProducts()

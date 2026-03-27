@@ -478,12 +478,6 @@ D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\refint\API.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\API.pdb
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\ref\API.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Tesseract.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\x86\tesseract50.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\x64\tesseract50.dll
-D:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\tessdata\eng.traineddata
 d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Google.Api.CommonProtos.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Google.Api.Gax.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Google.Api.Gax.Grpc.dll
@@ -502,3 +496,4 @@ d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Grpc.Net.Common.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\Newtonsoft.Json.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\System.Management.dll
 d:\HIMAPRIYA\TravelInsuranceBackend\API\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
+D:\HIMAPRIYA\TravelInsuranceBackend\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

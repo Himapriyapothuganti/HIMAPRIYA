@@ -97,7 +97,4 @@ export class PolicyRequestService {
         return this.http.get(documentUrl, { responseType: 'blob' });
     }
 
-    processDocument(formData: FormData): Observable<any> {
-        return this.http.post<any>(`${this.apiUrl}/PolicyRequest/process-ocr`, formData);
-    }
 }

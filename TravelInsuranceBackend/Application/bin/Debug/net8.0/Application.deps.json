@@ -15,8 +15,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.24",
           "Microsoft.EntityFrameworkCore.InMemory": "8.0.24",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.24",
-          "Microsoft.EntityFrameworkCore.Tools": "8.0.24",
-          "Tesseract": "5.2.0"
+          "Microsoft.EntityFrameworkCore.Tools": "8.0.24"
         },
         "runtime": {
           "Application.dll": {}
@@ -935,14 +934,6 @@
           }
         }
       },
-      "Tesseract/5.2.0": {
-        "runtime": {
-          "lib/netstandard2.0/Tesseract.dll": {
-            "assemblyVersion": "5.2.0.0",
-            "fileVersion": "5.2.0.0"
-          }
-        }
-      },
       "Domain/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.24",
@@ -1399,13 +1390,6 @@
       "sha512": "sha512-IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
-    },
-    "Tesseract/5.2.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-YB7feJlrTWSXtK8+WaCcseGSPK/1r2d2FWeKGyndlrPwYClrzTlCoHD4/oQEUjKafmpkWlhTZZ7pxiRJYZgj6w==",
-      "path": "tesseract/5.2.0",
-      "hashPath": "tesseract.5.2.0.nupkg.sha512"
     },
     "Domain/1.0.0": {
       "type": "project",

@@ -839,22 +839,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "API.Controllers.PolicyRequestController",
-    "Method": "ProcessDocument",
-    "RelativePath": "api/PolicyRequest/process-ocr",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "file",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "API.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",

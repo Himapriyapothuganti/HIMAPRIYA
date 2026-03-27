@@ -98,5 +98,6 @@ namespace Application.DTOs
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
         public string Relationship { get; set; } = string.Empty;
+        public string? OtherRelationship { get; set; }
     }
 }

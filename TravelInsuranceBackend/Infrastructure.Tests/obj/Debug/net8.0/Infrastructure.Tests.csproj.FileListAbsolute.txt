@@ -161,11 +161,6 @@ D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\refint
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.pdb
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\Infrastructure.Tests.genruntimeconfig.cache
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\obj\Debug\net8.0\ref\Infrastructure.Tests.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x86\tesseract50.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\x64\tesseract50.dll
-d:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Tesseract.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Google.Apis.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Google.Apis.Auth.dll
 D:\HIMAPRIYA\TravelInsuranceBackend\Infrastructure.Tests\bin\Debug\net8.0\Google.Apis.Core.dll

@@ -16,12 +16,10 @@ namespace API.Controllers
     public class PolicyRequestController : ControllerBase
     {
         private readonly IPolicyRequestService _requestService;
-        private readonly IOcrService _ocrService;
 
-        public PolicyRequestController(IPolicyRequestService requestService, IOcrService ocrService)
+        public PolicyRequestController(IPolicyRequestService requestService)
         {
             _requestService = requestService;
-            _ocrService = ocrService;
         }
 
         [HttpPost]
@@ -93,25 +91,5 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("process-ocr")]
-        public async Task<IActionResult> ProcessDocument(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded.");
-
-            try
-            {
-                var result = await _ocrService.ProcessDocumentAsync(file);
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result.ErrorMessage);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
     }
 }
