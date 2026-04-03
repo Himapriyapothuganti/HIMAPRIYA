@@ -27,6 +27,22 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        // ── PUBLIC - Calculate Premium Preview ────────────
+        [HttpPost("calculate-premium")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CalculatePremiumPreview([FromBody] PremiumCalculationRequestDTO dto)
+        {
+            try
+            {
+                var result = await _policyService.CalculatePremiumPreviewAsync(dto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         // ── CUSTOMER - Purchase policy ────────────────────
         [HttpPost("purchase")]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Customer")]

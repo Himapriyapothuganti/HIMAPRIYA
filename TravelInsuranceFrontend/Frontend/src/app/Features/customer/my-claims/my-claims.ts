@@ -29,13 +29,54 @@ export class MyClaims implements OnInit {
   availableClaimTypes: any[] = [];
   selectedPolicy: any = null;
   selectedClaimConfig: any = null;
+  hasActiveClaim = false;
 
-  // Master list of main claim types
+  // Master list of main claim types with document requirements
   MASTER_CLAIM_TYPES: any[] = [
-    { type: 'Medical Claim', keywords: ['Medical Claim', 'Medical Expenses'], deductibleINR: 0 },
-    { type: 'Personal Accident Claim', keywords: ['Personal Accident'], maxINR: 415000, deductibleINR: 0 },
-    { type: 'Travel Claim', keywords: ['Travel Claim'], deductibleINR: 0 },
-    { type: 'Study Related Claim', keywords: ['Study Related Claim'], deductibleINR: 0 }
+    { 
+      type: 'Medical Claim', 
+      keywords: ['Medical Claim', 'Medical Expenses'], 
+      deductibleINR: 0,
+      requiredDocs: [
+        "Hospital/Clinic Final Bill",
+        "Doctor's Consultation Summary & Prescription",
+        "Diagnostic Reports (X-Ray, Blood, etc.)",
+        "Discharge Summary (if hospitalized)"
+      ]
+    },
+    { 
+      type: 'Personal Accident Claim', 
+      keywords: ['Personal Accident'], 
+      maxINR: 415000, 
+      deductibleINR: 0,
+      requiredDocs: [
+        "First Information Report (FIR) / Police Report",
+        "Medical Certificate showing Disability / Injury",
+        "Proof of Death (if applicable)",
+        "Post-Mortem Report (if applicable)"
+      ]
+    },
+    { 
+      type: 'Travel Claim', 
+      keywords: ['Travel Claim'], 
+      deductibleINR: 0,
+      requiredDocs: [
+        "Full Passport Copy & Boarding Pass",
+        "Proof of Incident (Delayed Flight letter from airline, etc.)",
+        "Theft/Loss Report (Police / Property Irregularity Report)",
+        "Receipts for emergency expenses incurred"
+      ]
+    },
+    { 
+      type: 'Study Related Claim', 
+      keywords: ['Study Related Claim'], 
+      deductibleINR: 0,
+      requiredDocs: [
+        "University Letter / Enrollment Proof",
+        "Academic Progress Report (if relevant)",
+        "Proof of interruption (Health / Financial reason documents)"
+      ]
+    }
   ];
 
   // Auto-detection rules for Travel Claim sub-types
@@ -71,6 +112,18 @@ export class MyClaims implements OnInit {
     this.claimForm.get('policyId')?.valueChanges.subscribe(val => {
       this.selectedPolicy = this.activePolicies.find(p => p.policyId == val);
       if (this.selectedPolicy) {
+        // Set date constraints for the incident date input (YYYY-MM-DD)
+        const start = new Date(this.selectedPolicy.startDate);
+        const end = new Date(this.selectedPolicy.endDate);
+        this.minDate = start.toISOString().split('T')[0];
+        this.maxDate = end.toISOString().split('T')[0];
+
+        // If current incident date is out of range, reset it
+        const currentVal = this.claimForm.get('incidentDate')?.value;
+        if (currentVal && (currentVal < this.minDate || currentVal > this.maxDate)) {
+           this.claimForm.get('incidentDate')?.setValue('');
+        }
+
         const coverageStr = (this.selectedPolicy.coverageDetails || '').toLowerCase();
         
         // Filter: Medical, Personal Accident, and Travel are for almost all
@@ -82,6 +135,13 @@ export class MyClaims implements OnInit {
         this.claimForm.get('claimType')?.setValue(''); 
         this.selectedClaimConfig = null;
         this.detectedSubtype = null;
+
+        // Check for already active claims on THIS policy
+        const activeClaim = this.claims.find(c => 
+          c.policyId == val && 
+          ['UnderReview', 'PendingDocuments', 'Submitted'].includes(c.status)
+        );
+        this.hasActiveClaim = !!activeClaim;
       }
     });
 
@@ -98,6 +158,9 @@ export class MyClaims implements OnInit {
         this.detectSubtype();
     });
   }
+
+  minDate: string = '';
+  maxDate: string = '';
 
   detectSubtype() {
     const claimType = this.claimForm.get('claimType')?.value;
@@ -188,6 +251,7 @@ export class MyClaims implements OnInit {
     this.selectedPolicy = null;
     this.selectedClaimConfig = null;
     this.availableClaimTypes = [];
+    this.hasActiveClaim = false;
   }
 
   closeModal() {

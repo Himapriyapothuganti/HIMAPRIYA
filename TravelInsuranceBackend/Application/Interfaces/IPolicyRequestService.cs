@@ -12,6 +12,7 @@ namespace Application.Interfaces
         Task<AgentPolicyRequestResponseDTO> GetRequestByIdAsync(int requestId, string userId, bool isAgent);
         Task<AgentPolicyRequestResponseDTO> ReviewRequestAsync(int requestId, string agentId, ReviewPolicyRequestDTO dto);
         Task<PolicyRequestResponseDTO> UpdateRequestAsync(int requestId, string customerId, CreatePolicyRequestDTO dto, Microsoft.AspNetCore.Http.IFormFile? kycFile, Microsoft.AspNetCore.Http.IFormFile? passportFile, Microsoft.AspNetCore.Http.IFormFile? otherFile);
-        Task<(byte[] FileBytes, string ContentType, string FileName)> DownloadDocumentAsync(int documentId);
+        Task<(byte[] FileBytes, string ContentType, string FileName)> DownloadDocumentAsync(int documentId, string userId, string userRole);
+        Task<PremiumCalculationResponseDTO> CalculatePremiumPreviewAsync(PremiumCalculationRequestDTO dto);
     }
 }

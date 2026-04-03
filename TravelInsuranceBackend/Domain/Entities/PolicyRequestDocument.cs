@@ -11,6 +11,7 @@ namespace Domain.Entities
         public string FileType { get; set; } = string.Empty;
         public string DocumentType { get; set; } = string.Empty; // KYC / Passport / Other
         public long FileSize { get; set; }
+        public bool IsLatest { get; set; } = true; // For tracking replaced versions
         public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation

@@ -25,6 +25,8 @@ namespace Application.Services
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly INotificationService _notificationService;
+        private readonly ICountryRiskRepository _countryRiskRepo;
+        private readonly IVertexAiService _vertexAiService;
 
         public PolicyRequestService(
             IPolicyRequestRepository requestRepo,
@@ -33,7 +35,9 @@ namespace Application.Services
             IPolicyRepository policyRepo,
             IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            ICountryRiskRepository countryRiskRepo,
+            IVertexAiService vertexAiService)
         {
             _requestRepo = requestRepo;
             _documentRepo = documentRepo;
@@ -42,6 +46,8 @@ namespace Application.Services
             _userRepo = userRepo;
             _userManager = userManager;
             _notificationService = notificationService;
+            _countryRiskRepo = countryRiskRepo;
+            _vertexAiService = vertexAiService;
         }
 
         public async Task<PolicyRequestResponseDTO> SubmitRequestAsync(string customerId, CreatePolicyRequestDTO dto, IFormFile kycFile, IFormFile passportFile, IFormFile? otherFile)
@@ -141,11 +147,17 @@ namespace Application.Services
                 catch { } // Default fallback
             }
 
-            // 6. Calculate Premium & Risk
-            var premiumAmount = CalculatePremium(product.BasePremium, product.Tenure, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
-            var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
+            // 6. Validate Destination & Get Multiplier
+            var countryRisk = await _countryRiskRepo.GetByNameAsync(dto.Destination);
+            if (countryRisk == null || !countryRisk.IsActive)
+                throw new Exception("We currently do not provide services for this destination.");
 
-            // 7. Create Request
+            decimal destMultiplier = countryRisk.Multiplier;
+
+            // 7. Calculate Premium
+            var premiumAmount = CalculatePremium(product.BasePremium, product.Tenure, days, effectiveAge, product.PolicyType, memberCount, destMultiplier);
+
+            // 8. Create Request Instance
             var request = new PolicyRequest
             {
                 PolicyProductId = dto.PolicyProductId,
@@ -159,59 +171,111 @@ namespace Application.Services
                 PassportNumber = dto.PassportNumber,
                 KycType = dto.KycType,
                 KycNumber = dto.KycNumber,
-                
                 Dependents = dto.Dependents,
                 UniversityName = dto.UniversityName,
                 StudentId = dto.StudentId,
                 TripFrequency = dto.TripFrequency,
-
                 CalculatedPremium = premiumAmount,
                 Status = "Pending",
                 RequestedAt = DateTime.UtcNow,
-                
-                RiskScore = risk.Total,
-                RiskAgeScore = risk.Age,
-                RiskDestinationScore = risk.Destination,
-                RiskDurationScore = risk.Duration,
-                RiskTierScore = risk.Tier,
-                RiskLevel = risk.Level
+                DestinationRiskMultiplier = destMultiplier 
             };
+            
+            await _requestRepo.CreateAsync(request); // Save to get the ID for documents
 
-            var created = await _requestRepo.CreateAsync(request);
+            // 9. Process Documents & Collect Paths for AI
+            var filePaths = new List<string>();
+            var docsToSave = new List<(IFormFile file, string type)>();
+            if (kycFile != null) docsToSave.Add((kycFile, "KYC"));
+            if (passportFile != null) docsToSave.Add((passportFile, "Passport"));
+            if (otherFile != null) docsToSave.Add((otherFile, "Other"));
 
-            // 8. Save Documents
-            await SaveDocumentAsync(created.PolicyRequestId, kycFile, "KYC");
-            await SaveDocumentAsync(created.PolicyRequestId, passportFile, "Passport");
-            if (otherFile != null && otherFile.Length > 0)
+            foreach (var doc in docsToSave)
             {
-                await SaveDocumentAsync(created.PolicyRequestId, otherFile, "Other");
+                var uniqueName = $"{Guid.NewGuid()}_{doc.file.FileName}";
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "policy-docs");
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+                
+                var filePath = Path.Combine(folderPath, uniqueName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await doc.file.CopyToAsync(stream);
+                }
+                filePaths.Add(filePath);
+
+                var dbDoc = new PolicyRequestDocument
+                {
+                    PolicyRequestId = request.PolicyRequestId,
+                    FileName = doc.file.FileName,
+                    FilePath = $"/uploads/policy-docs/{uniqueName}",
+                    FileType = doc.file.ContentType,
+                    DocumentType = doc.type,
+                    FileSize = doc.file.Length,
+                    UploadedAt = DateTime.UtcNow
+                };
+                await _documentRepo.AddAsync(dbDoc);
             }
             await _documentRepo.SaveChangesAsync();
 
-            var customer = await _userManager.FindByIdAsync(customerId);
-            string custName = customer?.FullName ?? "a Customer";
+            // 10. AI ANALYSIS (Vertex AI)
+            var aiRequestJson = JsonSerializer.Serialize(new {
+                request.TravellerName,
+                request.TravellerAge,
+                request.Destination,
+                DestinationRiskMultiplier = destMultiplier,
+                request.StartDate,
+                request.EndDate,
+                DurationDays = days,
+                product.PolicyName,
+                product.PlanTier
+            });
 
+            var aiResultJson = await _vertexAiService.AnalyzePolicyRequestAsync(aiRequestJson, filePaths);
+            request.AiAnalysisJson = aiResultJson; // Save full report for the unified standard
+
+            try {
+                using var aiDoc = JsonDocument.Parse(aiResultJson);
+                var root = aiDoc.RootElement;
+                
+                // Keep structural fields for basic UI components
+                if (root.TryGetProperty("riskScore", out var sProp))
+                    request.RiskScore = sProp.ValueKind == JsonValueKind.Number ? sProp.GetInt32() : int.Parse(sProp.GetString() ?? "0");
+                else if (root.TryGetProperty("RiskScore", out var SProp))
+                    request.RiskScore = SProp.ValueKind == JsonValueKind.Number ? SProp.GetInt32() : int.Parse(SProp.GetString() ?? "0");
+
+                if (root.TryGetProperty("riskLevel", out var lProp))
+                    request.RiskLevel = lProp.GetString() ?? "Medium";
+                else if (root.TryGetProperty("RiskLevel", out var LProp))
+                    request.RiskLevel = LProp.GetString() ?? "Medium";
+
+                if (root.TryGetProperty("riskReasoning", out var rProp))
+                    request.RiskReasoning = rProp.GetString();
+                else if (root.TryGetProperty("RiskReasoning", out var RProp))
+                    request.RiskReasoning = RProp.GetString();
+                
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"Policy AI Analysis Parsing Error: {ex.Message}");
+            }
+
+            await _requestRepo.UpdateAsync(request);
+            
+            // 11. Notification
             if (!string.IsNullOrEmpty(assignedAgentId))
             {
+                var customer = await _userManager.FindByIdAsync(customerId);
+                string custName = customer?.FullName ?? "a Customer";
                 var agent = await _userManager.FindByIdAsync(assignedAgentId);
                 string agentName = agent?.FullName ?? "an Agent";
-
-                // Notify Customer
-                string custMessage = $"Your policy request for {product.PolicyName} has been successfully submitted! It has been assigned to Agent {agentName}.";
-                await _notificationService.CreateNotificationAsync(customerId, custMessage, "PolicyRequestSubmitted");
-
-                // Notify Agent
-                string agentMessage = $"You have been assigned a new policy request from {custName} for destination {dto.Destination}.";
-                await _notificationService.CreateNotificationAsync(assignedAgentId, agentMessage, "PolicyRequestAssigned");
+                await _notificationService.CreateNotificationAsync(customerId, $"Your policy request for {product.PolicyName} has been submitted and assigned to Agent {agentName}.", "PolicyRequestSubmitted");
+                await _notificationService.CreateNotificationAsync(assignedAgentId, $"New policy request from {custName} for {dto.Destination}.", "PolicyRequestAssigned");
             }
             else
             {
-                // Fallback if no agent is somehow assigned
-                string custMessage = $"Your policy request for {product.PolicyName} has been successfully submitted!";
-                await _notificationService.CreateNotificationAsync(customerId, custMessage, "PolicyRequestSubmitted");
+                await _notificationService.CreateNotificationAsync(customerId, $"Your policy request for {product.PolicyName} has been submitted.", "PolicyRequestSubmitted");
             }
 
-            return await MapToCustomerResponse(created);
+            return await MapToCustomerResponse(request);
         }
 
         private async Task SaveDocumentAsync(int requestId, IFormFile file, string documentType)
@@ -267,23 +331,11 @@ namespace Application.Services
             }
         }
 
-        private static decimal GetDestinationMultiplier(string destination)
-        {
-            var destLower = (destination ?? "").ToLower();
-            if (destLower.Contains("asia")) return 1.0m;
-            if (destLower.Contains("europe")) return 1.2m;
-            if (destLower.Contains("usa") || destLower.Contains("aus") || destLower.Contains("canada")) return 1.5m;
-            if (destLower.Contains("worldwide")) return 1.8m;
-            return 1.0m; // Default
-        }
-
-        private static decimal CalculatePremium(decimal basePremium, int tenure, int days, int age, string policyType, int memberCount, string destination)
+        private static decimal CalculatePremium(decimal basePremium, int tenure, int days, int age, string policyType, int memberCount, decimal destMultiplier)
         {
             decimal ageLoading = 1.0m;
             if (age > 60) ageLoading = 1.3m;
             else if (age > 40) ageLoading = 1.1m;
-
-            decimal destMultiplier = GetDestinationMultiplier(destination);
 
             if (policyType == "Multi-Trip" || policyType == "Student")
             {
@@ -316,32 +368,11 @@ namespace Application.Services
             return Math.Round(Math.Max(calculated, basePremium), 2);
         }
 
-        private static (int Total, int Age, int Destination, int Duration, int Tier, string Level) CalculateRiskScore(int age, string destination, int days, string planTier)
+        private string GetRiskLevelFromMultiplier(decimal multiplier)
         {
-            int ageScore = age <= 30 ? 0 : (age <= 40 ? 10 : (age <= 55 ? 20 : 30));
-            
-            int destScore = 0;
-            var destLower = (destination ?? "").ToLower();
-            if (destLower.Contains("asia")) destScore = 5;
-            else if (destLower.Contains("europe")) destScore = 15;
-            else if (destLower.Contains("usa") || destLower.Contains("aus") || destLower.Contains("canada")) destScore = 25;
-            else if (destLower.Contains("worldwide")) destScore = 40;
-            else destScore = 10; // Default unknown
-
-            int durationScore = days <= 7 ? 0 : (days <= 15 ? 5 : (days <= 30 ? 10 : 20));
-
-            int tierScore = 0;
-            var tierLower = planTier.ToLower();
-            if (tierLower.Contains("silver")) tierScore = 20;
-            else if (tierLower.Contains("gold")) tierScore = 10;
-            else if (tierLower.Contains("platinum")) tierScore = 0;
-
-            int total = ageScore + destScore + durationScore + tierScore;
-            total = Math.Min(100, Math.Max(0, total));
-
-            string level = total <= 30 ? "Low" : (total <= 60 ? "Medium" : "High");
-
-            return (total, ageScore, destScore, durationScore, tierScore, level);
+            if (multiplier <= 1.2m) return "Low";
+            if (multiplier <= 1.8m) return "Medium";
+            return "High";
         }
 
         public async Task<List<PolicyRequestResponseDTO>> GetMyRequestsAsync(string customerId)
@@ -393,6 +424,13 @@ namespace Application.Services
                 req.RejectionReason = dto.RejectionReason;
                 req.AgentNotes = dto.AgentNotes;
             }
+            else if (dto.Status == "Needs Revision")
+            {
+                if (string.IsNullOrWhiteSpace(dto.RequestedDocTypes)) throw new Exception("Please specify which documents need revision.");
+                req.Status = "Needs Revision";
+                req.RequestedDocTypes = dto.RequestedDocTypes;
+                req.AgentNotes = dto.AgentNotes;
+            }
             else
             {
                 throw new Exception("Invalid review status.");
@@ -414,14 +452,30 @@ namespace Application.Services
                 string message = $"Your policy request for {product.PolicyName} was Rejected by your assigned Agent, {agent?.FullName}. Reason: {dto.RejectionReason}.";
                 await _notificationService.CreateNotificationAsync(req.CustomerId, message, "PolicyRejected");
             }
+            else if (dto.Status == "Needs Revision")
+            {
+                string message = $"Action Required: Your Agent, {agent?.FullName}, has requested document revisions for your {product.PolicyName} request. Flagged: {dto.RequestedDocTypes}.";
+                await _notificationService.CreateNotificationAsync(req.CustomerId, message, "PolicyRevisionRequired");
+            }
 
             return await MapToAgentResponse(updated);
         }
 
-        public async Task<(byte[] FileBytes, string ContentType, string FileName)> DownloadDocumentAsync(int documentId)
+        public async Task<(byte[] FileBytes, string ContentType, string FileName)> DownloadDocumentAsync(int documentId, string userId, string userRole)
         {
             var document = await _documentRepo.GetByIdAsync(documentId);
             if (document == null) throw new Exception("Document not found.");
+
+            // IDOR Protection: 
+            // 1. Admins, Officers and Agents can see all (for review/audit)
+            // 2. Customers can ONLY see their own docs
+            if (userRole == "Customer")
+            {
+                var request = await _requestRepo.GetByIdAsync(document.PolicyRequestId);
+                if (request == null || request.CustomerId != userId)
+                    throw new Exception("Unauthorized access to this document.");
+            }
+
             if (!System.IO.File.Exists(document.FilePath)) throw new Exception("File not found on the server.");
 
             var fileBytes = await System.IO.File.ReadAllBytesAsync(document.FilePath);
@@ -434,7 +488,22 @@ namespace Application.Services
             var request = await _requestRepo.GetByIdAsync(requestId);
             if (request == null) throw new Exception("Request not found.");
             if (request.CustomerId != customerId) throw new Exception("Unauthorized.");
-            if (request.Status != "Rejected") throw new Exception("Only rejected requests can be updated.");
+            
+            // Allow update if status is Rejected OR Needs Revision
+            if (request.Status != "Rejected" && request.Status != "Needs Revision") 
+                throw new Exception("Only Rejected or Requests needing Revision can be updated.");
+
+            // Check Resubmission Limit
+            if (request.Status == "Needs Revision")
+            {
+                if (request.ResubmissionCount >= request.MaxResubmissions)
+                {
+                    request.Status = "Final Rejected"; // Strike out
+                    await _requestRepo.UpdateAsync(request);
+                    throw new Exception("Maximum resubmission attempts reached. Your request has been final rejected.");
+                }
+                request.ResubmissionCount++;
+            }
 
             var product = await _productRepo.GetByIdAsync(dto.PolicyProductId);
             if (product == null) throw new Exception("Product not found.");
@@ -495,20 +564,28 @@ namespace Application.Services
                 catch { }
             }
 
-            request.CalculatedPremium = CalculatePremium(product.BasePremium, product.Tenure, days, effectiveAge, product.PolicyType, memberCount, dto.Destination);
-            var risk = CalculateRiskScore(effectiveAge, dto.Destination, days, product.PlanTier);
-            
-            request.RiskScore = risk.Total;
-            request.RiskAgeScore = risk.Age;
-            request.RiskDestinationScore = risk.Destination;
-            request.RiskDurationScore = risk.Duration;
-            request.RiskTierScore = risk.Tier;
-            request.RiskLevel = risk.Level;
+            // 5. Validate Destination & Get Multiplier
+            var countryRisk = await _countryRiskRepo.GetByNameAsync(dto.Destination);
+            if (countryRisk == null || !countryRisk.IsActive)
+                throw new Exception("We currently do not provide services for this destination.");
 
-            // 6. Reset Status
+            decimal destMultiplier = countryRisk.Multiplier;
+
+            // 6. Recalculate Premium
+            request.CalculatedPremium = CalculatePremium(product.BasePremium, product.Tenure, days, effectiveAge, product.PolicyType, memberCount, destMultiplier);
+            request.DestinationRiskMultiplier = destMultiplier;
+
+            // 6. Handle Status Reset
             request.Status = "Pending";
             request.RejectionReason = null;
-            request.ReviewedAt = null;
+            
+            // → Correct migration/update call
+            await _requestRepo.UpdateAsync(request);
+
+            // 7. Handle File Replacement Logic (IsLatest)
+            if (kycFile != null) await MarkOldDocsNotLatest(requestId, "KYC");
+            if (passportFile != null) await MarkOldDocsNotLatest(requestId, "Passport");
+            if (otherFile != null) await MarkOldDocsNotLatest(requestId, "Other");
             request.RequestedAt = DateTime.UtcNow; // Updated time
 
             await _requestRepo.UpdateAsync(request);
@@ -525,11 +602,41 @@ namespace Application.Services
             
             await _documentRepo.SaveChangesAsync();
 
-            // 8. Notify Agent
+            // 8. AI RE-ANALYSIS
+            var allDocs = await _documentRepo.GetByRequestIdAsync(requestId);
+            var latestFilePaths = allDocs.Where(d => d.IsLatest).Select(d => Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", d.FilePath.TrimStart('/'))).ToList();
+            
+            var aiRequestJson = JsonSerializer.Serialize(new {
+                request.TravellerName,
+                request.TravellerAge,
+                request.Destination,
+                DestinationRiskMultiplier = destMultiplier,
+                request.StartDate,
+                request.EndDate,
+                DurationDays = (request.EndDate - request.StartDate).Days,
+                product.PolicyName,
+                product.PlanTier
+            });
+
+            var aiResultJson = await _vertexAiService.AnalyzePolicyRequestAsync(aiRequestJson, latestFilePaths);
+            try {
+                using var aiDoc = JsonDocument.Parse(aiResultJson);
+                var root = aiDoc.RootElement;
+                request.RiskScore = root.GetProperty("riskScore").GetInt32();
+                request.RiskLevel = root.GetProperty("riskLevel").GetString() ?? "Medium";
+                request.RiskReasoning = root.GetProperty("riskReasoning").GetString();
+            }
+            catch {
+                request.RiskReasoning = "AI re-analysis pending new document review.";
+            }
+
+            await _requestRepo.UpdateAsync(request);
+
+            // 9. Notify Agent
             if (!string.IsNullOrEmpty(request.AgentId))
             {
                 var customer = await _userManager.FindByIdAsync(customerId);
-                var agentMessage = $"Rejected request for {request.PolicyProduct?.PolicyName} has been resubmitted by {customer?.FullName ?? "the Customer"}.";
+                var agentMessage = $"Rejected request for {product.PolicyName} has been resubmitted by {customer?.FullName ?? "the Customer"}.";
                 await _notificationService.CreateNotificationAsync(request.AgentId, agentMessage, "PolicyRequestResubmitted");
             }
 
@@ -563,17 +670,21 @@ namespace Application.Services
 
         private async Task<AgentPolicyRequestResponseDTO> MapToAgentResponse(PolicyRequest req)
         {
-            var docs = await _documentRepo.GetByRequestIdAsync(req.PolicyRequestId);
-            var documentDtos = docs.Select(d => new PolicyRequestDocumentDTO
-            {
-                PolicyRequestDocumentId = d.PolicyRequestDocumentId,
-                FileName = d.FileName,
-                FileType = d.FileType,
-                DocumentType = d.DocumentType,
-                FileSize = d.FileSize,
-                UploadedAt = d.UploadedAt,
-                FileUrl = $"https://localhost:7161/api/PolicyRequest/document/{d.PolicyRequestDocumentId}"
-            }).ToList();
+            var allDocs = await _documentRepo.GetByRequestIdAsync(req.PolicyRequestId);
+            
+            // IMPORTANT: Only show "IsLatest" documents to prevent confusion
+            var documentDtos = allDocs
+                .Where(d => d.IsLatest) 
+                .Select(d => new PolicyRequestDocumentDTO
+                {
+                    PolicyRequestDocumentId = d.PolicyRequestDocumentId,
+                    FileName = d.FileName,
+                    FileType = d.FileType,
+                    DocumentType = d.DocumentType,
+                    FileSize = d.FileSize,
+                    UploadedAt = d.UploadedAt,
+                    FileUrl = $"https://localhost:7161/api/PolicyRequest/document/{d.PolicyRequestDocumentId}"
+                }).ToList();
 
             return new AgentPolicyRequestResponseDTO
             {
@@ -593,6 +704,9 @@ namespace Application.Services
                 Status = req.Status,
                 RejectionReason = req.RejectionReason,
                 CalculatedPremium = req.CalculatedPremium,
+                ResubmissionCount = req.ResubmissionCount,
+                MaxResubmissions = req.MaxResubmissions,
+                RequestedDocTypes = req.RequestedDocTypes,
                 RequestedAt = req.RequestedAt,
                 ReviewedAt = req.ReviewedAt,
                 
@@ -600,13 +714,49 @@ namespace Application.Services
                 AgentNotes = req.AgentNotes,
                 
                 RiskScore = req.RiskScore,
-                RiskAgeScore = req.RiskAgeScore,
-                RiskDestinationScore = req.RiskDestinationScore,
-                RiskDurationScore = req.RiskDurationScore,
-                RiskTierScore = req.RiskTierScore,
                 RiskLevel = req.RiskLevel,
+                RiskReasoning = req.RiskReasoning,
+                CountryRiskMultiplier = req.DestinationRiskMultiplier,
+                CountryRiskLevel = GetRiskLevelFromMultiplier(req.DestinationRiskMultiplier),
+                AiAnalysisJson = req.AiAnalysisJson,
                 
                 Documents = documentDtos
+            };
+        }
+
+        private async Task MarkOldDocsNotLatest(int requestId, string docType)
+        {
+            var docs = await _documentRepo.GetByRequestIdAsync(requestId);
+            var targets = docs.Where(d => d.DocumentType == docType && d.IsLatest).ToList();
+            foreach (var doc in targets)
+            {
+                doc.IsLatest = false;
+            }
+            await _documentRepo.SaveChangesAsync();
+        }
+
+        public async Task<PremiumCalculationResponseDTO> CalculatePremiumPreviewAsync(PremiumCalculationRequestDTO dto)
+        {
+            var product = await _productRepo.GetByIdAsync(dto.PolicyProductId);
+            if (product == null) throw new Exception("Product not found.");
+
+            var countryRisk = await _countryRiskRepo.GetByNameAsync(dto.Destination);
+            if (countryRisk == null || !countryRisk.IsActive)
+                throw new Exception("This destination is not supported by Talk & Travel.");
+
+            decimal destMultiplier = countryRisk.Multiplier;
+            decimal ageLoading = dto.TravellerAge > 60 ? 1.3m : (dto.TravellerAge > 40 ? 1.1m : 1.0m);
+
+            var days = (dto.EndDate - dto.StartDate).Days;
+            var premium = CalculatePremium(product.BasePremium, product.Tenure, days, dto.TravellerAge, product.PolicyType, dto.MemberCount, destMultiplier);
+            var estimateLevel = GetRiskLevelFromMultiplier(destMultiplier);
+
+            return new PremiumCalculationResponseDTO
+            {
+                EstimatedPremium = premium,
+                DestinationMultiplier = destMultiplier,
+                AgeLoading = ageLoading,
+                RiskLevel = estimateLevel
             };
         }
     }

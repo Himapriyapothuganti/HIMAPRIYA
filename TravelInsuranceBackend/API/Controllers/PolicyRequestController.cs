@@ -81,8 +81,11 @@ namespace API.Controllers
         {
             try
             {
-                // Both Agents and Customers can download
-                var (fileBytes, contentType, fileName) = await _requestService.DownloadDocumentAsync(documentId);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userRole = User.FindFirstValue(ClaimTypes.Role);
+                if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+                var (fileBytes, contentType, fileName) = await _requestService.DownloadDocumentAsync(documentId, userId, userRole ?? "Customer");
                 return File(fileBytes, contentType, fileName);
             }
             catch (Exception ex)

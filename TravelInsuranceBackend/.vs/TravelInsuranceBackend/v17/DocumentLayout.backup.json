@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\interfaces\\iadminservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\services\\claimservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\claimservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\services\\policyrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\policyrequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A19366F-6111-4D8F-9835-FBBB88401BC4}|API.Tests\\API.Tests.csproj|d:\\himapriya\\travelinsurancebackend\\api.tests\\api.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{3A19366F-6111-4D8F-9835-FBBB88401BC4}|API.Tests\\API.Tests.csproj|solutionrelative:api.tests\\api.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\services\\policyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\policyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|d:\\himapriya\\travelinsurancebackend\\application\\services\\vertexaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F786D5A-EC4C-4C0A-93FD-4E5FCFEF8774}|Application\\Application.csproj|solutionrelative:application\\services\\vertexaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,8 +26,64 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClaimService.cs",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\ClaimService.cs",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\ClaimService.cs",
+              "RelativeToolTip": "Application\\Services\\ClaimService.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T06:48:56.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PolicyRequestService.cs",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\PolicyRequestService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\PolicyRequestService.cs",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\PolicyRequestService.cs",
+              "RelativeToolTip": "Application\\Services\\PolicyRequestService.cs",
+              "ViewState": "AgIAAIQBAAAAAAAAAAAwwLQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T06:46:14.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PolicyService.cs",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\PolicyService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\PolicyService.cs",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\PolicyService.cs",
+              "RelativeToolTip": "Application\\Services\\PolicyService.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAwwAoBAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T06:41:15.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "VertexAiService.cs",
+              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\VertexAiService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\VertexAiService.cs",
+              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Services\\VertexAiService.cs",
+              "RelativeToolTip": "Application\\Services\\VertexAiService.cs",
+              "ViewState": "AgIAAOMAAAAAAAAAAADwv/AAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T06:26:58.734Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
@@ -39,50 +99,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "IAdminService.cs",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Interfaces\\IAdminService.cs",
-              "RelativeDocumentMoniker": "Application\\Interfaces\\IAdminService.cs",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Interfaces\\IAdminService.cs",
-              "RelativeToolTip": "Application\\Interfaces\\IAdminService.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAgwAsAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T10:09:55.376Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Application.csproj",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
-              "RelativeDocumentMoniker": "Application\\Application.csproj",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\Application\\Application.csproj",
-              "RelativeToolTip": "Application\\Application.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-13T07:23:15.528Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "API.Tests.csproj",
-              "DocumentMoniker": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\API.Tests.csproj",
-              "RelativeDocumentMoniker": "API.Tests\\API.Tests.csproj",
-              "ToolTip": "D:\\HIMAPRIYA\\TravelInsuranceBackend\\API.Tests\\API.Tests.csproj",
-              "RelativeToolTip": "API.Tests\\API.Tests.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-13T07:22:51.449Z"
             }
           ]
         }

@@ -1,6 +1,7 @@
-import { Component, Input, signal, computed, inject, OnInit } from '@angular/core';
+import { Component, Input, signal, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService, NotificationDTO } from '../../../../Services/notification.service';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
     selector: 'app-officer-navbar',
@@ -16,7 +17,10 @@ import { NotificationService, NotificationDTO } from '../../../../Services/notif
         <!-- Notify Icon -->
         <div class="cursor-pointer" (click)="toggleNotifications()">
           <button class="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:text-[#E8584A] hover:bg-[#FDF4F0] transition-colors relative">
-            <span *ngIf="unreadCount() > 0" class="absolute top-2 right-2 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white border-2 border-white"></span>
+            <ng-container *ngIf="unreadCount() > 0">
+              <span class="notification-ring absolute top-1.5 right-1.5 h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
+              <span class="notification-dot absolute top-1.5 right-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white border-2 border-white shadow-sm"></span>
+            </ng-container>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -63,9 +67,15 @@ import { NotificationService, NotificationDTO } from '../../../../Services/notif
           </div>
       </div>
     </div>
-  `
+  `,
+  styles: [`
+    .notification-ring { animation: pulse-ring 2s infinite; }
+    @keyframes pulse-ring { 0% { transform: scale(0.33); } 80%, 100% { opacity: 0; } }
+    .notification-dot { animation: pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1); } }
+  `]
 })
-export class OfficerNavbarComponent implements OnInit {
+export class OfficerNavbarComponent implements OnInit, OnDestroy {
     // Using signals as requested
     title = signal<string>('Claims Officer Portal');
     userName = signal<string>('Officer');
@@ -76,6 +86,7 @@ export class OfficerNavbarComponent implements OnInit {
     showNotifications = signal(false);
     notifications = signal<NotificationDTO[]>([]);
     unreadCount = this.notificationService.unreadCount;
+    private pollingSub?: Subscription;
 
     userNameInitials = computed(() => {
         const name = this.userName();
@@ -99,6 +110,11 @@ export class OfficerNavbarComponent implements OnInit {
 
     ngOnInit() {
       this.loadNotifications();
+      this.pollingSub = interval(15000).subscribe(() => this.loadNotifications());
+    }
+
+    ngOnDestroy() {
+      this.pollingSub?.unsubscribe();
     }
 
     loadNotifications() {

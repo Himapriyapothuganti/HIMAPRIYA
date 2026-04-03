@@ -187,7 +187,7 @@
                             <div
                                 class="flex justify-between items-start gap-2 text-[13px] border-t border-gray-200/60 pt-3 mt-1">
                                 <span
-                                    class="font-extrabold text-gray-400 uppercase tracking-wider text-[10px] whitespace-nowrap">Zone</span>
+                                    class="font-extrabold text-gray-400 uppercase tracking-wider text-[10px] whitespace-nowrap">Base Zone</span>
                                 <span class="font-extrabold text-[#111] text-right break-words">{{ plan.destinationZone
                                     }}</span>
                             </div>
@@ -297,7 +297,7 @@
 
                 <div
                     class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-5 text-white min-w-[180px] shadow-2xl">
-                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Total Premium</div>
+                    <div class="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-1">Base Premium</div>
                     <div class="flex items-baseline gap-1">
                         <span class="text-4xl font-black">₹{{ selectedPlan.basePremium | number:'1.0-0' }}</span>
                         <span class="text-xs font-bold opacity-60">/trip</span>
@@ -361,7 +361,7 @@
                         </path>
                     </svg>
                 </div>
-                <p class="card-label">Valid Zone</p>
+                <p class="card-label">Base Zone</p>
                 <h5 class="card-value break-words">{{ selectedPlan.destinationZone }}</h5>
             </div>
         </div>

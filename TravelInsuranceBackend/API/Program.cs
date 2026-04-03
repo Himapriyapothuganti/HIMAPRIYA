@@ -64,6 +64,7 @@ namespace API
             builder.Services.AddScoped<IPolicyRequestRepository, PolicyRequestRepository>();
             builder.Services.AddScoped<IPolicyRequestDocumentRepository, PolicyRequestDocumentRepository>();
             builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            builder.Services.AddScoped<ICountryRiskRepository, CountryRiskRepository>();
 
             // Application Services
             builder.Services.AddScoped<IAuthService, AuthService>();
@@ -74,6 +75,7 @@ namespace API
             builder.Services.AddScoped<IAgentService, AgentService>();
             builder.Services.AddScoped<IPolicyRequestService, PolicyRequestService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<ICountryRiskService, CountryRiskService>();
             builder.Services.AddScoped<IGroqService, GroqService>();
             builder.Services.AddScoped<IVertexAiService, VertexAiService>();
             builder.Services.AddHttpClient();
@@ -129,6 +131,39 @@ namespace API
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                
+                // Ensure migrations are applied before seeding
+                await context.Database.MigrateAsync();
+
+                // --- HOTFIX: Programmatic Repair for Missing Columns (Local DB Synchronization) ---
+                try {
+                    await context.Database.ExecuteSqlRawAsync(@"
+                        -- Previous Repairs
+                        IF OBJECT_ID('Claims', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('Claims') AND name = 'TravelSubtype')
+                            ALTER TABLE [Claims] ADD [TravelSubtype] nvarchar(max) NULL;
+                        IF OBJECT_ID('Claims', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('Claims') AND name = 'AiSummary')
+                            ALTER TABLE [Claims] ADD [AiSummary] nvarchar(max) NULL;
+                        IF OBJECT_ID('Policies', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('Policies') AND name = 'PolicyType')
+                            ALTER TABLE [Policies] ADD [PolicyType] nvarchar(max) NULL;
+                        IF OBJECT_ID('Policies', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('Policies') AND name = 'PlanTier')
+                            ALTER TABLE [Policies] ADD [PlanTier] nvarchar(max) NULL;
+
+                        -- New Repairs for Resubmission & Cleanup
+                        IF OBJECT_ID('CountryRisks', 'U') IS NOT NULL 
+                            DELETE FROM [CountryRisks] WHERE [Name] = 'India';
+
+                        IF OBJECT_ID('PolicyRequests', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('PolicyRequests') AND name = 'ResubmissionCount')
+                            ALTER TABLE [PolicyRequests] ADD [ResubmissionCount] int NOT NULL DEFAULT 0;
+                        IF OBJECT_ID('PolicyRequests', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('PolicyRequests') AND name = 'MaxResubmissions')
+                            ALTER TABLE [PolicyRequests] ADD [MaxResubmissions] int NOT NULL DEFAULT 2;
+                        IF OBJECT_ID('PolicyRequests', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('PolicyRequests') AND name = 'RequestedDocTypes')
+                            ALTER TABLE [PolicyRequests] ADD [RequestedDocTypes] nvarchar(max) NULL;
+
+                        IF OBJECT_ID('PolicyRequestDocuments', 'U') IS NOT NULL AND NOT EXISTS (SELECT sys.columns.name FROM sys.columns WHERE object_id = OBJECT_ID('PolicyRequestDocuments') AND name = 'IsLatest')
+                            ALTER TABLE [PolicyRequestDocuments] ADD [IsLatest] bit NOT NULL DEFAULT 1;
+                    ");
+                } catch { /* Handle gracefully if already repaired */ }
+                
                 await Dbseeder.SeedAsync(userManager, roleManager, context);
             }
 

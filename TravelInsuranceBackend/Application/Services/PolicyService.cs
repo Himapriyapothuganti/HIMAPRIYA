@@ -14,19 +14,25 @@ namespace Application.Services
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPolicyRequestRepository _requestRepo;
+        private readonly IPolicyRequestService _policyRequestService;
+        private readonly ICountryRiskRepository _countryRiskRepo;
 
         public PolicyService(
             IPolicyProductRepository productRepo,
             IPolicyRepository policyRepo,
             IUserRepository userRepo,
             UserManager<ApplicationUser> userManager,
-            IPolicyRequestRepository requestRepo)
+            IPolicyRequestRepository requestRepo,
+            IPolicyRequestService policyRequestService,
+            ICountryRiskRepository countryRiskRepo)
         {
             _productRepo = productRepo;
             _policyRepo = policyRepo;
             _userRepo = userRepo;
             _userManager = userManager;
             _requestRepo = requestRepo;
+            _policyRequestService = policyRequestService;
+            _countryRiskRepo = countryRiskRepo;
         }
 
         // ── GET AVAILABLE POLICY PRODUCTS ─────────────────
@@ -79,7 +85,26 @@ namespace Application.Services
             if (string.IsNullOrWhiteSpace(dto.KycType) || string.IsNullOrWhiteSpace(dto.KycNumber))
                 throw new Exception("KYC details are required.");
 
-            var premiumAmount = CalculatePremium(product.BasePremium, days, dto.TravellerAge);
+            // Get Destination Multiplier from DB
+            var countryRisk = await _countryRiskRepo.GetByNameAsync(dto.Destination);
+            if (countryRisk == null || !countryRisk.IsActive)
+                throw new Exception("We currently do not provide services for this destination.");
+
+            decimal destMultiplier = countryRisk.Multiplier;
+
+            // Use PolicyRequestService's authoritative calculation logic
+            // Since CalculatePremium is private static in PolicyRequestService, I'll use the public preview method
+            var previewDto = new PremiumCalculationRequestDTO
+            {
+                PolicyProductId = dto.PolicyProductId,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                TravellerAge = dto.TravellerAge,
+                Destination = dto.Destination,
+                MemberCount = 1 // Single purchase
+            };
+            var preview = await _policyRequestService.CalculatePremiumPreviewAsync(previewDto);
+            var premiumAmount = preview.EstimatedPremium;
 
             var policyNumber = $"POL-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString()[..6].ToUpper()}";
 
@@ -212,8 +237,8 @@ namespace Application.Services
             var product = await _productRepo.GetByIdAsync(policy.PolicyProductId);
             var customer = await _userManager.FindByIdAsync(policy.CustomerId);
 
-            decimal basePremium = Math.Round(policy.PremiumAmount / 1.18m, 2);
-            decimal taxAmount = policy.PremiumAmount - basePremium;
+            decimal totalAmount = policy.PremiumAmount;
+            decimal basePremium = totalAmount; 
 
             return new InvoiceDTO
             {
@@ -227,19 +252,24 @@ namespace Application.Services
                 StartDate = policy.StartDate,
                 EndDate = policy.EndDate,
                 BasePremium = basePremium,
-                TaxAmount = taxAmount,
-                TotalAmount = policy.PremiumAmount,
+                TotalAmount = totalAmount,
                 PaymentMethod = "Credit Card / Online"
             };
         }
 
-        // ── PREMIUM CALCULATION ───────────────────────────
+        // ── PREMIUM CALCULATION (DEPRECATED - use Preview endpoint) ──
         private static decimal CalculatePremium(decimal basePremium, int days, int age)
         {
+            // This was the old hardcoded logic. Now redirected to PolicyRequestService.
             var premium = basePremium * (days / 30m);
             if (age > 60) premium *= 1.3m;
             else if (age > 40) premium *= 1.1m;
             return Math.Round(premium, 2);
+        }
+
+        public async Task<PremiumCalculationResponseDTO> CalculatePremiumPreviewAsync(PremiumCalculationRequestDTO dto)
+        {
+            return await _policyRequestService.CalculatePremiumPreviewAsync(dto);
         }
 
         // ── MAPPER ────────────────────────────────────────

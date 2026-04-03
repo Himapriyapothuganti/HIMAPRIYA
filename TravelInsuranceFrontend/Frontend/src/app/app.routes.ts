@@ -11,6 +11,7 @@ import { Users } from './Features/admin/users/users';
 import { PolicyProducts } from './Features/admin/policy-products/policy-products';
 import { Policies } from './Features/admin/policies/policies';
 import { Claims } from './Features/admin/claims/claims';
+import { CountryManagementComponent } from './Features/admin/country-management/country-management.component';
 import { CustomerLayoutComponent } from './Features/customer/customer-layout/customer-layout.component';
 import { Dashboard as CustomerDashboard } from './Features/customer/dashboard/dashboard';
 import { BrowsePlans } from './Features/customer/browse-plans/browse-plans';
@@ -49,7 +50,8 @@ export const routes: Routes = [
       { path: 'users', component: Users },
       { path: 'policy-products', component: PolicyProducts },
       { path: 'policies', component: Policies },
-      { path: 'claims', component: Claims }
+      { path: 'claims', component: Claims },
+      { path: 'country-risks', component: CountryManagementComponent }
     ]
   },
   {

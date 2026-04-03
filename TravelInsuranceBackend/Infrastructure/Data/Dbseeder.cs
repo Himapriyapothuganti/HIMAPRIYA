@@ -328,6 +328,156 @@ namespace Infrastructure.Data
             }
 
             await context.SaveChangesAsync();
+
+            // and informal codes (like AU, AT) are removed from the Name field.
+            var targetCountries = new List<CountryRisk>
+            {
+                new CountryRisk { Name = "Nepal", Multiplier = 1.1m },
+                new CountryRisk { Name = "Sri Lanka", Multiplier = 1.1m },
+                new CountryRisk { Name = "Bangladesh", Multiplier = 1.1m },
+
+                // Zone 2: SE Asia & Middle East (1.15x - 1.25x)
+                new CountryRisk { Name = "Thailand", Multiplier = 1.15m },
+                new CountryRisk { Name = "Vietnam", Multiplier = 1.15m },
+                new CountryRisk { Name = "Indonesia", Multiplier = 1.2m },
+                new CountryRisk { Name = "Malaysia", Multiplier = 1.2m },
+                new CountryRisk { Name = "Singapore", Multiplier = 1.2m },
+                new CountryRisk { Name = "United Arab Emirates", Multiplier = 1.25m },
+                new CountryRisk { Name = "Qatar", Multiplier = 1.25m },
+                new CountryRisk { Name = "Turkey", Multiplier = 1.25m },
+
+                // Zone 3: Schengen area, UK & East Asia (1.35x - 1.50x)
+                new CountryRisk { Name = "United Kingdom", Multiplier = 1.45m },
+                new CountryRisk { Name = "Germany", Multiplier = 1.4m },
+                new CountryRisk { Name = "France", Multiplier = 1.4m },
+                new CountryRisk { Name = "Italy", Multiplier = 1.4m },
+                new CountryRisk { Name = "Spain", Multiplier = 1.4m },
+                new CountryRisk { Name = "Netherlands", Multiplier = 1.4m },
+                new CountryRisk { Name = "Greece", Multiplier = 1.4m },
+                new CountryRisk { Name = "Portugal", Multiplier = 1.4m },
+                new CountryRisk { Name = "Japan", Multiplier = 1.45m },
+                new CountryRisk { Name = "South Korea", Multiplier = 1.45m },
+
+                // Zone 4: High Cost / Wide Infrastructure (1.55x - 1.75x)
+                new CountryRisk { Name = "Australia", Multiplier = 1.6m },
+                new CountryRisk { Name = "New Zealand", Multiplier = 1.6m },
+                new CountryRisk { Name = "Russia", Multiplier = 1.7m },
+                new CountryRisk { Name = "Mexico", Multiplier = 1.55m },
+                new CountryRisk { Name = "Brazil", Multiplier = 1.55m },
+                new CountryRisk { Name = "South Africa", Multiplier = 1.6m },
+
+                // Zone 5: Premium Medical Costs (1.80x - 2.1x)
+                new CountryRisk { Name = "USA", Multiplier = 2.1m },
+                new CountryRisk { Name = "Canada", Multiplier = 1.9m },
+                new CountryRisk { Name = "Switzerland", Multiplier = 1.85m },
+                new CountryRisk { Name = "Israel", Multiplier = 1.8m }
+            };
+
+            var currentInDb = await context.CountryRisks.ToListAsync();
+            foreach (var target in targetCountries)
+            {
+                var existing = currentInDb.FirstOrDefault(c => 
+                    c.Name.Equals(target.Name, StringComparison.OrdinalIgnoreCase) || 
+                    c.Name.Contains(target.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (existing != null)
+                {
+                    existing.Name = target.Name; 
+                    existing.Multiplier = target.Multiplier;
+                }
+                else
+                {
+                    context.CountryRisks.Add(target);
+                }
+            }
+
+            await context.SaveChangesAsync();
+
+            // ── Seed WOW DATA for Dashboard ──────────────────
+            if (!await context.PolicyRequests.AnyAsync())
+            {
+                var customerId = (await userManager.FindByEmailAsync(customerEmail))?.Id ?? "";
+                var agentsList = await userManager.GetUsersInRoleAsync(UserRole.Agent);
+                var productList = await context.PolicyProducts.ToListAsync();
+                
+                var agent1 = agentsList.FirstOrDefault(a => a.Email == "agent1@talktravel.com");
+                var agent2 = agentsList.FirstOrDefault(a => a.Email == "agent2@talktravel.com");
+                
+                var silverSingle = productList.FirstOrDefault(p => p.PolicyName == "Silver Single Trip");
+                var goldSingle = productList.FirstOrDefault(p => p.PolicyName == "Gold Single Trip");
+                var platFamily = productList.FirstOrDefault(p => p.PolicyName == "Platinum Family");
+
+                // 1. Seed Policy Requests
+                var demoRequests = new List<PolicyRequest>
+                {
+                    new PolicyRequest { 
+                        PolicyProductId = silverSingle!.PolicyProductId, CustomerId = customerId, AgentId = agent1?.Id,
+                        Destination = "Thailand", StartDate = DateTime.UtcNow.AddDays(10), EndDate = DateTime.UtcNow.AddDays(20),
+                        TravellerName = "Anjali Sharma", TravellerAge = 28, PassportNumber = "L1234567", KycType = "Aadhaar", KycNumber = "123412341234",
+                        Status = "Pending", RiskLevel = "Low", RequestedAt = DateTime.UtcNow.AddDays(-2), CalculatedPremium = 2875 
+                    },
+                    new PolicyRequest { 
+                        PolicyProductId = goldSingle!.PolicyProductId, CustomerId = customerId, AgentId = agent2?.Id,
+                        Destination = "USA", StartDate = DateTime.UtcNow.AddDays(5), EndDate = DateTime.UtcNow.AddDays(15),
+                        TravellerName = "Vikram Singh", TravellerAge = 45, PassportNumber = "M9876543", KycType = "PAN", KycNumber = "ABCDE1234F",
+                        Status = "Approved", RiskLevel = "Medium", RequestedAt = DateTime.UtcNow.AddDays(-5), CalculatedPremium = 11550 
+                    },
+                    new PolicyRequest { 
+                        PolicyProductId = platFamily!.PolicyProductId, CustomerId = customerId, AgentId = agent1?.Id,
+                        Destination = "Switzerland", StartDate = DateTime.UtcNow.AddDays(30), EndDate = DateTime.UtcNow.AddDays(45),
+                        TravellerName = "The Kapoors", TravellerAge = 35, PassportNumber = "P1122334", KycType = "Aadhaar", KycNumber = "999988887777",
+                        Status = "Rejected", RejectionReason = "High Risk Area / Document Mismatch", RiskLevel = "High", RequestedAt = DateTime.UtcNow.AddDays(-1), CalculatedPremium = 33300 
+                    }
+                };
+                await context.PolicyRequests.AddRangeAsync(demoRequests);
+
+                // 2. Seed Active Policies (Revenue Drivers)
+                var demoPolicies = new List<Policy>
+                {
+                    new Policy {
+                        PolicyProductId = silverSingle.PolicyProductId, PolicyNumber = "POL-2026-0001", CustomerId = customerId, AgentId = agent1?.Id,
+                        Destination = "Singapore", PolicyType = "Single Trip", PlanTier = "Silver", 
+                        TravellerName = "Rohit Verma", TravellerAge = 30, PassportNumber = "N1122334", KycType = "Aadhaar", KycNumber = "777766665555",
+                        PremiumAmount = 3000, StartDate = DateTime.UtcNow.AddDays(-5), EndDate = DateTime.UtcNow.AddDays(25),
+                        Status = PolicyStatus.Active, CreatedAt = DateTime.UtcNow.AddDays(-10)
+                    },
+                    new Policy {
+                        PolicyProductId = goldSingle.PolicyProductId, PolicyNumber = "POL-2026-0002", CustomerId = customerId, AgentId = agent2?.Id,
+                        Destination = "United Kingdom", PolicyType = "Single Trip", PlanTier = "Gold", 
+                        TravellerName = "Sneha Iyer", TravellerAge = 34, PassportNumber = "K9988776", KycType = "PAN", KycNumber = "ZZZZZ9999P",
+                        PremiumAmount = 7975, StartDate = DateTime.UtcNow.AddDays(-2), EndDate = DateTime.UtcNow.AddDays(28),
+                        Status = PolicyStatus.Active, CreatedAt = DateTime.UtcNow.AddDays(-4)
+                    },
+                    new Policy {
+                        PolicyProductId = platFamily.PolicyProductId, PolicyNumber = "POL-2026-0003", CustomerId = customerId, AgentId = agent1?.Id,
+                        Destination = "USA", PolicyType = "Family", PlanTier = "Platinum", 
+                        TravellerName = "Mehta Family", TravellerAge = 40, PassportNumber = "A0099887", KycType = "Aadhaar", KycNumber = "111100002222",
+                        PremiumAmount = 37800, StartDate = DateTime.UtcNow.AddDays(-15), EndDate = DateTime.UtcNow.AddDays(15),
+                        Status = PolicyStatus.Active, CreatedAt = DateTime.UtcNow.AddDays(-20)
+                    }
+                };
+                await context.Policies.AddRangeAsync(demoPolicies);
+                await context.SaveChangesAsync();
+
+                // 3. Seed Claims (Analytics)
+                var activePols = await context.Policies.ToListAsync();
+                var demoClaims = new List<Claim>
+                {
+                    new Claim {
+                        PolicyId = activePols[0].PolicyId, CustomerId = customerId, ClaimType = "Medical Emergency",
+                        Description = "Food poisoning and hospital admission in Singapore", Status = ClaimStatus.UnderReview,
+                        ClaimedAmount = 45000, SubmittedAt = DateTime.UtcNow.AddDays(-2), IncidentDate = DateTime.UtcNow.AddDays(-3)
+                    },
+                    new Claim {
+                        PolicyId = activePols[1].PolicyId, CustomerId = customerId, ClaimType = "Loss of Passport",
+                        Description = "Passport stolen at London Tube station", Status = ClaimStatus.Approved,
+                        ClaimedAmount = 5000, ApprovedAmount = 5000, SubmittedAt = DateTime.UtcNow.AddDays(-25), 
+                        ReviewedAt = DateTime.UtcNow.AddDays(-23), IncidentDate = DateTime.UtcNow.AddDays(-26)
+                    }
+                };
+                await context.Claims.AddRangeAsync(demoClaims);
+                await context.SaveChangesAsync();
+            }
         }
 
     }

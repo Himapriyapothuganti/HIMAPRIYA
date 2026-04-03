@@ -1,10 +1,13 @@
-import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../Services/customer.service';
 import { Spinner } from '../../admin/components/spinner/spinner';
 import { Toast } from '../../admin/components/toast/toast';
+import { PolicyRequestService } from '../../../Services/policy-request.service';
+
+declare const google: any;
 
 @Component({
   selector: 'app-purchase-policy',
@@ -22,8 +25,18 @@ export class PurchasePolicy implements OnInit {
   isSubmitting = false;
   error = '';
   estimatedPremium = 0;
+  destMultiplier = 1.0;
+  ageLoading = 1.0;
+  isDestinationSupported = true;
 
   today: string;
+
+  @ViewChild('mapContainer') mapElement!: ElementRef;
+  @ViewChild('destinationInput') inputElement!: ElementRef;
+
+  map: any;
+  autocomplete: any;
+  marker: any;
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +45,8 @@ export class PurchasePolicy implements OnInit {
     private customerService: CustomerService,
     private datePipe: DatePipe,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private policyRequestService: PolicyRequestService
   ) {
     this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
   }
@@ -41,7 +55,8 @@ export class PurchasePolicy implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('productId') || '';
     this.initForm();
     this.loadProductDetails();
-
+    // Give DOM time to render before initializing map
+    setTimeout(() => this.initGoogleMaps(), 500);
   }
 
   initForm() {
@@ -102,6 +117,102 @@ export class PurchasePolicy implements OnInit {
     }
   }
 
+  initGoogleMaps() {
+    if (!this.mapElement || !this.inputElement) return;
+
+    this.ngZone.runOutsideAngular(() => {
+      // Default to slightly wider view
+      const defaultPos = { lat: 20, lng: 0 };
+      this.map = new google.maps.Map(this.mapElement.nativeElement, {
+        center: defaultPos,
+        zoom: 2,
+        styles: this.mapStyles,
+        disableDefaultUI: true,
+        zoomControl: true
+      });
+
+      // Initialize Autocomplete
+      this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement, {
+        types: ['(regions)'],
+        fields: ['address_components', 'geometry', 'formatted_address', 'name']
+      });
+
+      this.autocomplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          const place = this.autocomplete.getPlace();
+          if (!place.geometry || !place.geometry.location) return;
+
+          // Extract country long_name
+          const countryComponent = place.address_components?.find((c: any) => c.types.includes('country'));
+          const countryName = countryComponent?.long_name;
+
+          if (countryName) {
+            this.purchaseForm.patchValue({ destination: countryName });
+          } else {
+            this.purchaseForm.patchValue({ destination: place.formatted_address || place.name });
+          }
+
+          // Update Map
+          this.map.setCenter(place.geometry.location);
+          this.map.setZoom(5);
+
+          if (this.marker) this.marker.setMap(null);
+          this.marker = new google.maps.Marker({
+            position: place.geometry.location,
+            map: this.map,
+            animation: google.maps.Animation.DROP
+          });
+
+          this.calculateEstimatedPremium();
+        });
+      });
+    });
+  }
+
+  // Dark Mode Cinematic Map Styles
+  mapStyles = [
+    { "elementType": "geometry", "stylers": [{ "color": "#212121" }] },
+    { "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] },
+    { "elementType": "labels.text.fill", "stylers": [{ "color": "#757575" }] },
+    { "elementType": "labels.text.stroke", "stylers": [{ "color": "#212121" }] },
+    { "featureType": "administrative", "elementType": "geometry", "stylers": [{ "color": "#757575" }] },
+    { "featureType": "administrative.country", "elementType": "labels.text.fill", "stylers": [{ "color": "#E8584A" }] },
+    { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#000000" }] }
+  ];
+
+  calculateEstimatedPremium() {
+    if (!this.product || this.purchaseForm.invalid) return;
+
+    const vals = this.purchaseForm.value;
+    const dto = {
+      policyProductId: this.product.policyProductId,
+      startDate: vals.startDate,
+      endDate: vals.endDate,
+      travellerAge: parseInt(vals.travellerAge, 10),
+      destination: vals.destination,
+      memberCount: 1
+    };
+
+    this.policyRequestService.calculatePremium(dto).subscribe({
+      next: (res) => {
+        this.estimatedPremium = res.estimatedPremium;
+        this.destMultiplier = res.destinationMultiplier;
+        this.ageLoading = res.ageLoading;
+        this.isDestinationSupported = true;
+        this.error = '';
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.isDestinationSupported = false;
+        this.estimatedPremium = this.product.basePremium;
+        if (err.status === 400 || err.status === 404) {
+          this.error = "This destination is not supported by Talk & Travel.";
+        }
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   loadProductDetails() {
     this.isLoading = true;
     this.customerService.getPolicyProducts().subscribe({
@@ -137,40 +248,6 @@ export class PurchasePolicy implements OnInit {
     });
   }
 
-  calculateEstimatedPremium() {
-    if (!this.product) return;
-
-    let premium = this.product.basePremium;
-    const vals = this.purchaseForm.value;
-
-    // 1. Calculate Duration modifier
-    if (vals.startDate && vals.endDate) {
-      const start = new Date(vals.startDate);
-      const end = new Date(vals.endDate);
-      const diffTime = Math.abs(end.getTime() - start.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      if (diffDays > 0) {
-        // Pro-rate based on the policy's defined base tenure (e.g. 30 days for Single Trip, 365 for Student)
-        premium = premium * (diffDays / this.product.tenure);
-      }
-    }
-
-    // 2. Age Loading
-    if (vals.travellerAge) {
-      const age = parseInt(vals.travellerAge, 10);
-      // Senior citizens carry higher risk, apply 30% loading factor
-      if (age > 60) {
-        premium = premium * 1.3;
-      } else if (age > 40) {
-        // Middle-aged bracket, apply 10% loading factor
-        premium = premium * 1.1;
-      }
-    }
-
-    // Never drop the total price below the core base premium, regardless of prorating math
-    this.estimatedPremium = Math.max(premium, this.product.basePremium);
-  }
 
   onSubmit() {
     if (this.purchaseForm.invalid) {

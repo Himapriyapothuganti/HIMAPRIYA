@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -23,6 +23,18 @@ export class PolicyRequestDetail implements OnInit {
   isSubmitting = signal<boolean>(false);
   Math = Math;
 
+  // Unified AI Report Parsing
+  aiReport = computed(() => {
+    const r = this.request();
+    if (!r || !r.aiAnalysisJson) return null;
+    try {
+      return JSON.parse(r.aiAnalysisJson);
+    } catch (e) {
+      console.error('Failed to parse AI report', e);
+      return null;
+    }
+  });
+
   reviewForm: FormGroup;
   showRejectReason = false;
 
@@ -30,12 +42,16 @@ export class PolicyRequestDetail implements OnInit {
     this.reviewForm = this.fb.group({
       status: ['Approved', Validators.required],
       rejectionReason: [''],
-      agentNotes: ['']
+      agentNotes: [''],
+      flagKyc: [false],
+      flagPassport: [false],
+      flagOther: [false]
     });
 
     this.reviewForm.get('status')?.valueChanges.subscribe(status => {
-      this.showRejectReason = status === 'Rejected';
+      this.showRejectReason = (status === 'Rejected' || status === 'Needs Revision');
       const reasonControl = this.reviewForm.get('rejectionReason');
+      
       if (this.showRejectReason) {
         reasonControl?.setValidators([Validators.required]);
       } else {
@@ -62,11 +78,14 @@ export class PolicyRequestDetail implements OnInit {
         this.isLoading.set(false);
 
         // If already reviewed, patch the form
-        if (res.status === 'Approved' || res.status === 'Rejected') {
+        if (res.status === 'Approved' || res.status === 'Rejected' || res.status === 'Needs Revision') {
           this.reviewForm.patchValue({
             status: res.status,
             rejectionReason: res.rejectionReason || '',
-            agentNotes: res.agentNotes || ''
+            agentNotes: res.agentNotes || '',
+            flagKyc: res.requestedDocTypes?.includes('KYC') || false,
+            flagPassport: res.requestedDocTypes?.includes('Passport') || false,
+            flagOther: res.requestedDocTypes?.includes('Other') || false
           });
         }
       },
@@ -89,7 +108,30 @@ export class PolicyRequestDetail implements OnInit {
     }
 
     this.isSubmitting.set(true);
-    const dto = this.reviewForm.value;
+    const formVals = this.reviewForm.value;
+    
+    // Construct requestedDocTypes string
+    let requestedDocTypes = '';
+    if (formVals.status === 'Needs Revision') {
+      const docs = [];
+      if (formVals.flagKyc) docs.push('KYC');
+      if (formVals.flagPassport) docs.push('Passport');
+      if (formVals.flagOther) docs.push('Other');
+      requestedDocTypes = docs.join(',');
+      
+      if (docs.length === 0) {
+        alert('Please select at least one document to be revised.');
+        this.isSubmitting.set(false);
+        return;
+      }
+    }
+
+    const dto = {
+      status: formVals.status,
+      rejectionReason: formVals.rejectionReason,
+      agentNotes: formVals.agentNotes,
+      requestedDocTypes: requestedDocTypes
+    };
 
     this.policyRequestService.reviewRequest(req.policyRequestId, dto).subscribe({
       next: (res) => {
@@ -145,6 +187,7 @@ export class PolicyRequestDetail implements OnInit {
       case 'Pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'Approved': return 'bg-green-100 text-green-800 border-green-200';
       case 'Rejected': return 'bg-red-100 text-red-800 border-red-200';
+      case 'Needs Revision': return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Purchased': return 'bg-[#FDE8E0] text-[#E8584A] border-[#E8584A]/20';
       default: return 'bg-gray-100 text-gray-800';
     }

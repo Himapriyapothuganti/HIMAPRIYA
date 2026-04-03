@@ -48,8 +48,12 @@
                         </span>
                     </div>
                     <p class="text-[13px] text-gray-500 font-medium">
-                        {{ req.policyName }} ({{ req.planTier }}) &bull; {{ req.destination }} &bull; ₹{{
-                        req.calculatedPremium | number:'1.0-0' }}
+                        {{ req.policyName }} ({{ req.planTier }}) &bull; {{ req.destination }} 
+                        <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold"
+                            [ngClass]="getRiskBadgeClass(req.countryRiskLevel)">
+                            x{{ req.countryRiskMultiplier }} ({{ req.countryRiskLevel }})
+                        </span>
+                        &bull; ₹{{ req.calculatedPremium | number:'1.0-0' }}
                     </p>
                 </div>
 

@@ -10,4 +10,6 @@ import { CommonModule } from '@angular/common';
 })
 export class Spinner {
   @Input() isLoading: boolean = false;
+  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input() inline: boolean = false;
 }

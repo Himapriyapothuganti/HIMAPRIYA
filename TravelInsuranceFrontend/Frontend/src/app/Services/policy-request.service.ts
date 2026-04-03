@@ -19,18 +19,24 @@ export interface PolicyRequestResponse {
     status: string;
     rejectionReason?: string;
     calculatedPremium: number;
+    resubmissionCount: number;
+    maxResubmissions: number;
+    requestedDocTypes?: string;
     requestedAt: string;
     reviewedAt?: string;
 }
 
 export interface AgentPolicyRequestResponse extends PolicyRequestResponse {
     customerName: string;
+    
+    // AI Risk Analysis
     riskScore: number;
-    riskAgeScore: number;
-    riskDestinationScore: number;
-    riskDurationScore: number;
-    riskTierScore: number;
     riskLevel: string;
+    riskReasoning?: string;
+    countryRiskMultiplier: number;
+    countryRiskLevel: string;
+    aiAnalysisJson?: string;
+    
     agentNotes?: string;
     documents: Array<{
         policyRequestDocumentId: number;
@@ -47,11 +53,30 @@ export interface ReviewPolicyRequestDTO {
     status: string;
     rejectionReason?: string;
     agentNotes?: string;
+    requestedDocTypes?: string;
 }
 
 export interface PayPolicyRequestDTO {
     policyRequestId: number;
     paymentMethod?: string;
+}
+
+export interface PremiumCalculationRequest {
+    policyProductId: number;
+    startDate: string;
+    endDate: string;
+    travellerAge: number;
+    destination: string;
+    memberCount: number;
+}
+
+export interface PremiumCalculationResponse {
+    estimatedPremium: number;
+    destinationMultiplier: number;
+    ageLoading: number;
+    riskLevel: string;
+    riskFactor: number;
+    countryFlagEmoji: string;
 }
 
 @Injectable({
@@ -97,4 +122,7 @@ export class PolicyRequestService {
         return this.http.get(documentUrl, { responseType: 'blob' });
     }
 
+    calculatePremium(dto: PremiumCalculationRequest): Observable<PremiumCalculationResponse> {
+        return this.http.post<PremiumCalculationResponse>(`${this.apiUrl}/Policy/calculate-premium`, dto);
+    }
 }

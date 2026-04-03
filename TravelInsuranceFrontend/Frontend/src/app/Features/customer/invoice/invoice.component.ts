@@ -32,7 +32,6 @@ import { CommonModule } from '@angular/common';
               </div>
               <div class="text-sm text-slate-500 max-w-xs leading-relaxed">
                 {{invoice.companyAddress}}<br>
-                <span class="font-bold text-slate-700">GSTIN:</span> {{invoice.companyGSTIN}}
               </div>
             </div>
             <div class="text-right">
@@ -115,13 +114,9 @@ import { CommonModule } from '@angular/common';
           <!-- Total Section -->
           <div class="flex justify-end">
             <div class="w-full max-w-xs space-y-4">
-              <div class="flex justify-between text-slate-500 font-medium">
-                <span>Subtotal</span>
-                <span>₹{{invoice.basePremium | number:'1.2-2'}}</span>
-              </div>
               <div class="flex justify-between text-slate-500 font-medium pb-4 border-b border-slate-100">
-                <span>Tax (GST 18%)</span>
-                <span>₹{{invoice.taxAmount | number:'1.2-2'}}</span>
+                <span>Base Premium</span>
+                <span>₹{{invoice.basePremium | number:'1.2-2'}}</span>
               </div>
               <div class="flex justify-between items-center bg-[#E8584A] text-white p-6 rounded-2xl shadow-xl shadow-red-500/20">
                 <span class="font-bold text-lg">Total Amount</span>

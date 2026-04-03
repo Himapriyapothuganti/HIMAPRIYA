@@ -53,9 +53,11 @@ namespace Application.Services
             if (policy.Status != PolicyStatus.Active && policy.Status != PolicyStatus.Expired)
                 throw new Exception("Only Active or Expired policies are eligible for claims.");
 
-            // Validation Check 3: Is IncidentDate within the policy period?
-            if (dto.IncidentDate.Date < policy.StartDate.Date || dto.IncidentDate.Date > policy.EndDate.Date)
-                throw new Exception($"Incident date must fall between the policy start date ({policy.StartDate.ToShortDateString()}) and end date ({policy.EndDate.ToShortDateString()}).");
+            // Validation Check 4.5: Incident Date must be within Policy Start/End Dates
+            if (dto.IncidentDate < policy.StartDate || dto.IncidentDate > policy.EndDate)
+            {
+                throw new Exception($"Incident date must be between {policy.StartDate:dd MMM yyyy} and {policy.EndDate:dd MMM yyyy} (Your Policy Coverage Period).");
+            }
 
             // Validation Check 3.5: Cannot submit claim for an incident that hasn't happened yet
             if (dto.IncidentDate.Date > DateTime.Now.Date)
@@ -79,6 +81,28 @@ namespace Application.Services
             // Validation Check 5: Is claimed amount > 0 ?
             if (dto.ClaimedAmount <= 0)
                 throw new Exception($"Claimed amount must be greater than zero.");
+
+            // Validation Check 6: Cumulative Claim Limit Check
+            var existingClaims = await _claimRepo.GetByPolicyIdAsync(dto.PolicyId);
+
+            // Validation Check 6.5: One Active Claim per Policy
+            if (existingClaims.Any(c => c.Status == ClaimStatus.UnderReview || c.Status == ClaimStatus.PendingDocuments || c.Status == ClaimStatus.Submitted))
+            {
+                throw new Exception("You already have an active claim under review for this policy. Please wait for our decision or contact support before submitting another one.");
+            }
+
+            // Sum up non-rejected claims (Approved, PendingDocuments, UnderReview, PaymentProcessed, Closed)
+            decimal committedAmount = existingClaims
+                .Where(c => c.Status != ClaimStatus.Rejected)
+                .Sum(c => (c.ApprovedAmount ?? 0m) > 0 ? (c.ApprovedAmount ?? 0m) : c.ClaimedAmount);
+
+            if (committedAmount + dto.ClaimedAmount > product.ClaimLimit)
+            {
+                var remainingLimit = Math.Max(0m, product.ClaimLimit - committedAmount);
+                throw new Exception($"Cumulative claim limit exceeded. Your policy has a total claim limit of ₹{product.ClaimLimit:N0}. " +
+                    $"Already committed: ₹{committedAmount:N0}. Remaining: ₹{remainingLimit:N0}. " +
+                    $"Your current claim for ₹{dto.ClaimedAmount:N0} exceeds this limit.");
+            }
 
             //  Find the Claims Officer with the fewest active claims
             // This ensures work is distributed fairly among all available officers

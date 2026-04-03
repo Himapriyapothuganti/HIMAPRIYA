@@ -22,5 +22,8 @@ namespace Application.Interfaces
 
         // Invoices
         Task<InvoiceDTO> GetInvoiceAsync(int policyId, string customerId);
+
+        // Premium Preview
+        Task<PremiumCalculationResponseDTO> CalculatePremiumPreviewAsync(PremiumCalculationRequestDTO dto);
     }
 }

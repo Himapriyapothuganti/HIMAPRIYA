@@ -59,6 +59,12 @@ namespace Application.DTOs
         public string? RejectionReason { get; set; }
         
         public decimal CalculatedPremium { get; set; }
+        
+        // Resubmission Info
+        public int ResubmissionCount { get; set; }
+        public int MaxResubmissions { get; set; }
+        public string? RequestedDocTypes { get; set; } 
+
         public DateTime RequestedAt { get; set; }
         public DateTime? ReviewedAt { get; set; }
     }
@@ -67,24 +73,24 @@ namespace Application.DTOs
     {
         public string CustomerName { get; set; } = string.Empty;
         
-        // Agent only Risk details
+        // AI Risk Insight
         public int RiskScore { get; set; }
-        public int RiskAgeScore { get; set; }
-        public int RiskDestinationScore { get; set; }
-        public int RiskDurationScore { get; set; }
-        public int RiskTierScore { get; set; }
         public string RiskLevel { get; set; } = string.Empty; // Low/Medium/High
+        public string? RiskReasoning { get; set; }
+        public decimal CountryRiskMultiplier { get; set; }
+        public string CountryRiskLevel { get; set; } = string.Empty;
+        public string? AiAnalysisJson { get; set; } // Rich JSON from Vertex AI
         
         public string? AgentNotes { get; set; }
-        
         public List<PolicyRequestDocumentDTO> Documents { get; set; } = new();
     }
 
     public class ReviewPolicyRequestDTO
     {
-        public string Status { get; set; } = string.Empty; // Approved / Rejected
+        public string Status { get; set; } = string.Empty; // Approved / Rejected / Needs Revision
         public string? RejectionReason { get; set; }
         public string? AgentNotes { get; set; }
+        public string? RequestedDocTypes { get; set; } // e.g. "KYC,Passport"
     }
 
     public class PayPolicyRequestDTO

@@ -117,11 +117,7 @@ namespace Application.Services
                 : "No summary generated.";
         }
 
-        // ── Unified Analysis Method ────────
-        public async Task<string>
-        AnalyzeClaimAsync(
-            string jsonClaimData,
-            List<string> filePaths)
+        public async Task<string> AnalyzeClaimAsync(string jsonClaimData, List<string> filePaths)
         {
             try
             {
@@ -163,34 +159,11 @@ namespace Application.Services
                 {
                     foreach (var path in filePaths)
                     {
-                        if (!File.Exists(path))
-                            continue;
-
-                        var ext = Path
-                            .GetExtension(path)
-                            .ToLower();
-                        var mime = ext switch
-                        {
-                            ".pdf"  => "application/pdf",
-                            ".jpg"  => "image/jpeg",
-                            ".jpeg" => "image/jpeg",
-                            ".png"  => "image/png",
-                            ".txt"  => "text/plain",
-                            _ => "application/octet-stream"
-                        };
-
-                        var bytes = await File
-                            .ReadAllBytesAsync(path);
-
-                        parts.Add(new
-                        {
-                            inlineData = new
-                            {
-                                mimeType = mime,
-                                data = Convert
-                                    .ToBase64String(bytes)
-                            }
-                        });
+                        if (!File.Exists(path)) continue;
+                        var bytes = await File.ReadAllBytesAsync(path);
+                        var ext = Path.GetExtension(path).ToLower();
+                        var mime = ext switch { ".pdf" => "application/pdf", ".jpg" => "image/jpeg", ".jpeg" => "image/jpeg", ".png" => "image/png", ".txt" => "text/plain", _ => "application/octet-stream" };
+                        parts.Add(new { inlineData = new { mimeType = mime, data = Convert.ToBase64String(bytes) } });
                     }
                 }
 
@@ -198,15 +171,74 @@ namespace Application.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(
-                    $"Vertex AI Exception: " +
-                    $"{ex.Message}");
-                if (ex.Message.Contains("403"))
-                    return "AI Error (Forbidden): " +
-                        "Check backend console.";
-                return "AI analysis unavailable " +
-                    "at the moment.";
+                Console.WriteLine($"Vertex AI Exception: {ex.Message}");
+                return "AI analysis unavailable at the moment.";
             }
+        }
+
+        public async Task<string> AnalyzePolicyRequestAsync(string jsonRequestData, List<string> filePaths)
+        {
+            try
+            {
+                var parts = new List<object>
+                {
+                    new { text =
+                        "You are a senior insurance underwriter at Talk & Travel Insurance.\n" +
+                        "Your task is to analyze the provided JSON policy request data against the attached IDENTITY DOCUMENTS (Passport/ID).\n\n" +
+                        "### REQUIRED JSON STRUCTURE ###\n" +
+                        "{\n" +
+                        "  \"riskScore\": number (0-100),\n" +
+                        "  \"riskLevel\": \"Low\" | \"Medium\" | \"High\",\n" +
+                        "  \"riskReasoning\": \"Brief explanation of the risk score\",\n" +
+                        "  \"aiOpinion\": \"Senior underwriter recommendation for acceptance, rejection, or manual review needed\",\n" +
+                        "  \"categories\": [\n" +
+                        "    { \"title\": \"Identity Verification\", \"summary\": \"Analysis of system name vs document records\" },\n" +
+                        "    { \"title\": \"Destination Assessment\", \"summary\": \"Evaluation of travel zone and risk multipliers\" },\n" +
+                        "    { \"title\": \"Policy Alignment\", \"summary\": \"How the applicant's profile fits the chosen plan tier\" }\n" +
+                        "  ],\n" +
+                        "  \"documentComparison\": {\n" +
+                        "    \"isConsistent\": true | false,\n" +
+                        "    \"mismatchDetails\": \"Specific discrepancies found in name, age, or passport number\"\n" +
+                        "  },\n" +
+                        "  \"keyIssues\": [\"List up to 5 critical risk points found\"],\n" +
+                        "  \"checkList\": [\"List specific verification steps for the agent to perform manually\"]\n" +
+                        "}\n\n" +
+                        "### STRICT RULES ###\n" +
+                        "- Cross-reference Name, Age, and Passport Number.\n" +
+                        "- If the name on the document does NOT match 'TravellerName' in JSON, flag 'High' risk level and isConsistent = false.\n" +
+                        "- Output ONLY the raw JSON string. NO markdown, NO backticks.\n\n" +
+                        "POLICY REQUEST DATA:\n" + jsonRequestData }
+                };
+
+                if (filePaths != null)
+                {
+                    foreach (var path in filePaths)
+                    {
+                        if (!File.Exists(path)) continue;
+                        var bytes = await File.ReadAllBytesAsync(path);
+                        var ext = Path.GetExtension(path).ToLower();
+                        var mime = ext switch { ".pdf" => "application/pdf", ".jpg" => "image/jpeg", ".jpeg" => "image/jpeg", ".png" => "image/png", _ => "application/octet-stream" };
+                        parts.Add(new { inlineData = new { mimeType = mime, data = Convert.ToBase64String(bytes) } });
+                    }
+                }
+
+                var rawResponse = await SendRequestAsync(parts);
+                return ExtractJson(rawResponse);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Vertex AI Policy Analysis Exception: {ex.Message}");
+                return "{\"riskScore\": 0, \"riskLevel\": \"Unknown\", \"riskReasoning\": \"AI analysis temporarily unavailable.\"}";
+            }
+        }
+
+        private string ExtractJson(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return "{}";
+            int start = input.IndexOf('{');
+            int end = input.LastIndexOf('}');
+            if (start != -1 && end != -1 && end > start) return input.Substring(start, end - start + 1);
+            return input;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +12,14 @@ namespace Infrastructure.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         // Each line below = one SQL table
-        public DbSet<Policy> Policies => Set<Policy>();                          // → Policies table
-        public DbSet<Domain.Entities.Claim> Claims => Set<Domain.Entities.Claim>(); // → Claims table ← OUR CLAIM IS SAVED HERE
-        public DbSet<PolicyProduct> PolicyProducts => Set<PolicyProduct>();      // → PolicyProducts table
-        public DbSet<ClaimDocument> ClaimDocuments { get; set; }                 // → ClaimDocuments table
-        public DbSet<PolicyRequest> PolicyRequests { get; set; }                 // → PolicyRequests table
-        public DbSet<PolicyRequestDocument> PolicyRequestDocuments { get; set; } // → PolicyRequestDocuments table
-        public DbSet<Notification> Notifications { get; set; }                   // → Notifications table
+        public DbSet<Policy> Policies => Set<Policy>();                          //  Policies table
+        public DbSet<Domain.Entities.Claim> Claims => Set<Domain.Entities.Claim>(); // Claims table - OUR CLAIM IS SAVED HERE
+        public DbSet<PolicyProduct> PolicyProducts => Set<PolicyProduct>();      // PolicyProducts table
+        public DbSet<ClaimDocument> ClaimDocuments { get; set; }                 // ClaimDocuments table
+        public DbSet<PolicyRequest> PolicyRequests { get; set; }                 // PolicyRequests table
+        public DbSet<PolicyRequestDocument> PolicyRequestDocuments { get; set; } //PolicyRequestDocuments table
+        public DbSet<Notification> Notifications { get; set; }                   //Notifications table
+        public DbSet<CountryRisk> CountryRisks { get; set; }                     //CountryRisks table
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -63,6 +64,12 @@ namespace Infrastructure.Data
                       .WithMany()
                       .HasForeignKey(e => e.AgentId)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<CountryRisk>(entity =>
+            {
+                entity.HasIndex(e => e.Name).IsUnique();
+                entity.Property(e => e.Multiplier).HasColumnType("decimal(18,2)");
             });
         }
     }

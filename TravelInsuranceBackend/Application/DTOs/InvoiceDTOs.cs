@@ -15,12 +15,10 @@ namespace Application.DTOs
         public DateTime EndDate { get; set; }
 
         public decimal BasePremium { get; set; }
-        public decimal TaxAmount { get; set; } // 18% GST typical in India
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; } // Now equals BasePremium
         
         public string PaymentMethod { get; set; } = "Online";
         public string CompanyName { get; set; } = "TalkTravel Insurance Corp";
         public string CompanyAddress { get; set; } = "123, Tech Park, Bangalore, KA, 560103";
-        public string CompanyGSTIN { get; set; } = "29AAAAA0000A1Z5";
     }
 }

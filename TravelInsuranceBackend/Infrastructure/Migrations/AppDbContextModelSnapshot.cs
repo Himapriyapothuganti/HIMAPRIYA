@@ -197,6 +197,36 @@ namespace Infrastructure.Migrations
                     b.ToTable("ClaimDocuments");
                 });
 
+            modelBuilder.Entity("Domain.Entities.CountryRisk", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Multiplier")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("CountryRisks");
+                });
+
             modelBuilder.Entity("Domain.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
@@ -374,6 +404,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("AgentNotes")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AiAnalysisJson")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("CalculatedPremium")
                         .HasColumnType("decimal(18,2)");
 
@@ -388,6 +421,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("DestinationRiskMultiplier")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -398,6 +434,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("KycType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxResubmissions")
+                        .HasColumnType("int");
 
                     b.Property<string>("PassportNumber")
                         .IsRequired()
@@ -412,26 +451,23 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("RequestedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("RequestedDocTypes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResubmissionCount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ReviewedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("RiskAgeScore")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RiskDestinationScore")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RiskDurationScore")
-                        .HasColumnType("int");
 
                     b.Property<string>("RiskLevel")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RiskScore")
-                        .HasColumnType("int");
+                    b.Property<string>("RiskReasoning")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RiskTierScore")
+                    b.Property<int>("RiskScore")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
@@ -494,6 +530,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("FileType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsLatest")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PolicyRequestId")
                         .HasColumnType("int");

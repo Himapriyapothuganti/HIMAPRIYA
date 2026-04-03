@@ -254,10 +254,6 @@ import { ClaimsOfficerService } from '../services/claims-officer.service';
                           class="px-10 py-5 rounded-2xl font-black text-sm text-rose-600 bg-white border-2 border-rose-100 hover:border-rose-600 transition-all flex items-center gap-4">
                     Decline Claim
                   </button>
-                  <button *ngIf="claim().status === 'UnderReview'" (click)="openAction('requestDocs')" 
-                          class="px-8 py-5 rounded-2xl font-black text-sm text-amber-600 bg-white border-2 border-amber-100 hover:border-amber-400 transition-all flex items-center gap-4">
-                    Missing Documents
-                  </button>
                 </div>
 
                 <!-- Fallback Actions -->
@@ -430,9 +426,6 @@ export class OfficerClaimDetailComponent implements OnInit {
           isApproved: false,
           rejectionReason: this.rejectionReasonForm
         });
-        break;
-      case 'requestDocs':
-        submitObs = this.claimsService.requestDocuments(id);
         break;
       case 'processPayment':
         submitObs = this.claimsService.processPayment(id);

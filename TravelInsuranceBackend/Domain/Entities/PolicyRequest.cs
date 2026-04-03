@@ -28,11 +28,9 @@ namespace Domain.Entities
 
         // Risk Assessment
         public int RiskScore { get; set; }
-        public int RiskAgeScore { get; set; }
-        public int RiskDestinationScore { get; set; }
-        public int RiskDurationScore { get; set; }
-        public int RiskTierScore { get; set; }
         public string RiskLevel { get; set; } = string.Empty;
+        public string? RiskReasoning { get; set; }
+        public decimal DestinationRiskMultiplier { get; set; }
 
         public string Status { get; set; } = "Pending"; // Pending / Approved / Rejected / Purchased
         public string? RejectionReason { get; set; }
@@ -40,9 +38,16 @@ namespace Domain.Entities
         
         public decimal CalculatedPremium { get; set; }
         
+        // Resubmission Tracking
+        public int ResubmissionCount { get; set; } = 0;
+        public int MaxResubmissions { get; set; } = 2;
+        public string? RequestedDocTypes { get; set; } // Flagged docs (e.g. "KYC,Passport")
+
         public DateTime RequestedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ReviewedAt { get; set; }
 
+        public string? AiAnalysisJson { get; set; }
+        
         // Navigation
         public PolicyProduct? PolicyProduct { get; set; }
         public ApplicationUser? Customer { get; set; }

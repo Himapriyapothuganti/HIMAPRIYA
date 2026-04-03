@@ -208,14 +208,18 @@
                 </svg>
                 Please select the policy being claimed against.
             </div>
-            <div *ngIf="activePolicies.length === 0"
-                class="text-yellow-600 text-xs mt-2 bg-yellow-50 p-3 rounded-lg border border-yellow-200 font-bold flex items-center gap-2">
-                <span>⚠️</span> You have no active policies eligible for claims.
+            <div *ngIf="hasActiveClaim"
+                class="text-red-600 text-[13px] mt-4 bg-red-50 p-4 rounded-2xl border-2 border-red-100 font-bold flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div class="flex items-center gap-2">
+                    <span>🚫</span> Claim already in progress
+                </div>
+                <p class="text-xs text-red-500 font-medium">You already have a claim under review for this policy. You cannot submit multiple active claims for the same policy.</p>
             </div>
         </div>
 
-        <!-- Claim Type -->
-        <div>
+        <div class="space-y-6" [class.opacity-50]="hasActiveClaim" [class.pointer-events-none]="hasActiveClaim">
+            <!-- Claim Type -->
+            <div>
             <label class="block text-[13px] font-bold text-gray-700 uppercase tracking-widest mb-2.5">Claim Type</label>
             <div class="relative">
                 <select formControlName="claimType"
@@ -229,12 +233,18 @@
                 </svg>
             </div>
 
-            <div *ngIf="selectedClaimConfig" class="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-xl">
-                <div class="text-[13px] text-blue-800 font-medium space-y-2">
-                    <p class="flex items-center gap-2">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="shrink-0" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <!-- Claim Limits & Evidence Checklist -->
+            <div *ngIf="selectedClaimConfig" class="mt-4 space-y-4">
+                
+                <!-- 1. Limits Info (Refined) -->
+                <div class="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="text-blue-600" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <span class="text-[11px] font-black text-blue-800 uppercase tracking-widest">Policy Coverage Limits</span>
+                    </div>
+                    <div class="text-[14px] text-blue-900 font-bold">
                         <span *ngIf="selectedClaimConfig.type === 'Medical Claim' && selectedPolicy">
-                            Medical Limit: <strong>{{ selectedPolicy.claimLimit | currency:'INR':'symbol':'1.0-0' }}</strong>
+                            Medical Expense Limit: <strong>{{ selectedPolicy.claimLimit | currency:'INR':'symbol':'1.0-0' }}</strong>
                         </span>
                         <span *ngIf="selectedClaimConfig.type === 'Personal Accident Claim'">
                             Personal Accident Limit: <strong>₹2,50,000</strong>
@@ -245,19 +255,37 @@
                         <span *ngIf="selectedClaimConfig.type === 'Travel Claim'">
                             Total Travel Claim Limit: <strong>{{ selectedPolicy.planTier === 'Platinum' ? '₹4,00,000' : '₹75,000' }}</strong>
                         </span>
-                    </p>
+                    </div>
                     
                     <!-- Auto-Detection Info -->
-                    <div *ngIf="detectedSubtype" class="bg-white/60 p-2.5 rounded-lg border border-blue-200 mt-2 animate-fade-in">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-900">Detected Sub-type</span>
-                            <span class="bg-blue-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Automatic</span>
+                    <div *ngIf="detectedSubtype" class="mt-3 pt-3 border-t border-blue-100 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] font-black text-blue-500 uppercase tracking-tighter">Sub-type Detected</span>
+                            <p class="text-[13px] font-black text-blue-900">{{ detectedSubtype.name }}</p>
                         </div>
-                        <div class="flex items-center justify-between mt-1">
-                            <span class="text-[15px] font-bold text-[#111]">{{ detectedSubtype.name }}</span>
-                            <span class="text-[14px] font-extrabold text-blue-700">Limit: {{ detectedSubtype.maxINR | currency:'INR':'symbol':'1.0-0' }}</span>
+                        <div class="text-right">
+                            <span class="text-[10px] font-black text-blue-500 uppercase tracking-tighter">Sub-limit</span>
+                            <p class="text-[13px] font-extrabold text-blue-700">₹{{ detectedSubtype.maxINR | number }}</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- 2. Evidence Checklist -->
+                <div *ngIf="selectedClaimConfig.requiredDocs" class="p-5 bg-emerald-50/50 border-2 border-emerald-100 rounded-2xl animate-in fade-in slide-in-from-top-2 duration-500">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span class="text-[11px] font-black text-emerald-800 uppercase tracking-widest">Evidence Checklist</span>
+                    </div>
+                    <ul class="space-y-2.5">
+                        <li *ngFor="let doc of selectedClaimConfig.requiredDocs" class="flex items-start gap-2.5 text-[13px] font-bold text-gray-700">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
+                            {{ doc }}
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div *ngIf="f['claimType'].touched && f['claimType'].invalid"
@@ -277,7 +305,11 @@
                 Incident Date
             </label>
             <input formControlName="incidentDate" type="date"
+                [min]="minDate" [max]="maxDate"
                 class="w-full px-5 py-3.5 rounded-2xl border-2 border-gray-100 focus:ring-4 focus:ring-[#E8584A]/10 focus:border-[#E8584A] transition-all bg-gray-50/50 focus:bg-white outline-none text-[15px] font-medium placeholder-gray-400">
+            <div *ngIf="selectedPolicy" class="text-[11px] text-gray-400 mt-2 font-bold uppercase tracking-widest">
+                Coverage: {{ selectedPolicy.startDate | date:'dd MMM yyyy' }} - {{ selectedPolicy.endDate | date:'dd MMM yyyy' }}
+            </div>
             <div *ngIf="f['incidentDate'].touched && f['incidentDate'].invalid"
                 class="text-red-500 text-xs mt-2 font-bold flex items-center gap-1">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -380,6 +412,7 @@
                 </li>
             </ul>
         </div>
+        </div>
 
         <!-- Modal Buttons -->
         <div class="pt-6 border-t border-gray-100/60 flex justify-end gap-4 mt-2">
@@ -389,13 +422,13 @@
             </button>
 
             <!--submit button -->
-            <button type="submit" [disabled]="isSubmitting || claimForm.invalid || activePolicies.length === 0"
+            <button type="submit" [disabled]="isSubmitting || claimForm.invalid || activePolicies.length === 0 || hasActiveClaim"
                 class="bg-[#E8584A] hover:bg-[#C94035] text-white px-8 py-3.5 rounded-2xl font-bold text-[15px] shadow-[0_8px_20px_rgba(232,88,74,0.25)] hover:shadow-none hover:translate-y-1 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:shadow-none flex items-center gap-2">
                 <span *ngIf="isSubmitting"
                     class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                 <span class="flex items-center gap-2 text-[15px]">
-                    Commit Claim
-                    <svg *ngIf="!isSubmitting" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    {{ hasActiveClaim ? 'Claim In Progress' : 'Commit Claim' }}
+                    <svg *ngIf="!isSubmitting && !hasActiveClaim" width="16" height="16" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="3">
                         <line x1="5" y1="12" x2="19" y2="12" />
                         <polyline points="12 5 19 12 12 19" />

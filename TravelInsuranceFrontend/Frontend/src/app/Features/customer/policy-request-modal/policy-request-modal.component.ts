@@ -12,7 +12,13 @@ declare var google: any;
     selector: 'app-policy-request-modal',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, Modal, Toast],
-    templateUrl: './policy-request-modal.component.html'
+    templateUrl: './policy-request-modal.component.html',
+  styles: [`
+    .pop-in { animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+    @keyframes pop-in { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
+    .success-bg { animation: success-fade 0.5s ease-out both; }
+    @keyframes success-fade { 100% { background-color: rgba(34, 197, 94, 0.05); border-color: #22c55e; border-style: solid; } }
+  `]
 })
 export class PolicyRequestModalComponent implements OnChanges {
     @ViewChild('mapContainer') mapElement!: ElementRef;
@@ -34,6 +40,7 @@ export class PolicyRequestModalComponent implements OnChanges {
 
     error: string | null = null;
     success: string | null = null;
+    showSuccessAnimation = false;
 
     today = new Date().toISOString().split('T')[0];
     estimatedPremium: number | null = null;
@@ -41,6 +48,21 @@ export class PolicyRequestModalComponent implements OnChanges {
     kycFile: File | null = null;
     passportFile: File | null = null;
     otherFile: File | null = null;
+    
+    // Risk Details from Backend
+    destMultiplier: number | null = null;
+    ageLoading: number | null = null;
+    riskLevel: string | null = null;
+    isDestinationSupported = true;
+
+    // Revision Tracking
+    isRevisionMode = false;
+    isKycFlagged = false;
+    isPassportFlagged = false;
+    isOtherFlagged = false;
+    revisionFeedback: string | null = null;
+    resubmissionCount = 0;
+    maxResubmissions = 2;
 
     constructor() {
         this.requestForm = this.fb.group({
@@ -87,55 +109,41 @@ export class PolicyRequestModalComponent implements OnChanges {
 
         if (!age || !destination || !startDate || !endDate) {
             this.estimatedPremium = null;
+            this.destMultiplier = null;
+            this.ageLoading = null;
+            this.riskLevel = null;
             return;
         }
 
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const days = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+        const memberCount = 1 + ((this.requestForm.get('dependents') as FormArray)?.length || 0);
 
-        // Base Premium
-        let basePremium = this.selectedPlan.basePremium;
+        const dto = {
+            policyProductId: this.selectedPlan.policyProductId,
+            startDate: startDate,
+            endDate: endDate,
+            travellerAge: age,
+            destination: destination,
+            memberCount: memberCount
+        };
 
-        // Age Loading
-        let ageLoading = 1.0;
-        let effectiveAge = age;
-
-        // For family, use oldest member
-        if (this.selectedPlan.policyType === 'Family') {
-            const deps = (this.requestForm.get('dependents') as FormArray)?.value || [];
-            if (deps.length > 0) {
-                const maxDepAge = Math.max(...deps.map((d: any) => d.Age || 0));
-                if (maxDepAge > effectiveAge) effectiveAge = maxDepAge;
+        this.policyRequestService.calculatePremium(dto).subscribe({
+            next: (res) => {
+                this.estimatedPremium = res.estimatedPremium;
+                this.destMultiplier = res.destinationMultiplier;
+                this.ageLoading = res.ageLoading;
+                this.riskLevel = res.riskLevel;
+                this.isDestinationSupported = true;
+                this.error = null;
+            },
+            error: (err) => {
+                this.estimatedPremium = null;
+                this.destMultiplier = null;
+                this.ageLoading = null;
+                this.riskLevel = null;
+                this.isDestinationSupported = false;
+                this.error = err?.error?.message || 'Selected destination is not supported.';
             }
-        }
-
-        if (effectiveAge > 60) ageLoading = 1.3;
-        else if (effectiveAge > 40) ageLoading = 1.1;
-
-        // Multi-Trip and Student Plans are FIXED ANNUAL PREM
-        if (this.selectedPlan.policyType === 'Multi-Trip' || this.selectedPlan.policyType === 'Student') {
-            this.estimatedPremium = Math.round(basePremium * ageLoading);
-            return;
-        }
-
-        // Single Trip and Family Plans are PER-TRIP (calculated on plan's tenure base)
-        const daysRatio = days / this.selectedPlan.tenure;
-
-        if (this.selectedPlan.policyType === 'Family') {
-            const memberCount = 1 + ((this.requestForm.get('dependents') as FormArray)?.length || 0);
-            let multiplier = 1.0;
-            if (memberCount === 2) multiplier = 1.5;
-            else if (memberCount === 3) multiplier = 1.8;
-            else if (memberCount === 4) multiplier = 2.0;
-            else if (memberCount === 5) multiplier = 2.2;
-            else if (memberCount >= 6) multiplier = 2.5;
-
-            this.estimatedPremium = Math.max(Math.round(basePremium * daysRatio * ageLoading * multiplier), basePremium);
-        } else {
-            // Single Trip
-            this.estimatedPremium = Math.max(Math.round(basePremium * daysRatio * ageLoading), basePremium);
-        }
+        });
     }
 
     dateRangeValidator(group: FormGroup) {
@@ -203,7 +211,8 @@ export class PolicyRequestModalComponent implements OnChanges {
 
             // Initialize Autocomplete
             this.autocomplete = new google.maps.places.Autocomplete(this.inputElement.nativeElement, {
-                types: ['(cities)']
+                types: ['(regions)'], // Use regions to better Capture country-level searches
+                fields: ['address_components', 'geometry', 'formatted_address', 'name']
             });
 
             // Bind Autocomplete to Map
@@ -211,10 +220,18 @@ export class PolicyRequestModalComponent implements OnChanges {
                 const place = this.autocomplete.getPlace();
                 if (!place.geometry || !place.geometry.location) return;
 
-                // 1. Update Form Value
-                this.requestForm.patchValue({ destination: place.formatted_address || place.name });
+                // Extract country long_name as per user request
+                const countryComponent = place.address_components?.find((c: any) => c.types.includes('country'));
+                const countryName = countryComponent?.long_name;
 
-                // 2. Trigger Cinematic Zoom
+                if (countryName) {
+                    // Update Form Value with exact Country Name for DB matching
+                    this.requestForm.patchValue({ destination: countryName });
+                } else {
+                    this.requestForm.patchValue({ destination: place.formatted_address || place.name });
+                }
+
+                // Trigger cinematic zoom
                 this.zoomToLocation(place.geometry.location);
             });
         } catch (e) {
@@ -275,6 +292,25 @@ export class PolicyRequestModalComponent implements OnChanges {
             studentId: this.editData.studentId,
             tripFrequency: this.editData.tripFrequency
         });
+
+        // Handle Revision Mode
+        if (this.editData.status === 'Needs Revision') {
+            this.isRevisionMode = true;
+            this.revisionFeedback = this.editData.rejectionReason;
+            this.resubmissionCount = this.editData.resubmissionCount || 0;
+            this.maxResubmissions = this.editData.maxResubmissions || 2;
+            
+            const flagged = this.editData.requestedDocTypes || '';
+            this.isKycFlagged = flagged.includes('KYC');
+            this.isPassportFlagged = flagged.includes('Passport');
+            this.isOtherFlagged = flagged.includes('Other');
+        } else {
+            this.isRevisionMode = false;
+            this.isKycFlagged = false;
+            this.isPassportFlagged = false;
+            this.isOtherFlagged = false;
+            this.revisionFeedback = null;
+        }
 
         // Handle Dependents
         if (this.editData.dependents) {
@@ -354,10 +390,19 @@ export class PolicyRequestModalComponent implements OnChanges {
     }
 
 
-    submitRequest() {
-        if (this.requestForm.invalid) {
+    clearFile(type: string) {
+    if (type === 'kyc') this.kycFile = null;
+    else if (type === 'passport') this.passportFile = null;
+    else if (type === 'other') this.otherFile = null;
+    else if (type === 'universityLetter') this.otherFile = null;
+  }
+
+  submitRequest() {
+        if (this.requestForm.invalid || !this.isDestinationSupported) {
             this.requestForm.markAllAsTouched();
-            this.error = 'Please fill in all required fields correctly.';
+            this.error = !this.isDestinationSupported 
+                ? 'The selected destination is not supported by Talk & Travel.' 
+                : 'Please fill in all required fields correctly.';
             return;
         }
 
@@ -401,14 +446,23 @@ export class PolicyRequestModalComponent implements OnChanges {
             next: (res: any) => {
                 this.isSubmitting = false;
                 this.success = this.editData ? 'Request updated successfully!' : 'Request submitted successfully!';
+                this.showSuccessAnimation = true;
                 setTimeout(() => {
                     this.requestSubmitted.emit(res);
                     this.close();
-                }, 1500);
+                }, 3000); // Wait for animation
             },
             error: (err: any) => {
-                this.error = err?.error?.message || 'Failed to submit request.';
+                this.error = err?.error?.message || err?.error || 'Failed to submit request.';
                 this.isSubmitting = false;
+                
+                // If limit reached, close modal and let parent handle the status change
+                if (err?.error?.includes('Maximum resubmission attempts')) {
+                    setTimeout(() => {
+                        this.requestSubmitted.emit(null); 
+                        this.close();
+                    }, 2000);
+                }
             }
         });
     }
@@ -425,6 +479,7 @@ export class PolicyRequestModalComponent implements OnChanges {
         this.otherFile = null;
         this.error = null;
         this.success = null;
+        this.showSuccessAnimation = false;
         this.closeModal.emit();
     }
 }
